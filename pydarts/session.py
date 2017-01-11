@@ -88,6 +88,7 @@ class Session(object):
         for i, name in enumerate(player_names):
             self._players.append(Player(name, i, start_value))
         self._current_player_index = 0
+        self._nr_players = len(self._players)
 
     def run(self):
         while True:
@@ -102,3 +103,6 @@ class Session(object):
             if current_player.victorious():
                 print("{} has won!".format(current_player.name))
                 break
+
+            self._current_player_index += 1
+            self._current_player_index %= self._nr_players
