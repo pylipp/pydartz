@@ -2,12 +2,19 @@ import os.path
 import yaml
 
 
+# load the finishes table
 dirname = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(dirname, "..", "data", "finishes.yml")) as file:
     finishes = yaml.load(file)
 
 
 class Player(object):
+    """Representation of a player.
+    Holds long-term, per-game and per-visit information. Provides routines to
+    perform a classic 501.
+    Each player has a unique name and index that are passed at initialization.
+    It is also required to pass a start value to initialize the player's
+    remaining score."""
 
     def __init__(self, name, index, start_value):
         self._name = name
@@ -18,6 +25,7 @@ class Player(object):
         self._visit = []
 
     def begin(self):
+        """Reset actions at the beginning of a player's turn."""
         if self._visit:
             self._visit = []
         self._darts = 3
@@ -26,6 +34,11 @@ class Player(object):
         return self._score_left == 0
 
     def substract(self, score, is_total=True):
+        """Substract `score` from the player's `score_left`. If `is_total` is
+        true or if the score is obviously the last one of a player's turn, the
+        number of remaining darts is set to zero.
+        None that score has to be valid since this method does not do any
+        checks on its own."""
         self._score_left -= score
         if is_total or score + sum(self._visit) == 180:
             self._darts = 0
@@ -34,14 +47,16 @@ class Player(object):
             self._darts -= 1
 
     def score_valid(self, score):
-        # visit score must not exceed 180
+        """Check whether `score` is valid, i.e. the current visit must not
+        exceed 180 and the player must not be busted."""
         if score + sum(self._visit) > 180:
             return False
-        # remaining score must not be negative or one
         difference = self._score_left - score
         return difference == 0 or difference > 1
 
     def print_info(self):
+        """Print information on player's left score and darts and, optionally,
+        finishing options."""
         print("{p.name} has {p.score_left} and {0} left.".format(
             ["one dart", "two darts", "three darts"][self._darts - 1], p=self))
         if self._score_left in finishes:
@@ -63,6 +78,8 @@ class Player(object):
 
 
     def read_input(self):
+        """Read score input given by the user while checking for errors.
+        To declare a score as total, append a 'd' (for 'done') to the score."""
         while True:
             input_ = input("{}'s score: ".format(self._name)).strip()
             try:
@@ -72,7 +89,7 @@ class Player(object):
                 else:
                     score = int(input_)
                     is_total = False
-                # validate the input
+
                 if self.score_valid(score):
                     return score, is_total
                 else:
@@ -82,6 +99,8 @@ class Player(object):
 
 
 class Session(object):
+    """Representation of a darts session.
+    Initialized with a list of player names and the start value."""
 
     def __init__(self, player_names, start_value):
         self._players = []
@@ -91,6 +110,8 @@ class Session(object):
         self._nr_players = len(self._players)
 
     def run(self):
+        """Main game loop. Players are taking turns and playing until a player
+        wins."""
         while True:
             current_player = self._players[self._current_player_index]
             current_player.begin()
