@@ -9,7 +9,7 @@ setup(
         author_email='beth.aleph@yahoo.de',
         license='GPLv3',
         #classifiers=[],
-        packages=find_packages(exclude=['test', 'doc']),
+        packages=find_packages(exclude=['test', 'doc', 'data']),
         entry_points = {
             'console_scripts': ['pydarts = pydarts.main:main']
             },
