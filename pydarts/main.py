@@ -2,7 +2,6 @@ from pydarts.session import Session
 
 
 def main():
-    nr_players = input("Nr of players: ")
     print(r"      ___                                   ___           ___                         ___     ")
     print(r"     /\  \                   _____         /\  \         /\  \                       /\__\    ")
     print(r"    /::\  \       ___       /::\  \       /::\  \       /::\  \         ___         /:/ _/_   ")
@@ -16,11 +15,26 @@ def main():
     print(r"     \/__/         \/__/     \/__/         \/__/         \/__/           \/__/       \/__/    ")
     print()
 
+    while True:
+        try:
+            nr_players = int(input("Nr of players: "))
+            if nr_players >= 1:
+                break
+        except (ValueError):
+            print("Invalid input.")
+
     names = []
-    for i in range(int(nr_players)):
+    for i in range(nr_players):
         name = input("Name of player {}: ".format(i+1))
         names.append(name)
-    start_value = input("Start value: ")
 
-    s = Session(names, int(start_value))
+    while True:
+        try:
+            start_value = int(input("Start value: "))
+            if start_value >= 2:
+                break
+        except (ValueError):
+            print("Invalid input.")
+
+    s = Session(names, start_value)
     s.run()
