@@ -84,7 +84,11 @@ class Player(object):
             input_ = input("{}'s score: ".format(self._name)).strip()
             try:
                 if input_.endswith("d"):
-                    score = int(input_[:-1])
+                    if len(input_) == 1:
+                        score = 0
+                    else:
+                        score = int(input_[:-1])
+                    is_total = True
                 elif input_.lower() == "b":
                     # player busted, undo whatever he scored so far in his turn
                     # all three darts are taken into account for the average, see
