@@ -7,9 +7,10 @@ Play with your friends and keep track of your darts scores!
 - unlimited number of players
 - scores can be passed in sum (i.e. the total visit) or throw by throw
 - finish suggestions
+- player database to keep track of player performance
 
 ## Upcoming
-- player database to keep track of highscores, averages, etc.
+- database evaluation to find player average, highscore, etc.
 
 ## TODO
 - revisit finish options (e.g. 56, 46)
@@ -25,6 +26,10 @@ pip install -r requirements.txt -e .
 
 ## Usage
 
-Simply type `pydarts` (with the virtualenv activated) and following the instructions on screen.
+For playing, simply type `pydarts` (with the virtualenv activated) and following the instructions on screen.
+
+For displaying player statistics, type `pydarts --stats <player_name>`. 
+
+Also, see the output of `pydarts --help`.
 
 Have fun!
