@@ -1,1 +1,3 @@
 pyyaml==3.12
+tinydb==3.2.1
+simpleaudio==1.0.1
