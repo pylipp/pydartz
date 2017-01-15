@@ -1,4 +1,4 @@
-from pydarts.session import Session
+from .session import Session
 
 
 def main():
