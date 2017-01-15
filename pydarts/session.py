@@ -21,6 +21,7 @@ class Player(object):
         self._index = index
         self._stats = None
         self._score_left = start_value
+        self._throws = 0
         self._darts = 3
         self._visit = []
 
@@ -41,10 +42,12 @@ class Player(object):
         checks on its own."""
         self._score_left -= score
         if is_total or score + sum(self._visit) == 180:
+            self._throws += self._darts
             self._darts = 0
         else:
-            self._visit.append(score)
+            self._throws += 1
             self._darts -= 1
+        self._visit.append(score)
 
     def score_valid(self, score):
         """Check whether `score` is valid, i.e. the current visit must not
@@ -76,6 +79,12 @@ class Player(object):
     def name(self):
         return self._name
 
+    @property
+    def throws(self):
+        return self._throws
+
+    def visit_sum(self):
+        return sum(self._visit)
 
     def read_input(self):
         """Read score input given by the user while checking for errors.
@@ -93,7 +102,7 @@ class Player(object):
                     # player busted, undo whatever he scored so far in his turn
                     # all three darts are taken into account for the average, see
                     # http://www.dartsnutz.net/forum/archive/index.php/thread-18910.html
-                    score = -sum(self._visit)
+                    score = -self.visit_sum()
                     is_total = True
                 else:
                     score = int(input_)
