@@ -1,6 +1,8 @@
+import os.path
 import argparse
 
 from tinydb import where
+import simpleaudio
 
 from .session import Session
 from .database import Stats
@@ -17,6 +19,8 @@ def main():
         import sys; sys.exit(0)
     s = _setup_session()
     s.run()
+
+    _play_ending_song()
 
 def _parse_command():
     parser = argparse.ArgumentParser()
@@ -62,3 +66,10 @@ def _setup_session():
             print("Invalid input.")
 
     return Session(names, start_value, True)
+
+def _play_ending_song():
+    dirname = os.path.dirname(os.path.abspath(__file__))
+    wave_obj = simpleaudio.WaveObject.from_wave_file(
+            os.path.join(dirname, "..", "data", "chase_the_sun.wav"))
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
