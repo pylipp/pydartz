@@ -2,6 +2,10 @@ from .session import Session
 
 
 def main():
+    s = _setup_session()
+    s.run()
+
+def _setup_session():
     print(r"      ___                                   ___           ___                         ___     ")
     print(r"     /\  \                   _____         /\  \         /\  \                       /\__\    ")
     print(r"    /::\  \       ___       /::\  \       /::\  \       /::\  \         ___         /:/ _/_   ")
@@ -36,5 +40,4 @@ def main():
         except (ValueError):
             print("Invalid input.")
 
-    s = Session(names, start_value, True)
-    s.run()
+    return Session(names, start_value, True)
