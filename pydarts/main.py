@@ -36,5 +36,5 @@ def main():
         except (ValueError):
             print("Invalid input.")
 
-    s = Session(names, start_value)
+    s = Session(names, start_value, True)
     s.run()

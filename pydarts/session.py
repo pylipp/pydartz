@@ -1,6 +1,8 @@
 import os.path
 import yaml
 
+from .database import Stats
+
 
 # load the finishes table
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -118,14 +120,17 @@ class Player(object):
 
 class Session(object):
     """Representation of a darts session.
-    Initialized with a list of player names and the start value."""
+    Initialized with a list of player names and the start value. If `log_stats`
+    is true, a `Stats` object is created to log the playing."""
 
-    def __init__(self, player_names, start_value):
+    def __init__(self, player_names, start_value, log_stats=False):
         self._players = []
         for i, name in enumerate(player_names):
             self._players.append(Player(name, i, start_value))
         self._current_player_index = 0
         self._nr_players = len(self._players)
+
+        self._stats = Stats(player_names) if log_stats else None
 
     def run(self):
         """Main game loop. Players are taking turns and playing until a player
@@ -138,6 +143,9 @@ class Session(object):
                 current_player.print_info()
                 score, is_total = current_player.read_input()
                 current_player.substract(score, is_total)
+
+            if self._stats is not None:
+                self._stats.update(player=current_player)
 
             if current_player.victorious():
                 print("{} has won!".format(current_player.name))
