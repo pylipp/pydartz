@@ -58,7 +58,7 @@ class Stats(TinyDB):
     default, the file `data/stats.json` is used.
     This class is an extension of `tinydb.TinyDB`."""
 
-    def __init__(self, player_names=None, filepath=None):
+    def __init__(self, player_names=[], filepath=None):
         self._filepath = filepath
         if self._filepath is None:
             dirname = os.path.dirname(os.path.abspath(__file__))
