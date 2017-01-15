@@ -11,6 +11,9 @@ Play with your friends and keep track of your darts scores!
 ## Upcoming
 - player database to keep track of highscores, averages, etc.
 
+## TODO
+- revisit finish options (e.g. 56, 46)
+
 ## Installation
 
 ```
