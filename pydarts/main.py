@@ -1,9 +1,30 @@
+import argparse
+
+from tinydb import where
+
 from .session import Session
+from .database import Stats
 
 
 def main():
+    args = vars(_parse_command())
+    player_name = args.pop("stats", None)
+    if player_name is not None:
+        stats = Stats()
+        player = stats.table("players").get(where("name") == player_name)
+        if player is not None:
+            print(player)
+        import sys; sys.exit(0)
     s = _setup_session()
     s.run()
+
+def _parse_command():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-s", "--stats", metavar="NAME",
+            help="display player stats")
+
+    return parser.parse_args()
 
 def _setup_session():
     print(r"      ___                                   ___           ___                         ___     ")
