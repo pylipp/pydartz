@@ -16,6 +16,7 @@ def main():
         player = stats.table("players").get(where("name") == player_name)
         if player is not None:
             print(player)
+            print("Average: {:.2f}".format(player["points"]/player["throws"]))
         import sys; sys.exit(0)
     s = _setup_session()
     s.run()
