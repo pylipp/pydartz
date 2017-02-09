@@ -73,6 +73,10 @@ class Player(object):
     def score_left(self):
         return self._score_left
 
+    @score_left.setter
+    def score_left(self, value):
+        self._score_left = value
+
     @property
     def darts(self):
         return self._darts
@@ -123,18 +127,39 @@ class Session(object):
     Initialized with a list of player names and the start value. If `log_stats`
     is true, a `Stats` object is created to log the playing."""
 
-    def __init__(self, player_names, start_value, log_stats=False):
+    def __init__(self, player_names, start_value, nr_legs=1):
         self._players = []
         for i, name in enumerate(player_names):
             self._players.append(Player(name, i, start_value))
-        self._current_player_index = 0
         self._nr_players = len(self._players)
-
-        self._stats = Stats(player_names) if log_stats else None
+        self._nr_legs = nr_legs
+        self._start_value = start_value
 
     def run(self):
-        """Main game loop. Players are taking turns and playing until a player
-        wins."""
+        """Play the predefined number of legs. Players start alternatingly."""
+        for i in range(self._nr_legs):
+            leg = Leg(self._players, i % self._nr_players, self._start_value)
+            leg.run()
+
+
+class Leg(object):
+
+    def __init__(self, players, start_player_index, start_value, log_stats=True):
+        self._players = players
+        self._nr_players = len(self._players)
+        self._current_player_index = start_player_index
+        assert self._current_player_index < self._nr_players
+
+        self._start_value = start_value
+
+        self._stats = Stats([p.name for p in players]) if log_stats else None
+
+    def run(self):
+        """Main game loop. The players score is reset in the beginning.
+        Players are taking turns and playing until a player wins."""
+        for p in self._players:
+            p.score_left = self._start_value
+
         while True:
             current_player = self._players[self._current_player_index]
             current_player.begin()

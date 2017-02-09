@@ -66,7 +66,15 @@ def _setup_session():
         except (ValueError):
             print("Invalid input.")
 
-    return Session(names, start_value, True)
+    while True:
+        try:
+            nr_legs = int(input("Nr of legs: "))
+            if nr_legs > 0:
+                break
+        except (ValueError):
+            print("Invalid input.")
+
+    return Session(names, start_value, nr_legs)
 
 def _play_ending_song():
     dirname = os.path.dirname(os.path.abspath(__file__))
