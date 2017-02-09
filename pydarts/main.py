@@ -15,8 +15,15 @@ def main():
         stats = Stats()
         player = stats.table("players").get(where("name") == player_name)
         if player is not None:
-            print(player)
-            print("Average: {:.2f}".format(player["points"]/player["throws"]))
+            finishes = {}
+            for entry in player:
+                if entry.startswith("finish"):
+                    finishes[entry] = player[entry]
+            print("Games won: {}".format(sum(finishes.values())))
+            print("Average: {:.2f}".format(3*player["points"]/player["throws"]))
+            print("Finishes:")
+            for finish in sorted(finishes)[::-1]:
+                print("    {:3d}: {}".format(int(finish.split("_")[1]), finishes[finish]))
         import sys; sys.exit(0)
     s = _setup_session()
     s.run()
