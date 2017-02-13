@@ -41,7 +41,7 @@ class Player(object):
         """Substract `score` from the player's `score_left`. If `is_total` is
         true or if the score is obviously the last one of a player's turn, the
         number of remaining darts is set to zero.
-        None that score has to be valid since this method does not do any
+        Note that score has to be valid since this method does not do any
         checks on its own."""
         self._score_left -= score
         if is_total or score + sum(self._visit) == 180:
@@ -55,6 +55,8 @@ class Player(object):
     def score_valid(self, score):
         """Check whether `score` is valid, i.e. the current visit must not
         exceed 180 and the player must not be busted."""
+        #TODO check if score is realistic acc. to nr of darts
+        # e.g. scoring 180 with two darts remaining is invalid
         if score + sum(self._visit) > 180:
             return False
         difference = self._score_left - score
