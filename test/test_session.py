@@ -61,6 +61,45 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(self.player.throws, 15)
         self.assertTrue(self.player.victorious())
 
+    def test_process_score(self):
+        self.assertTupleEqual(self.player._process_score("99d"), (99, True))
+        self.player.begin()
+        self.assertTupleEqual(self.player._process_score("60"), (60, False))
+        # bust (score is actually impossible, returns 0 because substract() not called)
+        self.assertTupleEqual(self.player._process_score("b"), (0, True))
+        self.assertRaises(ValueError, self.player._process_score, "200")
+        self.assertRaises(ValueError, self.player._process_score, "hi")
+
+    def test_play(self):
+        self.player.begin()
+        self.player.play("60", "60", "60")
+        self.assertEqual(self.player.score_left, 321)
+        self.assertEqual(self.player.darts, 0)
+        self.player.begin()
+        self.player.play("180")
+        self.assertEqual(self.player.score_left, 141)
+        self.assertEqual(self.player.darts, 0)
+        self.player.begin()
+        self.player.play("1", "20", "d")
+        self.assertEqual(self.player.score_left, 120)
+        self.assertEqual(self.player.darts, 0)
+        self.player.begin()
+        self.player.play("20d")
+        self.assertEqual(self.player.score_left, 100)
+        self.assertEqual(self.player.darts, 0)
+        self.player.begin()
+        self.assertRaises(ValueError, self.player.play, "60", "60")
+        self.assertEqual(self.player.score_left, 40)
+        self.assertEqual(self.player.darts, 2)
+        self.player.play("b") # resets score
+        self.assertEqual(self.player.score_left, 100)
+        self.assertEqual(self.player.darts, 0)
+        self.player.begin()
+        self.assertRaises(ValueError, self.player.play, "darts<3")
+        self.assertEqual(self.player.darts, 3)
+        self.player.play("50", "50")
+        self.assertTrue(self.player.victorious())
+
 
 if __name__ == '__main__':
     unittest.main()

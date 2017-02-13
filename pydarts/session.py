@@ -1,4 +1,5 @@
 import os.path
+from collections import deque
 import yaml
 
 from .database import Stats
@@ -92,34 +93,69 @@ class Player(object):
     def visit_sum(self):
         return sum(self._visit)
 
-    def read_input(self):
+    def play(self, *testing_args):
         """Read score input given by the user while checking for errors.
-        To declare a score as total, append a 'd' (for 'done') to the score."""
-        while True:
-            input_ = input("{}'s score: ".format(self._name)).strip()
-            try:
-                if input_.endswith("d"):
-                    if len(input_) == 1:
-                        score = 0
-                    else:
-                        score = int(input_[:-1])
-                    is_total = True
-                elif input_.lower() == "b":
-                    # player busted, undo whatever he scored so far in his turn
-                    # all three darts are taken into account for the average, see
-                    # http://www.dartsnutz.net/forum/archive/index.php/thread-18910.html
-                    score = -self.visit_sum()
-                    is_total = True
-                else:
-                    score = int(input_)
-                    is_total = False
+        Player information is printed before each throw. If _process_score()
+        does not raise any errors, the input score is substracted from the
+        player's remaining score.
+        The procedure is repeated if the player has darts remaining and has not
+        yet won.
 
-                if self.score_valid(score):
-                    return score, is_total
+        Passing up to three string values to `testing_args` is useful for
+        testing and will make the method non-interactive."""
+        testing_args = deque(testing_args)
+        interactive = len(testing_args) == 0
+
+        while self._darts and not self.victorious():
+            if interactive:
+                self.print_info()
+                input_ = input("{}'s score: ".format(self._name)).strip()
+            else:
+                input_ = testing_args.popleft()
+            try:
+                score, is_total = self._process_score(input_)
+                self.substract(score, is_total)
+            except ValueError as e:
+                if interactive:
+                    print(e)
                 else:
-                    print("Invalid score: {}".format(score))
-            except (ValueError):
-                print("Invalid input: {}".format(input_))
+                    raise
+
+    def _process_score(self, score):
+        """Parse the passed score. Valid options are:
+        - x (an integer between 0 and 180)
+        - xd (an integer between 0 and 180, with the character 'd' appended,
+          indicating that the player's turn is over ('done'))
+        - d (equivalent to '0d')
+        - b (the character 'b', indicating that the player busted. The player's
+          score will be reset in substract())
+        A ValueError is thrown if an invalid score is passed. This can be
+        caused by a score that exceeds the remaining score allowed in the
+        current visit or by a typo."""
+        try:
+            if score.endswith("d"):
+                if len(score) == 1:
+                    score = 0
+                else:
+                    score = int(score[:-1])
+                is_total = True
+            elif score.lower() == "b":
+                # player busted, undo whatever he scored so far in his turn
+                # all three darts are taken into account for the average, see
+                # http://www.dartsnutz.net/forum/archive/index.php/thread-18910.html
+                score = -self.visit_sum()
+                is_total = True
+            else:
+                score = int(score)
+                is_total = False
+
+            if self.score_valid(score):
+                return score, is_total
+            else:
+                raise ValueError("Invalid score: {}".format(score))
+        except (ValueError):
+            # custom message
+            raise ValueError("Invalid input: {}".format(score))
 
 
 class Session(object):
@@ -163,11 +199,7 @@ class Leg(object):
         while True:
             current_player = self._players[self._current_player_index]
             current_player.begin()
-
-            while current_player.darts and not current_player.victorious():
-                current_player.print_info()
-                score, is_total = current_player.read_input()
-                current_player.substract(score, is_total)
+            current_player.play()
 
             if self._stats is not None:
                 self._stats.update(player=current_player)
