@@ -103,6 +103,9 @@ class Player(object):
 
         Passing up to three string values to `testing_args` is useful for
         testing and will make the method non-interactive."""
+
+        self.begin()
+
         testing_args = deque(testing_args)
         interactive = len(testing_args) == 0
 
@@ -198,7 +201,6 @@ class Leg(object):
 
         while True:
             current_player = self._players[self._current_player_index]
-            current_player.begin()
             current_player.play()
 
             if self._stats is not None:
