@@ -184,11 +184,17 @@ class Session(object):
 class Leg(object):
     """Representation of a darts leg. Players start alternatingly which is
     established by the static variable `start_player_index` that is incremented
-    every time a Leg instance is created."""
+    every time a Leg instance is created.
+
+    For testing, one can pass a deque for the `test_visits` argument. The
+    leftmost element will be popped at every visit and (unpacked) serve as
+    input for `testing_args` of `Player.play`. See the tests for an example.
+    """
 
     start_player_index = 0
 
-    def __init__(self, player_names, start_value=501, log_stats=True):
+    def __init__(self, player_names, start_value=501, log_stats=True,
+            test_visits=None):
         self._players = []
         for i, name in enumerate(player_names):
             self._players.append(Player(name, i, start_value))
@@ -199,6 +205,7 @@ class Leg(object):
         Leg.start_player_index += 1
 
         self._stats = Stats([name for name in player_names]) if log_stats else None
+        self._test_visits = test_visits
 
     def run(self):
         """Main game loop. Players are taking turns and playing until a player
@@ -207,7 +214,12 @@ class Leg(object):
         """
         while True:
             current_player = self._players[self._current_player_index]
-            current_player.play()
+
+            visit = []
+            if self._test_visits is not None:
+                visit = self._test_visits.popleft()
+
+            current_player.play(*visit)
 
             if self._stats is not None:
                 self._stats.update(player=current_player)

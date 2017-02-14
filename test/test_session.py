@@ -1,6 +1,7 @@
 import unittest
+from collections import deque
 
-from pydarts.session import Player
+from pydarts.session import Player, Leg
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -94,6 +95,26 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(self.player.darts, 3)
         self.player.play("50", "50")
         self.assertTrue(self.player.victorious())
+
+class LegTestCase(unittest.TestCase):
+    def test_single_player_9_darter(self):
+        leg = Leg(["Mike"], log_stats=False, test_visits=deque([
+            ("180d",), ("60", "60", "57"), ("60", "60", "24")]))
+        leg.run()
+        self.assertEqual(leg._current_player_index, 0)
+        self.assertTrue(leg._players[0].victorious())
+
+    def test_two_player_101(self):
+        Leg.start_player_index = 0
+        leg = Leg(["Hans", "Fritz"], start_value=101, log_stats=False,
+                test_visits=deque([
+                    ("60d",), ("19", "17", "3"), ("19", "b",), ("12", "50")]))
+        leg.run()
+
+        self.assertEqual(leg._current_player_index, 1)
+        self.assertEqual(leg._players[1].name, "Fritz")
+        self.assertTrue(leg._players[1].victorious())
+        self.assertEqual(leg._players[0].score_left, 41)
 
 
 if __name__ == '__main__':
