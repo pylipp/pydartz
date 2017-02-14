@@ -1,5 +1,5 @@
 import os.path
-from collections import deque
+from collections import deque, Counter
 import yaml
 
 from .database import Stats
@@ -175,10 +175,18 @@ class Session(object):
         self._nr_legs = nr_legs
 
     def run(self):
-        """Play the predefined number of legs."""
+        """Play the predefined number of legs. Keep track of the total session
+        score using a counter.
+        """
+        counter = Counter()
         for i in range(self._nr_legs):
             leg = Leg(self._player_names, self._start_value)
             leg.run()
+            counter[leg.current_player_name()] += 1
+
+            for name in self._player_names:
+                print("    {}: {:2d}".format(name, counter.get(name, 0)))
+            print(80 * "=")
 
 
 class Leg(object):
@@ -225,8 +233,10 @@ class Leg(object):
                 self._stats.update(player=current_player)
 
             if current_player.victorious():
-                print("{} has won!".format(current_player.name))
                 break
 
             self._current_player_index += 1
             self._current_player_index %= self._nr_players
+
+    def current_player_name(self):
+        return self._players[self._current_player_index].name
