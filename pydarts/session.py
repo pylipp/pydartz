@@ -181,19 +181,24 @@ class Session(object):
         self._nr_legs = nr_legs
 
     def run(self):
-        """Play the predefined number of legs. Players start alternatingly."""
+        """Play the predefined number of legs."""
         for i in range(self._nr_legs):
-            leg = Leg(self._players, i % self._nr_players)
+            leg = Leg(self._players)
             leg.run()
 
 
 class Leg(object):
+    """Representation of a darts leg. Players start alternatingly which is
+    established by the static variable `start_player_index` that is incremented
+    every time a Leg instance is created."""
 
-    def __init__(self, players, start_player_index, log_stats=True):
+    start_player_index = 0
+
+    def __init__(self, players, log_stats=True):
         self._players = players
         self._nr_players = len(self._players)
-        self._current_player_index = start_player_index
-        assert self._current_player_index < self._nr_players
+        self._current_player_index = Leg.start_player_index % self._nr_players
+        Leg.start_player_index += 1
 
         self._stats = Stats([p.name for p in players]) if log_stats else None
 
