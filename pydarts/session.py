@@ -24,9 +24,13 @@ class Player(object):
         self._index = index
         self._stats = None
         self._score_left = start_value
+        self._start_value = start_value
         self._throws = 0
         self._darts = 3
         self._visit = []
+
+    def reset(self):
+        self._score_left = self._start_value
 
     def begin(self):
         """Reset actions at the beginning of a player's turn."""
@@ -44,6 +48,7 @@ class Player(object):
         Note that score has to be valid since this method does not do any
         checks on its own."""
         self._score_left -= score
+        #TODO this logic should be moved to _process_score
         if is_total or score + sum(self._visit) == 180:
             self._throws += self._darts
             self._darts = 0
@@ -81,10 +86,6 @@ class Player(object):
     @property
     def score_left(self):
         return self._score_left
-
-    @score_left.setter
-    def score_left(self, value):
-        self._score_left = value
 
     @property
     def darts(self):
@@ -178,24 +179,21 @@ class Session(object):
             self._players.append(Player(name, i, start_value))
         self._nr_players = len(self._players)
         self._nr_legs = nr_legs
-        self._start_value = start_value
 
     def run(self):
         """Play the predefined number of legs. Players start alternatingly."""
         for i in range(self._nr_legs):
-            leg = Leg(self._players, i % self._nr_players, self._start_value)
+            leg = Leg(self._players, i % self._nr_players)
             leg.run()
 
 
 class Leg(object):
 
-    def __init__(self, players, start_player_index, start_value, log_stats=True):
+    def __init__(self, players, start_player_index, log_stats=True):
         self._players = players
         self._nr_players = len(self._players)
         self._current_player_index = start_player_index
         assert self._current_player_index < self._nr_players
-
-        self._start_value = start_value
 
         self._stats = Stats([p.name for p in players]) if log_stats else None
 
@@ -203,7 +201,7 @@ class Leg(object):
         """Main game loop. The players score is reset in the beginning.
         Players are taking turns and playing until a player wins."""
         for p in self._players:
-            p.score_left = self._start_value
+            p.reset()
 
         while True:
             current_player = self._players[self._current_player_index]
