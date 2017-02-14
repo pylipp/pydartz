@@ -54,13 +54,19 @@ class Player(object):
 
     def score_valid(self, score):
         """Check whether `score` is valid, i.e. the current visit must not
-        exceed 180 and the player must not be busted."""
-        #TODO check if score is realistic acc. to nr of darts
-        # e.g. scoring 180 with two darts remaining is invalid
-        if score + sum(self._visit) > 180:
-            return False
+        exceed 180, the player must not be busted and the score has to be
+        legitimatly thrown (e.g. one cannot score 130 with two remaining darts.)
+
+        Raises a ValueError if the score is invalid.
+        """
         difference = self._score_left - score
-        return difference == 0 or difference > 1
+
+        if score + sum(self._visit) > 180 or \
+                score > 60 * self._darts or \
+                difference < 0 or difference == 1:
+            raise ValueError
+
+        return True
 
     def print_info(self):
         """Print information on player's left score and darts and, optionally,
@@ -156,8 +162,6 @@ class Player(object):
 
             if self.score_valid(score):
                 return score, is_total
-            else:
-                raise ValueError("Invalid score: {}".format(score))
         except (ValueError):
             # custom message
             raise ValueError("Invalid input: {}".format(score))

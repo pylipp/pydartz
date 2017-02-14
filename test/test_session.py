@@ -13,13 +13,13 @@ class PlayerEntryTestCase(unittest.TestCase):
     def test_scores_valid(self):
         self.assertTrue(self.player.score_valid(180))
         self.player._visit.append(60)
-        self.assertFalse(self.player.score_valid(121))
+        self.assertRaises(ValueError, self.player.score_valid, 121)
         # hack low remaining score
         self.player._score_left = 40
         self.assertTrue(self.player.score_valid(20))
         # busted
-        self.assertFalse(self.player.score_valid(39))
-        self.assertFalse(self.player.score_valid(42))
+        self.assertRaises(ValueError, self.player.score_valid, 39)
+        self.assertRaises(ValueError, self.player.score_valid, 42)
         # finish
         self.assertTrue(self.player.score_valid(40))
 
