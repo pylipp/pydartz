@@ -110,7 +110,7 @@ class PlayerEntryTestCase(unittest.TestCase):
 
 class LegTestCase(unittest.TestCase):
     def test_single_player_9_darter(self):
-        leg = Leg(["Mike"], log_stats=False, test_visits=deque([
+        leg = Leg(["Mike"], test_visits=deque([
             ("180d",), ("60", "60", "57"), ("60", "60", "24")]))
         leg.run()
         self.assertEqual(leg._current_player_index, 0)
@@ -118,7 +118,7 @@ class LegTestCase(unittest.TestCase):
 
     def test_two_player_101(self):
         Leg.start_player_index = 0
-        leg = Leg(["Hans", "Fritz"], start_value=101, log_stats=False,
+        leg = Leg(["Hans", "Fritz"], start_value=101,
                 test_visits=deque([
                     ("60d",), ("19", "17", "3"), ("19", "b",), ("12", "50")]))
         leg.run()
@@ -129,7 +129,7 @@ class LegTestCase(unittest.TestCase):
         self.assertEqual(leg._players[0].score_left, 41)
 
     def test_logging_without_parent(self):
-        leg = Leg(["Peter"], log_stats=False)
+        leg = Leg(["Peter"])
         # might fail around midnight...
         self.assertEqual(
                 datetime.strptime(leg._log_entry.get("timestamp"), Leg.DT_FORMAT).day,
@@ -137,14 +137,14 @@ class LegTestCase(unittest.TestCase):
 
     def test_logging_with_parent(self):
         log_parent = []
-        leg = Leg(["Mike"], log_stats=False, log_parent=log_parent)
+        leg = Leg(["Mike"], log_parent=log_parent)
         log_entry = log_parent[0]
         self.assertEqual(log_entry.tag, "leg")
         self.assertEqual(len(log_entry), 0)
 
     def test_single_player_9_darter_logging(self):
         log_parent = []
-        leg = Leg(["Mike"], log_stats=False, test_visits=deque([
+        leg = Leg(["Mike"], test_visits=deque([
             ("180d",), ("60", "60", "57"), ("60", "60", "24")]),
             log_parent=log_parent)
         leg.run()

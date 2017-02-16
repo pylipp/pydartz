@@ -4,7 +4,7 @@ from collections import deque, Counter
 from lxml import etree
 import yaml
 
-from .database import Stats, LogEntryBase
+from .database import LogEntryBase
 
 
 # load the finishes table
@@ -24,7 +24,6 @@ class Player(object):
     def __init__(self, name, index, start_value):
         self._name = name
         self._index = index
-        self._stats = None
         self._score_left = start_value
         self._throws = 0
         self._darts = 3
@@ -214,8 +213,8 @@ class Leg(LogEntryBase):
 
     start_player_index = 0
 
-    def __init__(self, player_names, start_value=501, log_stats=True,
-            test_visits=None, log_parent=None):
+    def __init__(self, player_names, start_value=501, test_visits=None,
+            log_parent=None):
 
         super().__init__(log_parent)
 
@@ -228,7 +227,6 @@ class Leg(LogEntryBase):
         self._current_player_index = Leg.start_player_index % self._nr_players
         Leg.start_player_index += 1
 
-        self._stats = Stats([name for name in player_names]) if log_stats else None
         self._test_visits = test_visits
 
     def run(self):
@@ -244,9 +242,6 @@ class Leg(LogEntryBase):
                 visit = self._test_visits.popleft()
 
             current_player.play(*visit, log_entry=self._log_entry)
-
-            if self._stats is not None:
-                self._stats.update(player=current_player)
 
             if current_player.victorious():
                 break
