@@ -13,9 +13,8 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
 
 if os.path.exists(log_filepath):
-    with open(log_filepath, "r") as file:
-        tree = etree.parse(file)
-        sessions_log = tree.getroot()
+    tree = etree.parse(log_filepath)
+    sessions_log = tree.getroot()
 else:
     sessions_log = etree.Element("sessions")
 
