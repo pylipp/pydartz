@@ -2,10 +2,22 @@ import os.path
 import argparse
 
 from tinydb import where
+from lxml import etree
 import simpleaudio
 
 from .session import Session
 from .database import Stats
+
+
+dirname = os.path.dirname(os.path.abspath(__file__))
+log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
+
+if os.path.exists(log_filepath):
+    with open(log_filepath, "r") as file:
+        tree = etree.parse(file)
+        sessions_log = tree.getroot()
+else:
+    sessions_log = etree.Element("sessions")
 
 
 def main():
@@ -27,6 +39,10 @@ def main():
         import sys; sys.exit(0)
     s = _setup_session()
     s.run()
+
+    tree = etree.ElementTree(sessions_log)
+    tree.write(log_filepath, pretty_print=True, xml_declaration=True,
+            encoding="utf-8")
 
     _play_ending_song()
 
@@ -81,10 +97,9 @@ def _setup_session():
         except (ValueError):
             print("Invalid input.")
 
-    return Session(names, start_value, nr_legs)
+    return Session(names, start_value, nr_legs, log_parent=sessions_log)
 
 def _play_ending_song():
-    dirname = os.path.dirname(os.path.abspath(__file__))
     wave_obj = simpleaudio.WaveObject.from_wave_file(
             os.path.join(dirname, "..", "data", "chase_the_sun.wav"))
     play_obj = wave_obj.play()
