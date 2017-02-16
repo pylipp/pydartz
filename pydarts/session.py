@@ -179,7 +179,9 @@ class Session(LogEntryBase):
     Initialized with a list of player names and the start value. If `log_stats`
     is true, a `Stats` object is created to log the playing."""
 
-    def __init__(self, player_names, start_value, nr_legs=1):
+    def __init__(self, player_names, start_value, nr_legs=1, log_parent=None):
+        super().__init__(log_parent)
+
         self._player_names = player_names
         self._start_value = start_value
         self._nr_legs = nr_legs
@@ -190,7 +192,7 @@ class Session(LogEntryBase):
         """
         counter = Counter()
         for i in range(self._nr_legs):
-            leg = Leg(self._player_names, self._start_value)
+            leg = Leg(self._player_names, self._start_value, log_parent=self)
             leg.run()
             counter[leg.current_player_name()] += 1
 
