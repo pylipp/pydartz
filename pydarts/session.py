@@ -237,9 +237,7 @@ class Leg(LogEntryBase):
         while True:
             current_player = self._players[self._current_player_index]
 
-            visit = []
-            if self._test_visits is not None:
-                visit = self._test_visits.popleft()
+            visit = [] if self._test_visits is None else self._test_visits.popleft()
 
             current_player.play(*visit, log_entry=self._log_entry)
 
