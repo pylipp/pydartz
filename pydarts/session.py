@@ -176,8 +176,9 @@ class Player(object):
 
 class Session(LogEntryBase):
     """Representation of a darts session.
-    Initialized with a list of player names and the start value. If `log_stats`
-    is true, a `Stats` object is created to log the playing."""
+    Initialized with a list of player names, the start value, and the number of
+    legs to play.
+    """
 
     def __init__(self, player_names, start_value, nr_legs=1, log_parent=None):
         super().__init__(log_parent)
