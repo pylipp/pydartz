@@ -133,7 +133,7 @@ class LegTestCase(unittest.TestCase):
     def test_logging_with_parent(self):
         log_parent = []
         leg = Leg(["Mike"], log_stats=False, log_parent=log_parent)
-        log_entry = log_parent[0]._log_entry
+        log_entry = log_parent[0]
         self.assertEqual(log_entry.tag, "leg")
         self.assertEqual(len(log_entry), 0)
 
@@ -144,7 +144,7 @@ class LegTestCase(unittest.TestCase):
             log_parent=log_parent)
         leg.run()
 
-        visits_log_entry = log_parent[0]._log_entry
+        visits_log_entry = log_parent[0]
         self.assertEqual(len(visits_log_entry), 3)
         self.assertEqual(visits_log_entry[0].get("throws"), "3")
         self.assertEqual(visits_log_entry[2].get("points"), "144")

@@ -23,7 +23,7 @@ class LogEntryBase(object):
         tag = self.__class__.__name__.lower()
         self._log_entry = etree.Element(tag)
         if parent is not None:
-            parent.append(self)
+            parent.append(self._log_entry)
 
     def append(self, child_log_entry):
         self._log_entry.append(child_log_entry)
