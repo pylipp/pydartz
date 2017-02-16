@@ -180,7 +180,7 @@ class Session(LogEntryBase):
     """
 
     def __init__(self, player_names, start_value, nr_legs=1, log_parent=None):
-        super().__init__(log_parent)
+        super().__init__(log_parent, players=','.join(player_names))
 
         self._player_names = player_names
         self._start_value = start_value

@@ -18,16 +18,18 @@ class LogEntryBase(object):
     `session` classes is reflected in the XML log.
     The initialization time of each instance is stored as timestamp for later
     reference.
+    Any additional kwargs are passed to `lxml.etree.Element` where they are
+    interpreted as XML attributes.
     """
 
     __metaclass__ = ABCMeta
 
     DT_FORMAT = "%Y%m%d-%H%M%S"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, **kwargs):
         tag = self.__class__.__name__.lower()
         self._log_entry = etree.Element(tag,
-                attrib={"timestamp": time.strftime(self.DT_FORMAT)})
+                timestamp=time.strftime(self.DT_FORMAT), **kwargs)
         if parent is not None:
             parent.append(self._log_entry)
 
