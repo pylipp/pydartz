@@ -1,6 +1,8 @@
 import unittest
 from collections import deque
 
+from lxml import etree
+
 from pydarts.session import Player, Leg
 
 
@@ -96,6 +98,15 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.player.play("50", "50")
         self.assertTrue(self.player.victorious())
 
+    def test_single_visit_logging(self):
+        log_entry = etree.Element("leg")
+        self.player.play("60", "50", "40", log_entry=log_entry)
+        self.assertEqual(len(log_entry), 1)
+        visit_log_entry = log_entry[0]
+        self.assertEqual(visit_log_entry.get("player"), self.player.name)
+        self.assertEqual(visit_log_entry.get("points"), "150")
+        self.assertEqual(visit_log_entry.get("throws"), "3")
+
 class LegTestCase(unittest.TestCase):
     def test_single_player_9_darter(self):
         leg = Leg(["Mike"], log_stats=False, test_visits=deque([
@@ -125,6 +136,19 @@ class LegTestCase(unittest.TestCase):
         log_entry = log_parent[0]._log_entry
         self.assertEqual(log_entry.tag, "leg")
         self.assertEqual(len(log_entry), 0)
+
+    def test_single_player_9_darter_logging(self):
+        log_parent = []
+        leg = Leg(["Mike"], log_stats=False, test_visits=deque([
+            ("180d",), ("60", "60", "57"), ("60", "60", "24")]),
+            log_parent=log_parent)
+        leg.run()
+
+        visits_log_entry = log_parent[0]._log_entry
+        self.assertEqual(len(visits_log_entry), 3)
+        self.assertEqual(visits_log_entry[0].get("throws"), "3")
+        self.assertEqual(visits_log_entry[2].get("points"), "144")
+        # assert average etc
 
 
 if __name__ == '__main__':

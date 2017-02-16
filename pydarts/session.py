@@ -1,5 +1,7 @@
 import os.path
 from collections import deque, Counter
+
+from lxml import etree
 import yaml
 
 from .database import Stats, LogEntryBase
@@ -98,13 +100,14 @@ class Player(object):
     def visit_sum(self):
         return sum(self._visit)
 
-    def play(self, *testing_args):
+    def play(self, *testing_args, log_entry=None):
         """Read score input given by the user while checking for errors.
         Player information is printed before each throw. If _process_score()
         does not raise any errors, the input score is substracted from the
         player's remaining score.
         The procedure is repeated if the player has darts remaining and has not
         yet won.
+        If the `log_entry` argument is passed, the current visit is logged.
 
         Passing up to three string values to `testing_args` is useful for
         testing and will make the method non-interactive."""
@@ -128,6 +131,13 @@ class Player(object):
                     print(e)
                 else:
                     raise
+        if log_entry is not None:
+            etree.SubElement(log_entry, "visit",
+                    attrib=dict(
+                        player=self._name,
+                        points=str(self.visit_sum()),
+                        throws=str(3 - self._darts)
+                        ))
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:
@@ -230,7 +240,7 @@ class Leg(LogEntryBase):
             if self._test_visits is not None:
                 visit = self._test_visits.popleft()
 
-            current_player.play(*visit)
+            current_player.play(*visit, log_entry=self._log_entry)
 
             if self._stats is not None:
                 self._stats.update(player=current_player)
