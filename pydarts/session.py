@@ -2,7 +2,7 @@ import os.path
 from collections import deque, Counter
 import yaml
 
-from .database import Stats
+from .database import Stats, LogEntryBase
 
 
 # load the finishes table
@@ -164,7 +164,7 @@ class Player(object):
             raise ValueError("Invalid input: {}".format(score))
 
 
-class Session(object):
+class Session(LogEntryBase):
     """Representation of a darts session.
     Initialized with a list of player names and the start value. If `log_stats`
     is true, a `Stats` object is created to log the playing."""
@@ -189,7 +189,7 @@ class Session(object):
             print(80 * "=")
 
 
-class Leg(object):
+class Leg(LogEntryBase):
     """Representation of a darts leg. Players start alternatingly which is
     established by the static variable `start_player_index` that is incremented
     every time a Leg instance is created.
@@ -202,7 +202,10 @@ class Leg(object):
     start_player_index = 0
 
     def __init__(self, player_names, start_value=501, log_stats=True,
-            test_visits=None):
+            test_visits=None, log_parent=None):
+
+        super().__init__(log_parent)
+
         self._players = []
         for i, name in enumerate(player_names):
             self._players.append(Player(name, i, start_value))

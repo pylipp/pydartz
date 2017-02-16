@@ -116,6 +116,16 @@ class LegTestCase(unittest.TestCase):
         self.assertTrue(leg._players[1].victorious())
         self.assertEqual(leg._players[0].score_left, 41)
 
+    def test_logging_without_parent(self):
+        leg = Leg(["Peter"], log_stats=False)
+
+    def test_logging_with_parent(self):
+        log_parent = []
+        leg = Leg(["Mike"], log_stats=False, log_parent=log_parent)
+        log_entry = log_parent[0]._log_entry
+        self.assertEqual(log_entry.tag, "leg")
+        self.assertEqual(len(log_entry), 0)
+
 
 if __name__ == '__main__':
     unittest.main()

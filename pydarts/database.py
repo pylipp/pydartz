@@ -1,7 +1,32 @@
 import os.path
 from collections import Counter
+from abc import ABCMeta
 
 from tinydb import TinyDB, where
+from lxml import etree
+
+
+class LogEntryBase(object):
+    """Abstract base class for all classes that are supposed to support
+    logging.
+
+    It holds a member `_log_entry` of type `lxml.etree._Element`. Its tag is
+    derived from the lowercase class name. If a `parent` argument (an instance
+    of a class that implements an `append` method, such as a list or this
+    class) is passed, the `log_entry` is appended, s.t. the hierarchy of the
+    `session` classes is reflected in the XML log.
+    """
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, parent=None):
+        tag = self.__class__.__name__.lower()
+        self._log_entry = etree.Element(tag)
+        if parent is not None:
+            parent.append(self)
+
+    def append(self, child_log_entry):
+        self._log_entry.append(child_log_entry)
 
 
 class PlayerEntry(object):
