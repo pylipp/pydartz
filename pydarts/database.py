@@ -1,4 +1,5 @@
 import os.path
+import time
 from collections import Counter
 from abc import ABCMeta
 
@@ -15,13 +16,18 @@ class LogEntryBase(object):
     of a class that implements an `append` method, such as a list or this
     class) is passed, the `log_entry` is appended, s.t. the hierarchy of the
     `session` classes is reflected in the XML log.
+    The initialization time of each instance is stored as timestamp for later
+    reference.
     """
 
     __metaclass__ = ABCMeta
 
+    DT_FORMAT = "%Y%m%d-%H%M%S"
+
     def __init__(self, parent=None):
         tag = self.__class__.__name__.lower()
-        self._log_entry = etree.Element(tag)
+        self._log_entry = etree.Element(tag,
+                attrib={"timestamp": time.strftime(self.DT_FORMAT)})
         if parent is not None:
             parent.append(self._log_entry)
 

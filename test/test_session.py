@@ -1,5 +1,6 @@
 import unittest
 from collections import deque
+from datetime import datetime
 
 from lxml import etree
 
@@ -129,6 +130,10 @@ class LegTestCase(unittest.TestCase):
 
     def test_logging_without_parent(self):
         leg = Leg(["Peter"], log_stats=False)
+        # might fail around midnight...
+        self.assertEqual(
+                datetime.strptime(leg._log_entry.get("timestamp"), Leg.DT_FORMAT).day,
+                datetime.today().day)
 
     def test_logging_with_parent(self):
         log_parent = []
