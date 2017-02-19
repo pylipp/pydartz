@@ -177,10 +177,15 @@ class Session(LogEntryBase):
     """Representation of a darts session.
     Initialized with a list of player names, the start value, and the number of
     legs to play.
+
+    For testing, a deque of deques containing the players' visits can be
+    passed. See the tests for an example.
     """
 
-    def __init__(self, player_names, start_value, nr_legs=1, log_parent=None):
-        super().__init__(log_parent, players=','.join(player_names))
+    def __init__(self, player_names, start_value, nr_legs=1, test_legs=None,
+            log_parent=None):
+        super().__init__(log_parent, test_data=test_legs,
+                players=','.join(player_names))
 
         self._player_names = player_names
         self._start_value = start_value
@@ -216,7 +221,7 @@ class Leg(LogEntryBase):
     def __init__(self, player_names, start_value=501, test_visits=None,
             log_parent=None):
 
-        super().__init__(log_parent)
+        super().__init__(log_parent, test_visits)
 
         self._players = []
         for i, name in enumerate(player_names):
@@ -227,8 +232,6 @@ class Leg(LogEntryBase):
         self._current_player_index = Leg.start_player_index % self._nr_players
         Leg.start_player_index += 1
 
-        self._test_visits = test_visits
-
     def run(self):
         """Main game loop. Players are taking turns and playing until a player
         wins. If this is repeatedly run, the players' start value is not
@@ -237,7 +240,7 @@ class Leg(LogEntryBase):
         while True:
             current_player = self._players[self._current_player_index]
 
-            visit = [] if self._test_visits is None else self._test_visits.popleft()
+            visit = [] if self._test_data is None else self._test_data.popleft()
 
             current_player.play(*visit, log_entry=self._log_entry)
 
