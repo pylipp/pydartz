@@ -99,14 +99,6 @@ class PlayerEntry(object):
     def throws(self):
         return self._throws
 
-    @property
-    def finishes(self):
-        return self._finishes
-
-    @property
-    def darters(self):
-        return self._darters
-
     def print_info(self):
         print(self._name + ":")
         print("Legs won: {}".format(len(self._finishes)))
