@@ -6,7 +6,7 @@ from lxml import etree
 import simpleaudio
 
 from .session import Session
-from .database import Stats
+from .database import Stats, analyze_sessions
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -23,18 +23,18 @@ def main():
     args = vars(_parse_command())
     player_name = args.pop("stats", None)
     if player_name is not None:
-        stats = Stats()
-        player = stats.table("players").get(where("name") == player_name)
-        if player is not None:
-            finishes = {}
-            for entry in player:
-                if entry.startswith("finish"):
-                    finishes[entry] = player[entry]
-            print("Games won: {}".format(sum(finishes.values())))
-            print("Average: {:.2f}".format(3*player["points"]/player["throws"]))
+        player_entries = analyze_sessions(sessions_log)
+        for name, entry in player_entries.items():
+            print(name + ":")
+            print("Legs won: {}".format(len(entry.finishes)))
+            print("Average: {:.2f}".format(3 * entry.average()))
             print("Finishes:")
-            for finish in sorted(finishes)[::-1]:
-                print("    {:3d}: {}".format(int(finish.split("_")[1]), finishes[finish]))
+            for finish in sorted(entry.finishes)[::-1]:
+                print("    {:3d}: {}".format(finish, entry.finishes[finish]))
+            print("Darters:")
+            for darter in sorted(entry.darters):
+                print("    {:3d}-darter: {}".format(darter, entry.darters[darter]))
+
         import sys; sys.exit(0)
     s = _setup_session()
     s.run()
