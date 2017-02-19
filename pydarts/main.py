@@ -22,22 +22,15 @@ else:
 def main():
     args = vars(_parse_command())
     player_names = args.pop("stats", None)
+
     if player_names is not None:
         player_entries = analyze_sessions(sessions_log)
         for name, entry in player_entries.items():
             if len(player_names) and name not in player_names:
                 continue
-            print(name + ":")
-            print("Legs won: {}".format(len(entry.finishes)))
-            print("Average: {:.2f}".format(3 * entry.average()))
-            print("Finishes:")
-            for finish in sorted(entry.finishes)[::-1]:
-                print("    {:3d}: {}".format(finish, entry.finishes[finish]))
-            print("Darters:")
-            for darter in sorted(entry.darters):
-                print("    {:3d}-darter: {}".format(darter, entry.darters[darter]))
-
+            entry.print_info()
         import sys; sys.exit(0)
+
     s = _setup_session()
     s.run()
 

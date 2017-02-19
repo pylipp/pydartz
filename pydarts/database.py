@@ -107,6 +107,17 @@ class PlayerEntry(object):
     def darters(self):
         return self._darters
 
+    def print_info(self):
+        print(self._name + ":")
+        print("Legs won: {}".format(len(self._finishes)))
+        print("Average: {:.2f}".format(3 * self.average()))
+        print("Finishes:")
+        for finish in sorted(self._finishes)[::-1]:
+            print("    {:3d}: {}".format(finish, self._finishes[finish]))
+        print("Darters:")
+        for darter in sorted(self._darters):
+            print("    {:3d}-darter: {}".format(darter, self._darters[darter]))
+
 
 def analyze_sessions(sessions):
     """Analyze a `lxml.etree._Element` sessions object.
