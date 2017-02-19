@@ -5,7 +5,7 @@ from collections import Counter, deque
 from tinydb import where
 from lxml import etree
 
-from pydarts.database import PlayerEntry, Stats, analyze_sessions
+from pydarts.database import PlayerEntry, analyze_sessions
 from pydarts.session import Player, Session
 
 
@@ -43,41 +43,6 @@ class PlayerEntryTestCase(unittest.TestCase):
         entry = PlayerEntry()
         entry.update(10, 420)
         self.assertEqual(42, entry.average())
-
-
-class StatsTestCase(unittest.TestCase):
-    def setUp(self):
-        dirname = os.path.dirname(os.path.abspath(__file__))
-        self.filepath = os.path.join(dirname, "test_db.json")
-
-    def test_duplicate_player_names(self):
-        player_names = ["Michael", "Phil", "Gary", "Phil"]
-        stats = Stats(player_names, self.filepath)
-        self.assertEqual(3, len(stats.table("players")))
-        stats.close()
-
-    def test_update(self):
-        stats = Stats(["Max"], self.filepath)
-        player = Player("Max", 0, 301)
-        # first visit
-        player.substract(180, True)
-        stats.update(player=player)
-        player_element = stats.table("players").get(where("name") == "Max")
-        self.assertEqual(player_element["throws"], 3)
-        self.assertEqual(player_element["points"], 180)
-        # second visit
-        player.begin()
-        player.substract(57, False)
-        player.substract(64, True)
-        stats.update(player=player)
-        player_element = stats.table("players").get(where("name") == "Max")
-        self.assertEqual(player_element["throws"], 6)
-        self.assertEqual(player_element["points"], 301)
-        self.assertEqual(player_element["finish_121"], 1)
-        stats.close()
-
-    def tearDown(self):
-        os.remove(self.filepath)
 
 class AnalysisTestCase(unittest.TestCase):
     def test_analyse_sessions(self):

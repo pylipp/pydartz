@@ -6,7 +6,7 @@ from lxml import etree
 import simpleaudio
 
 from .session import Session
-from .database import Stats, analyze_sessions
+from .database import analyze_sessions
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
