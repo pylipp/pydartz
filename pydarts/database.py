@@ -52,6 +52,7 @@ class PlayerEntry(object):
             self._throws = player_stats["throws"]
             self._points = player_stats["points"]
             self._finishes = player_stats["finishes"]
+            self._darters = player_stats["darters"]
 
     def update(self, throws=0, points=0, darter=None):
         self._throws += throws
@@ -71,7 +72,8 @@ class PlayerEntry(object):
                 self._name: dict(
                     throws=self._throws,
                     points=self._points,
-                    finishes=self._finishes
+                    finishes=self._finishes,
+                    darters=self._darters
                     )
                 }
 

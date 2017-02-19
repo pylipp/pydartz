@@ -17,11 +17,13 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(0, len(entry._finishes))
 
     def test_init_with_stats(self):
-        player_stats = dict(throws=123, points=4567, finishes=Counter({20: 89}))
+        player_stats = dict(throws=123, points=4567, finishes=Counter({20:
+            89}), darters=Counter())
         entry = PlayerEntry(player_stats=player_stats)
         self.assertEqual(123, entry._throws)
         self.assertEqual(4567, entry._points)
         self.assertEqual(89, entry._finishes[20])
+        self.assertEqual(0, len(entry._darters))
 
     def test_update(self):
         entry = PlayerEntry()
@@ -32,7 +34,8 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(501, entry.total_points())
 
     def test_to_dict(self):
-        player_stats = dict(throws=123, points=4567, finishes=Counter({20: 89}))
+        player_stats = dict(throws=123, points=4567, finishes=Counter({20: 89}),
+                darters=Counter({9: 2}))
         entry = PlayerEntry("Michael", player_stats)
         self.assertDictEqual(player_stats, entry.to_dict()["Michael"])
 
