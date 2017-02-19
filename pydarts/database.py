@@ -40,6 +40,12 @@ class LogEntryBase(object):
 
 
 class PlayerEntry(object):
+    """A container to facilitate evaluation of player statistics.
+
+    It stores the player's total throws, points (visit per visit for e.g.
+    histogram evaluation), finishes and darters.
+    Some basic update and query methods are implemented.
+    """
 
     def __init__(self, name=None, player_stats=None):
         self._name = name
@@ -57,17 +63,21 @@ class PlayerEntry(object):
     def update(self, throws=0, points=0, darter=None):
         self._throws += throws
         self._points.append(points)
+
+        # only called if current player won. Points of last leg are passed
         if darter is not None:
             self._finishes[points] += 1
             self._darters[darter] += 1
 
     def update_from_log(self, log_element):
+        """Convenience method to update from a `lxml.etree._Element` visit."""
         self.update(
                 points=int(log_element.get("points")),
                 throws=int(log_element.get("throws"))
                 )
 
     def to_dict(self):
+        """Returns a dict representation of the PlayerEntry data."""
         return {
                 self._name: dict(
                     throws=self._throws,
@@ -91,6 +101,14 @@ class PlayerEntry(object):
 
 
 def analyze_sessions(sessions):
+    """Analyze a `lxml.etree._Element` sessions object.
+
+    First all player names occurring are collected and a dict of PlayerEntrys
+    is built.
+    It is iterated over every session played so far. For every visit, the
+    corresponding PlayerEntry is updated. The data of the last visit of a leg
+    is used to update the winner's finishes and darters.
+    """
     player_names = set()
     for session in sessions:
         for name in session.get("players").split(','):
