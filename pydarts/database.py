@@ -80,7 +80,7 @@ class PlayerEntry(object):
     def average(self):
         if self._throws != 0:
             return self.total_points() / self._throws
-        return 0
+        return -1
 
     def total_points(self):
         return sum(self._points)
