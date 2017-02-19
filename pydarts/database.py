@@ -60,6 +60,12 @@ class PlayerEntry(object):
             self._finishes[points] += 1
             self._darters[darter] += 1
 
+    def update_from_log(self, log_element):
+        self.update(
+                points=int(log_element.get("points")),
+                throws=int(log_element.get("throws"))
+                )
+
     def to_dict(self):
         return {
                 self._name: dict(
@@ -76,6 +82,10 @@ class PlayerEntry(object):
 
     def total_points(self):
         return sum(self._points)
+
+    @property
+    def throws(self):
+        return self._throws
 
 
 def add(field, value):
