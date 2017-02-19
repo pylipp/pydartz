@@ -1,9 +1,12 @@
 import os
 import unittest
-from collections import Counter
+from collections import Counter, deque
+
 from tinydb import where
-from pydarts.database import PlayerEntry, Stats
-from pydarts.session import Player
+from lxml import etree
+
+from pydarts.database import PlayerEntry, Stats, analyze_sessions
+from pydarts.session import Player, Session
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -72,6 +75,24 @@ class StatsTestCase(unittest.TestCase):
 
     def tearDown(self):
         os.remove(self.filepath)
+
+class AnalysisTestCase(unittest.TestCase):
+    def test_analyse_sessions(self):
+        sessions = etree.Element("sessions")
+        test_legs = deque([
+            deque([("180d",), ("60", "60", "57"), ("60", "60", "24")])
+            ])
+        session = Session(["Peter"], 501, 1, test_legs=test_legs,
+                log_parent=sessions)
+        session.run()
+
+        player_entry = analyze_sessions(sessions)["Peter"]
+
+        self.assertEqual(player_entry.total_points(), 501)
+        self.assertAlmostEqual(player_entry.average(), 501/9)
+        self.assertEqual(player_entry.throws, 9)
+        self.assertEqual(player_entry._finishes[144], 1)
+        self.assertEqual(player_entry._darters[9], 1)
 
 
 if __name__ == '__main__':

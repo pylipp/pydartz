@@ -88,6 +88,34 @@ class PlayerEntry(object):
         return self._throws
 
 
+def analyze_sessions(sessions):
+    player_names = set()
+    for session in sessions:
+        for name in session.get("players").split(','):
+            player_names.add(name)
+
+    players = {name: PlayerEntry(name) for name in player_names}
+
+    for session in sessions:
+        for leg in session:
+            winner_name = leg[-1].get("player")
+            winner = players[winner_name]
+            winner_old_throws = winner.throws
+
+            for visit in leg[:-1]:
+                name = visit.get("player")
+                player_entry = players[name]
+                player_entry.update_from_log(visit)
+
+            final_throws = int(leg[-1].get("throws"))
+            final_points = int(leg[-1].get("points"))
+            # X-darter per player
+            visit_throws = final_throws + winner.throws - winner_old_throws
+            winner.update(points=final_points, throws=final_throws, darter=visit_throws)
+
+    return players
+
+
 def add(field, value):
     """Operation to increment `field` of a `tinydb.Element` by `value`. The
     field is created if it does not exist."""
