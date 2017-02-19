@@ -2,7 +2,6 @@ import os
 import unittest
 from collections import Counter, deque
 
-from tinydb import where
 from lxml import etree
 
 from pydarts.database import PlayerEntry, analyze_sessions

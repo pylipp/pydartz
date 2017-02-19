@@ -1,7 +1,6 @@
 import os.path
 import argparse
 
-from tinydb import where
 from lxml import etree
 import simpleaudio
 
@@ -12,6 +11,7 @@ from .database import analyze_sessions
 dirname = os.path.dirname(os.path.abspath(__file__))
 log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
 
+# TODO move to separate module. Allows updating after every leg.
 if os.path.exists(log_filepath):
     tree = etree.parse(log_filepath)
     sessions_log = tree.getroot()
