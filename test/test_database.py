@@ -10,7 +10,7 @@ class PlayerEntryTestCase(unittest.TestCase):
     def test_default_init(self):
         entry = PlayerEntry()
         self.assertEqual(0, entry._throws)
-        self.assertEqual(0, entry._points)
+        self.assertListEqual([], entry._points)
         self.assertEqual(0, len(entry._finishes))
 
     def test_init_with_stats(self):
@@ -24,8 +24,9 @@ class PlayerEntryTestCase(unittest.TestCase):
         entry = PlayerEntry()
         entry.update(9, 501, True)
         self.assertEqual(9, entry._throws)
-        self.assertEqual(501, entry._points)
-        self.assertEqual(1, entry._finishes[9])
+        self.assertEqual(501, entry._points[0])
+        self.assertEqual(0, len(entry._finishes))
+        self.assertEqual(501, entry.total_points())
 
     def test_to_dict(self):
         player_stats = dict(throws=123, points=4567, finishes=Counter({20: 89}))

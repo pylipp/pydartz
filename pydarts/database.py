@@ -44,7 +44,7 @@ class PlayerEntry(object):
     def __init__(self, name=None, player_stats=None):
         self._name = name
         self._throws = 0
-        self._points = 0
+        self._points = []
         self._finishes = Counter()
 
         if player_stats:
@@ -54,9 +54,9 @@ class PlayerEntry(object):
 
     def update(self, throws, points, finished=False):
         self._throws += throws
-        self._points += points
         if finished:
             self._finishes[throws] += 1
+        self._points.append(points)
 
     def to_dict(self):
         return {
@@ -69,8 +69,11 @@ class PlayerEntry(object):
 
     def average(self):
         if self._throws != 0:
-            return self._points / self._throws
+            return self.total_points() / self._throws
         return 0
+
+    def total_points(self):
+        return sum(self._points)
 
 
 def add(field, value):
