@@ -21,10 +21,12 @@ else:
 
 def main():
     args = vars(_parse_command())
-    player_name = args.pop("stats", None)
-    if player_name is not None:
+    player_names = args.pop("stats", None)
+    if player_names is not None:
         player_entries = analyze_sessions(sessions_log)
         for name, entry in player_entries.items():
+            if len(player_names) and name not in player_names:
+                continue
             print(name + ":")
             print("Legs won: {}".format(len(entry.finishes)))
             print("Average: {:.2f}".format(3 * entry.average()))
@@ -48,7 +50,7 @@ def main():
 def _parse_command():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-s", "--stats", metavar="NAME",
+    parser.add_argument("-s", "--stats", metavar="NAME", nargs="*",
             help="display player stats")
 
     return parser.parse_args()
