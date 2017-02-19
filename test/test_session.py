@@ -4,7 +4,7 @@ from datetime import datetime
 
 from lxml import etree
 
-from pydarts.session import Player, Leg
+from pydarts.session import Player, Leg, Session
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -154,6 +154,17 @@ class LegTestCase(unittest.TestCase):
         self.assertEqual(visits_log_entry[0].get("throws"), "3")
         self.assertEqual(visits_log_entry[2].get("points"), "144")
         # assert average etc
+
+class SessionTestCase(unittest.TestCase):
+    def test_single_player_9_darter_session(self):
+        test_legs = deque([
+            deque([("180d",), ("60", "60", "57"), ("60", "60", "24")])
+            ])
+        session = Session(["Peter"], 501, 1, test_legs=test_legs)
+        session.run()
+
+        self.assertEqual(len(session._log_entry[0]), 3)
+        self.assertEqual(len(session._log_entry), 1)
 
 
 if __name__ == '__main__':

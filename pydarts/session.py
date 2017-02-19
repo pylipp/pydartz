@@ -193,17 +193,23 @@ class Session(LogEntryBase):
 
     def run(self):
         """Play the predefined number of legs. Keep track of the total session
-        score using a counter.
+        score using a counter. Print the score if not in test mode.
         """
         counter = Counter()
-        for i in range(self._nr_legs):
-            leg = Leg(self._player_names, self._start_value, log_parent=self)
+        test_run = self._test_data is not None
+
+        for _ in range(self._nr_legs):
+            visits = None if self._test_data is None else self._test_data.popleft()
+
+            leg = Leg(self._player_names, self._start_value, log_parent=self,
+                    test_visits=visits)
             leg.run()
             counter[leg.current_player_name()] += 1
 
-            for name in self._player_names:
-                print("    {}: {:2d}".format(name, counter.get(name, 0)))
-            print(80 * "=")
+            if not test_run:
+                for name in self._player_names:
+                    print("    {}: {:2d}".format(name, counter.get(name, 0)))
+                print(80 * "=")
 
 
 class Leg(LogEntryBase):
