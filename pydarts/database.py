@@ -46,17 +46,19 @@ class PlayerEntry(object):
         self._throws = 0
         self._points = []
         self._finishes = Counter()
+        self._darters = Counter()
 
         if player_stats:
             self._throws = player_stats["throws"]
             self._points = player_stats["points"]
             self._finishes = player_stats["finishes"]
 
-    def update(self, throws, points, finished=False):
+    def update(self, throws=0, points=0, darter=None):
         self._throws += throws
-        if finished:
-            self._finishes[throws] += 1
         self._points.append(points)
+        if darter is not None:
+            self._finishes[points] += 1
+            self._darters[darter] += 1
 
     def to_dict(self):
         return {

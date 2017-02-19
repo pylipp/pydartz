@@ -22,7 +22,7 @@ class PlayerEntryTestCase(unittest.TestCase):
 
     def test_update(self):
         entry = PlayerEntry()
-        entry.update(9, 501, True)
+        entry.update(9, 501)
         self.assertEqual(9, entry._throws)
         self.assertEqual(501, entry._points[0])
         self.assertEqual(0, len(entry._finishes))
