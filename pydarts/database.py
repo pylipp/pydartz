@@ -99,6 +99,14 @@ class PlayerEntry(object):
     def throws(self):
         return self._throws
 
+    @property
+    def finishes(self):
+        return self._finishes
+
+    @property
+    def darters(self):
+        return self._darters
+
 
 def analyze_sessions(sessions):
     """Analyze a `lxml.etree._Element` sessions object.
