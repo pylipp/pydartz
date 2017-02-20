@@ -3,14 +3,13 @@
 Play with your friends and keep track of your darts scores!
 
 ## Features
-- arbitray start value (501, 301, whatever positive number you like, ...)
+- arbitrary start value (501, 301, whatever positive number you like, ...)
 - unlimited number of players
 - scores can be passed in sum (i.e. the total visit) or throw by throw
 - finish suggestions
-- player database to keep track of player performance
+- player database to keep track of player performance (average, highscore, finishes, etc.)
 
 ## Upcoming
-- database evaluation to find player average, highscore, etc.
 
 ## TODO
 - revisit finish options (e.g. 56, 46)
@@ -21,14 +20,19 @@ Play with your friends and keep track of your darts scores!
 git clone https://github.com/pylipp/pydarts
 cd pydarts
 mkvirtualenv --python=/usr/bin/python3 pydarts
-pip install -r requirements.txt -e .
+make install
+make test
 ```
 
 ## Usage
 
-For playing, simply type `pydarts` (with the virtualenv activated) and follow the instructions on screen.
+For playing, simply type `pydarts` (with the virtualenv activated) and follow the instructions on screen. See `pydarts.session.Player._process_score` for more info.
 
-For displaying player statistics, type `pydarts --stats <player_name>`. 
+### IMPORTANT
+
+The last visit has to be entered throw by throw. Otherwise, the evaluation of the total number of throws per visit is not correct!
+
+For displaying player statistics, type `pydarts --stats <player_name>`. You can put any number of names. Without any name, information of all players is printed.
 
 Also, see the output of `pydarts --help`.
 
