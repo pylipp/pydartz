@@ -102,6 +102,7 @@ class PlayerEntry(object):
         print(self._name + ":")
         print("Legs won: {}".format(len(self._finishes)))
         print("Average: {:.2f}".format(3 * self.average()))
+        print("Highscore: {:3d}".format(max(self._points)))
         print("Finishes:")
         for finish in sorted(self._finishes)[::-1]:
             print("    {:3d}: {}".format(finish, self._finishes[finish]))
