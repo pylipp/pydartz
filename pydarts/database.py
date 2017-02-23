@@ -145,3 +145,19 @@ def analyze_sessions(sessions):
             winner.update(points=final_points, throws=final_throws, darter=visit_throws)
 
     return players
+
+dirname = os.path.dirname(os.path.abspath(__file__))
+log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
+
+# parse existing tree or create new sessions element
+if os.path.exists(log_filepath):
+    tree = etree.parse(log_filepath)
+    sessions_log = tree.getroot()
+else:
+    sessions_log = etree.Element("sessions")
+
+def save_session():
+    """Write the `sessions_log` XML object to disk."""
+    tree = etree.ElementTree(sessions_log)
+    tree.write(log_filepath, pretty_print=True, xml_declaration=True,
+            encoding="utf-8")

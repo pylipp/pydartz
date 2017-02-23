@@ -4,7 +4,7 @@ from collections import deque, Counter
 from lxml import etree
 import yaml
 
-from .database import LogEntryBase
+from .database import LogEntryBase, save_session
 
 
 # load the finishes table
@@ -205,6 +205,8 @@ class Session(LogEntryBase):
                     test_visits=visits)
             leg.run()
             counter[leg.current_player_name()] += 1
+
+            save_session()
 
             if not test_run:
                 for name in self._player_names:

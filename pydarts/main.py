@@ -5,18 +5,10 @@ from lxml import etree
 import simpleaudio
 
 from .session import Session
-from .database import analyze_sessions
+from .database import analyze_sessions, sessions_log
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
-log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
-
-# TODO move to separate module. Allows updating after every leg.
-if os.path.exists(log_filepath):
-    tree = etree.parse(log_filepath)
-    sessions_log = tree.getroot()
-else:
-    sessions_log = etree.Element("sessions")
 
 
 def main():
@@ -33,10 +25,6 @@ def main():
 
     s = _setup_session()
     s.run()
-
-    tree = etree.ElementTree(sessions_log)
-    tree.write(log_filepath, pretty_print=True, xml_declaration=True,
-            encoding="utf-8")
 
     _play_ending_song()
 
