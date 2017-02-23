@@ -100,7 +100,7 @@ class PlayerEntry(object):
 
     def print_info(self):
         print(self._name + ":")
-        print("Legs won: {}".format(len(self._finishes)))
+        print("Legs won: {}".format(sum(self._finishes.values())))
         print("Average: {:.2f}".format(3 * self.average()))
         print("Highscore: {:3d}".format(max(self._points)))
         print("Finishes:")
