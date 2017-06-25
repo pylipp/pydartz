@@ -4,6 +4,7 @@ from collections import Counter
 from abc import ABCMeta
 
 from lxml import etree
+from data_hacks import histogram, HistogramOpt
 
 
 class LogEntryBase(object):
@@ -110,6 +111,12 @@ class PlayerEntry(object):
         for darter in sorted(self._darters):
             print("    {:3d}-darter: {}".format(darter, self._darters[darter]))
 
+        if len(set(self._points)) > 1:
+            # avoid bug that crashes data_hacks if only one value present
+            histogram(
+                    (str(p) for p in self._points),
+                    HistogramOpt(min=0, max=180, buckets=30, mvsd=False, format="%3i")
+                    )
 
 def analyze_sessions(sessions):
     """Analyze a `lxml.etree._Element` sessions object.
