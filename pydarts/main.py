@@ -6,6 +6,7 @@ import simpleaudio
 
 from .session import Session
 from .database import analyze_sessions, sessions_log
+from .communication import get_input
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -50,34 +51,16 @@ def _setup_session():
     print(r"     \/__/         \/__/     \/__/         \/__/         \/__/           \/__/       \/__/    ")
     print()
 
-    while True:
-        try:
-            nr_players = int(input("Nr of players: "))
-            if nr_players >= 1:
-                break
-        except (ValueError):
-            print("Invalid input.")
+    nr_players = get_input("Nr of players: ", type_=int, min_=1)
 
     names = []
     for i in range(nr_players):
-        name = input("Name of player {}: ".format(i+1))
+        name = get_input("Name of player {}: ".format(i+1), min_=1)
         names.append(name)
 
-    while True:
-        try:
-            start_value = int(input("Start value: "))
-            if start_value >= 2:
-                break
-        except (ValueError):
-            print("Invalid input.")
+    start_value = get_input("Start value: ", type_=int, min_=2)
 
-    while True:
-        try:
-            nr_legs = int(input("Nr of legs: "))
-            if nr_legs > 0:
-                break
-        except (ValueError):
-            print("Invalid input.")
+    nr_legs = get_input("Nr of legs: ", type_=int, min_=1)
 
     return Session(names, start_value, nr_legs, log_parent=sessions_log)
 
