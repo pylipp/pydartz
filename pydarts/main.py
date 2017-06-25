@@ -1,12 +1,10 @@
 import os.path
 import argparse
 
-from lxml import etree
 import simpleaudio
 
-from .session import Session
 from .database import analyze_sessions, sessions_log
-from .communication import get_input
+from .game import Game
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -24,8 +22,9 @@ def main():
             entry.print_info()
         import sys; sys.exit(0)
 
-    s = _setup_session()
-    s.run()
+    _setup_session()
+    g = Game()
+    g.run()
 
     _play_ending_song()
 
@@ -50,19 +49,6 @@ def _setup_session():
     print(r"    \:\__\        \:\__\    \::/  /       \:\__\        \:\__\          \:\__\       /:/  /   ")
     print(r"     \/__/         \/__/     \/__/         \/__/         \/__/           \/__/       \/__/    ")
     print()
-
-    nr_players = get_input("Nr of players: ", type_=int, min_=1)
-
-    names = []
-    for i in range(nr_players):
-        name = get_input("Name of player {}: ".format(i+1), min_=1)
-        names.append(name)
-
-    start_value = get_input("Start value: ", type_=int, min_=2)
-
-    nr_legs = get_input("Nr of legs: ", type_=int, min_=1)
-
-    return Session(names, start_value, nr_legs, log_parent=sessions_log)
 
 def _play_ending_song():
     wave_obj = simpleaudio.WaveObject.from_wave_file(
