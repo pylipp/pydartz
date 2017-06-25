@@ -22,7 +22,7 @@ def main():
             entry.print_info()
         import sys; sys.exit(0)
 
-    _setup_session()
+    _display_banner()
     g = Game()
     g.run()
 
@@ -36,7 +36,7 @@ def _parse_command():
 
     return parser.parse_args()
 
-def _setup_session():
+def _display_banner():
     print(r"      ___                                   ___           ___                         ___     ")
     print(r"     /\  \                   _____         /\  \         /\  \                       /\__\    ")
     print(r"    /::\  \       ___       /::\  \       /::\  \       /::\  \         ___         /:/ _/_   ")
