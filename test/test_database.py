@@ -49,7 +49,7 @@ class AnalysisTestCase(unittest.TestCase):
         test_legs = deque([
             deque([("180d",), ("60", "60", "57"), ("60", "60", "24")])
             ])
-        session = Session(["Peter"], 501, 1, test_legs=test_legs,
+        session = Session([Player("Peter")], 1, test_legs=test_legs,
                 log_parent=sessions)
         session.run()
 

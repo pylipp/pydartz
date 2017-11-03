@@ -9,10 +9,11 @@ from pydarts.session import Player, Leg, Session
 
 class PlayerEntryTestCase(unittest.TestCase):
     def setUp(self):
-        self.player = Player("Raymond", 0, 501)
+        self.player = Player("Raymond")
 
     def test_not_victorious(self):
         self.assertFalse(self.player.victorious())
+        self.assertEqual(self.player.nr_won_legs, 0)
 
     def test_scores_valid(self):
         self.assertTrue(self.player.score_valid(180))
@@ -108,43 +109,54 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(visit_log_entry.get("points"), "150")
         self.assertEqual(visit_log_entry.get("throws"), "3")
 
+    def test_reset(self):
+        self.player.play("50", "111d")
+        self.player.reset()
+        self.assertEqual(self.player.score_left, self.player._start_value)
+        self.assertEqual(self.player.throws, 0)
+
+    def test_won_legs(self):
+        self.player.just_won_leg()
+        self.assertEqual(self.player.nr_won_legs, 1)
+
 class LegTestCase(unittest.TestCase):
     def test_single_player_9_darter(self):
-        leg = Leg(["Mike"], test_visits=deque([
+        mike = Player("Mike")
+        leg = Leg([mike], test_visits=deque([
             ("180d",), ("60", "60", "57"), ("60", "60", "24")]))
         leg.run()
         self.assertEqual(leg._current_player_index, 0)
-        self.assertTrue(leg._players[0].victorious())
+        self.assertTrue(mike.victorious())
 
     def test_two_player_101(self):
-        Leg.start_player_index = 0
-        leg = Leg(["Hans", "Fritz"], start_value=101,
-                test_visits=deque([
+        hans = Player("Hans", 101)
+        fritz = Player("Fritz", 101)
+        leg = Leg([hans, fritz], test_visits=deque([
                     ("60d",), ("19", "17", "3"), ("19", "b",), ("12", "50")]))
         leg.run()
 
         self.assertEqual(leg._current_player_index, 1)
-        self.assertEqual(leg._players[1].name, "Fritz")
-        self.assertTrue(leg._players[1].victorious())
-        self.assertEqual(leg._players[0].score_left, 41)
+        self.assertTrue(fritz.victorious())
+        self.assertEqual(hans.score_left, 41)
 
     def test_logging_without_parent(self):
         leg = Leg(["Peter"])
         # might fail around midnight...
         self.assertEqual(
-                datetime.strptime(leg._log_entry.get("timestamp"), Leg.DT_FORMAT).day,
-                datetime.today().day)
+                datetime.strptime(leg._log_entry.get("timestamp"),
+                    Leg.DT_FORMAT).day, datetime.today().day)
 
     def test_logging_with_parent(self):
         log_parent = []
-        leg = Leg(["Mike"], log_parent=log_parent)
+        Leg(["Mike"], log_parent=log_parent)
         log_entry = log_parent[0]
         self.assertEqual(log_entry.tag, "leg")
         self.assertEqual(len(log_entry), 0)
 
     def test_single_player_9_darter_logging(self):
+        players = [Player("Mike")]
         log_parent = []
-        leg = Leg(["Mike"], test_visits=deque([
+        leg = Leg(players, test_visits=deque([
             ("180d",), ("60", "60", "57"), ("60", "60", "24")]),
             log_parent=log_parent)
         leg.run()
@@ -160,12 +172,26 @@ class SessionTestCase(unittest.TestCase):
         test_legs = deque([
             deque([("180d",), ("60", "60", "57"), ("60", "60", "24")])
             ])
-        session = Session(["Peter"], 501, 1, test_legs=test_legs)
+        players = [Player("Peter")]
+        session = Session(players, 1, test_legs=test_legs)
         session.run()
 
         self.assertEqual(len(session._log_entry[0]), 3)
         self.assertEqual(len(session._log_entry), 1)
 
+    def test_two_player_session(self):
+        test_legs = deque([
+            deque([("60d",), ("20", "11", "20"), ("40",)]),
+            deque([("60d",), ("20", "11", "20"), ("40",)]),
+            deque([("60d",), ("20", "11", "20"), ("40",)]),
+            ])
+        adam = Player("Adam", 100)
+        eve = Player("Eve", 100)
+        session = Session([adam, eve], 2, test_legs=test_legs)
+        session.run()
+
+        self.assertTrue(adam.victorious())
+        self.assertEqual(eve.score_left, 49)
 
 if __name__ == '__main__':
     unittest.main()
