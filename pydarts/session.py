@@ -28,6 +28,7 @@ class Player(object):
         self._index = Player.INDEX
         Player.INDEX += 1
         self._start_value = start_value
+        self._nr_won_legs = 0
 
         self._score_left = start_value
         self._throws = 0
@@ -109,6 +110,13 @@ class Player(object):
 
     def visit_sum(self):
         return sum(self._visit)
+
+    @property
+    def nr_won_legs(self):
+        return self._nr_won_legs
+
+    def just_won_leg(self):
+        self._nr_won_legs += 1
 
     def play(self, *testing_args, log_entry=None):
         """Read score input given by the user while checking for errors.
@@ -200,22 +208,18 @@ class Session(LogEntryBase):
         self._players = players
         self._nr_legs = nr_legs
 
-    def _player_victorious(self, counter):
-        try:
-            largest_nr_of_victories = max((v for v in counter.values()))
-        except ValueError:
-            largest_nr_of_victories = 0
+    def _player_won_enough_legs(self):
+        largest_nr_of_victories = max((p.nr_won_legs for p in self._players))
         return self._nr_legs <= largest_nr_of_victories
 
     def run(self):
-        """Play the predefined number of legs. Keep track of the total session
-        score using a counter. Print the score if not in test mode.
+        """Play until a player has won the predefined number of legs. Print the
+        score if not in test mode.
         """
-        counter = Counter()
         test_run = self._test_data is not None
         Leg.start_player_index = 0
 
-        while not self._player_victorious(counter):
+        while not self._player_won_enough_legs():
             visits = None if self._test_data is None else self._test_data.popleft()
 
             for p in self._players:
@@ -223,13 +227,12 @@ class Session(LogEntryBase):
 
             leg = Leg(self._players, log_parent=self, test_visits=visits)
             leg.run()
-            counter[leg.current_player_name()] += 1
 
             save_session()
 
             if not test_run:
                 for p in self._players:
-                    print("    {}: {:2d}".format(p.name, counter.get(p.name, 0)))
+                    print("    {}: {:2d}".format(p.name, p.nr_won_legs))
                 print(80 * "=")
 
 
@@ -269,10 +272,8 @@ class Leg(LogEntryBase):
             current_player.play(*visit, log_entry=self._log_entry)
 
             if current_player.victorious():
+                current_player.just_won_leg()
                 break
 
             self._current_player_index += 1
             self._current_player_index %= self._nr_players
-
-    def current_player_name(self):
-        return self._players[self._current_player_index].name
