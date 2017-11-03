@@ -5,7 +5,8 @@ from collections import Counter, deque
 from lxml import etree
 
 from pydarts.database import PlayerEntry, analyze_sessions
-from pydarts.session import Player, Session
+from pydarts.session import Session
+from pydarts.player import Player
 
 
 class PlayerEntryTestCase(unittest.TestCase):

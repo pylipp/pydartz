@@ -2,7 +2,8 @@
 Module containing top game logic and routine.
 """
 
-from .session import Session, Player
+from .session import Session
+from .player import Player
 from .communication import get_input
 from .database import sessions_log
 
