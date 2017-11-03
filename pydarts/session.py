@@ -27,8 +27,11 @@ class Player(object):
         self._name = name
         self._index = Player.INDEX
         Player.INDEX += 1
+        self._start_value = start_value
+
         self._score_left = start_value
         self._throws = 0
+
         self._darts = 3
         self._visit = []
 
@@ -37,6 +40,11 @@ class Player(object):
         if self._visit:
             self._visit = []
         self._darts = 3
+
+    def reset(self):
+        """Reset actions at the beginning of a leg."""
+        self._throws = 0
+        self._score_left = self._start_value
 
     def victorious(self):
         return self._score_left == 0
@@ -192,15 +200,26 @@ class Session(LogEntryBase):
         self._players = players
         self._nr_legs = nr_legs
 
+    def _player_victorious(self, counter):
+        try:
+            largest_nr_of_victories = max((v for v in counter.values()))
+        except ValueError:
+            largest_nr_of_victories = 0
+        return self._nr_legs <= largest_nr_of_victories
+
     def run(self):
         """Play the predefined number of legs. Keep track of the total session
         score using a counter. Print the score if not in test mode.
         """
         counter = Counter()
         test_run = self._test_data is not None
+        Leg.start_player_index = 0
 
-        for _ in range(self._nr_legs):
+        while not self._player_victorious(counter):
             visits = None if self._test_data is None else self._test_data.popleft()
+
+            for p in self._players:
+                p.reset()
 
             leg = Leg(self._players, log_parent=self, test_visits=visits)
             leg.run()
