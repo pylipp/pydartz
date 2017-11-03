@@ -22,12 +22,13 @@ class Player(object):
 
     INDEX = 0
 
-    def __init__(self, name, start_value=501):
+    def __init__(self, name, start_value=501, communicator=None):
         self._name = name
         self._index = Player.INDEX
         Player.INDEX += 1
         self._start_value = start_value
         self._nr_won_legs = 0
+        self._communicator = communicator
 
         self._score_left = start_value
         self._throws = 0
@@ -84,12 +85,13 @@ class Player(object):
     def print_info(self):
         """Print information on player's left score and darts and, optionally,
         finishing options."""
-        print("{p.name} has {p.score_left} and {0} left.".format(
+        self._communicator.print_output(
+                "{p.name} has {p.score_left} and {0} left.".format(
             ["one dart", "two darts", "three darts"][self._darts - 1], p=self))
         if self._score_left in finishes:
-            print("Finish options: ")
+            self._communicator.print_output("Finish options: ")
             for finish in finishes[self._score_left]:
-                print("\t" + " ".join(finish))
+                self._communicator.print_output("\t" + " ".join(finish))
 
     @property
     def score_left(self):
@@ -117,7 +119,7 @@ class Player(object):
     def just_won_leg(self):
         self._nr_won_legs += 1
 
-    def play(self, *testing_args, log_entry=None):
+    def play(self, log_entry=None):
         """Read score input given by the user while checking for errors.
         Player information is printed before each throw. If _process_score()
         does not raise any errors, the input score is substracted from the
@@ -125,29 +127,18 @@ class Player(object):
         The procedure is repeated if the player has darts remaining and has not
         yet won.
         If the `log_entry` argument is passed, the current visit is logged.
-
-        Passing up to three string values to `testing_args` is useful for
-        testing and will make the method non-interactive."""
-
+        """
         self.begin()
 
-        testing_args = deque(testing_args)
-        interactive = len(testing_args) == 0
-
         while self._darts and not self.victorious():
-            if interactive:
-                self.print_info()
-                input_ = input("{}'s score: ".format(self._name)).strip()
-            else:
-                input_ = testing_args.popleft()
+            self.print_info()
+            input_ = self._communicator.get_input(
+                    "{}'s score: ".format(self._name)).strip()
             try:
                 score, is_total = self._process_score(input_)
                 self.substract(score, is_total)
             except ValueError as e:
-                if interactive:
-                    print(e)
-                else:
-                    raise
+                self._communicator.print_output(e)
         if log_entry is not None:
             etree.SubElement(log_entry, "visit",
                     attrib=dict(

@@ -3,6 +3,7 @@ import unittest
 from lxml import etree
 
 from pydarts.player import Player
+from pydarts.communication import TestingCommunicator
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -73,34 +74,46 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertRaises(ValueError, self.player._process_score, "hi")
 
     def test_play(self):
-        self.player.play("60", "60", "60")
+        communicator = TestingCommunicator(
+                60, 60, 60,
+                180,
+                1, 20, "d",
+                "20d",
+                60, 60,  # invalid
+                "darts<3",  # invalid
+                50, "50",
+                )
+        self.player._communicator = communicator
+        self.player.play()
         self.assertEqual(self.player.score_left, 321)
         self.assertEqual(self.player.darts, 0)
-        self.player.play("180")
+        self.player.play()
         self.assertEqual(self.player.score_left, 141)
         self.assertEqual(self.player.darts, 0)
-        self.player.play("1", "20", "d")
+        self.player.play()
         self.assertEqual(self.player.score_left, 120)
         self.assertEqual(self.player.darts, 0)
-        self.player.play("20d")
+        self.player.play()
         self.assertEqual(self.player.score_left, 100)
         self.assertEqual(self.player.darts, 0)
-        self.assertRaises(ValueError, self.player.play, "60", "60")
+        self.assertRaises(ValueError, self.player.play)
         self.assertEqual(self.player.score_left, 40)
         self.assertEqual(self.player.darts, 2)
-        # bypass begin() when calling play(), because it would log the first 60 abcve
+        # FIXME bypass begin() when calling play(), because it would log the
+        # first 60 abcve
         score, is_total = self.player._process_score("b")
         self.player.substract(score, is_total)
         self.assertEqual(self.player.score_left, 100)
         self.assertEqual(self.player.darts, 0)
-        self.assertRaises(ValueError, self.player.play, "darts<3")
+        self.assertRaises(ValueError, self.player.play)
         self.assertEqual(self.player.darts, 3)
-        self.player.play("50", "50")
+        self.player.play()
         self.assertTrue(self.player.victorious())
 
     def test_single_visit_logging(self):
         log_entry = etree.Element("leg")
-        self.player.play("60", "50", "40", log_entry=log_entry)
+        self.player._communicator = TestingCommunicator("60", "50", "40")
+        self.player.play(log_entry=log_entry)
         self.assertEqual(len(log_entry), 1)
         visit_log_entry = log_entry[0]
         self.assertEqual(visit_log_entry.get("player"), self.player.name)
@@ -108,7 +121,8 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(visit_log_entry.get("throws"), "3")
 
     def test_reset(self):
-        self.player.play("50", "111d")
+        self.player._communicator = TestingCommunicator("50", "111d")
+        self.player.play()
         self.player.reset()
         self.assertEqual(self.player.score_left, self.player._start_value)
         self.assertEqual(self.player.throws, 0)

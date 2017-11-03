@@ -5,6 +5,7 @@ import simpleaudio
 
 from .database import analyze_sessions, sessions_log
 from .game import Game
+from .communication import CliCommunicator
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +25,7 @@ def main():
 
     _display_banner()
     g = Game()
-    g.run()
+    g.run(CliCommunicator())
 
     _play_ending_song()
 

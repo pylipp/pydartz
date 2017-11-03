@@ -2,50 +2,79 @@
 Module for user-backend communication.
 """
 
-
-def __test_input(prompt):
-    """Test input method mocking user input by returning the prompt."""
-    return prompt
-
-def __test_output(text):
-    """Test output method silencing any output."""
+from collections import deque
 
 
-METHOD = "standard"
-INPUT_METHODS = {
-    "standard": input,
-    "testing": __test_input
-    }
-OUTPUT_METHODS = {
-    "standard": print,
-    "testing": __test_output
-    }
-
-
-def get_input(prompt, **kwargs):
-    """Ask user for valid input. If invalid, display the error and repeat.
-    kwargs are forwarded to 'sanitized_input'.
+class CommunicatorBase(object):
+    """Communicators provide a high-level interface to fetch data requested by
+    the game routine and to display information about game stastics.
+    The only member variables are two callables functioning as input and output
+    method, resp.
     """
 
-    while True:
-        try:
-            return sanitized_input(prompt, **kwargs)
-        except SanitizationError as e:
-            OUTPUT_METHODS[METHOD](str(e))
+    def __init__(self):
+        self._input_method = lambda _: None
+        self._output_method = lambda _: None
 
-            if isinstance(e, MinLargerMaxError):
-                # re-raise to avoid infinite loop
-                raise
+    def _sanitized_input(self, prompt, type_=None, min_=None, max_=None):
+        return sanitized_input(prompt, self._input_method, type_, min_, max_)
+
+    def get_input(self, prompt=None, **kwargs):
+        """Prompt the user to give valid input. If invalid, display error and
+        repeat. kwargs are forwarded to 'sanitized_input'."""
+        while True:
+            try:
+                return self._sanitized_input(prompt or "", **kwargs)
+            except SanitizationError as e:
+                self.print_output(str(e))
+
+                if isinstance(e, MinLargerMaxError):
+                    # re-raise to avoid infinite loop
+                    raise
+
+    def print_output(self, text):
+        """Print some info to the frontend."""
+        self._output_method(text)
+
+class CliCommunicator(CommunicatorBase):
+    """Command Line Interface communicator that request user input using
+    Python's builtin 'input' method and that prints to stdout.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self._input_method = input
+        self._output_method = print
+
+class TestingCommunicator(CommunicatorBase):
+    """Communicator for testing game procedures (visits, legs, sessions).
+    Requires sensible input data representing throws or visits.
+    """
+
+    def __init__(self, *data):
+        super().__init__()
+        self._data = deque((str(d) for d in data))
+
+    def get_input(self, prompt=None, **kwargs):
+        """Pop element from data deque."""
+        return self._data.popleft()
+
+    def print_output(self, text):
+        """Does not display any text. Re-raises any exception being passed."""
+        if issubclass(text.__class__, Exception):
+            raise text
 
 
-class SanitizationError(Exception):
-    """Raised if sanitization cannot be performed with given parameters."""
+def create_communicator(kind, *args, **kwargs):
+    kind = kind.lower()
+    if kind == "cli":
+        return CliCommunicator()
+    elif kind == "testing":
+        return TestingCommunicator(*args, **kwargs)
+    else:
+        raise ValueError("Unknown communicator kind '{}'.".format(kind))
 
-class MinLargerMaxError(SanitizationError):
-    pass
-
-
-def sanitized_input(prompt, method=METHOD, type_=None, min_=None, max_=None):
+def sanitized_input(prompt, method, type_=None, min_=None, max_=None):
     """Helper method to retrieve sanitized user input.
     Attempts conversion to requested type and validates the input.
     Inspiration was taken from
@@ -63,7 +92,7 @@ def sanitized_input(prompt, method=METHOD, type_=None, min_=None, max_=None):
     if min_ is not None and max_ is not None and max_ < min_:
         raise MinLargerMaxError("min_ must be less than or equal to max_.")
 
-    ui = INPUT_METHODS[method](prompt)
+    ui = method(prompt)
 
     if type_ is not None:
         try:
@@ -85,3 +114,9 @@ def sanitized_input(prompt, method=METHOD, type_=None, min_=None, max_=None):
                 raise SanitizationError(
                         "Input must be greater than or equal to {0}.".format(min_))
     return ui
+
+class SanitizationError(Exception):
+    """Raised if sanitization cannot be performed with given parameters."""
+
+class MinLargerMaxError(SanitizationError):
+    pass

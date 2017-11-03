@@ -7,6 +7,7 @@ from lxml import etree
 from pydarts.database import PlayerEntry, analyze_sessions
 from pydarts.session import Session
 from pydarts.player import Player
+from pydarts.communication import TestingCommunicator
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -47,11 +48,13 @@ class PlayerEntryTestCase(unittest.TestCase):
 class AnalysisTestCase(unittest.TestCase):
     def test_analyse_sessions(self):
         sessions = etree.Element("sessions")
-        test_legs = deque([
-            deque([("180d",), ("60", "60", "57"), ("60", "60", "24")])
-            ])
-        session = Session([Player("Peter")], 1, test_legs=test_legs,
-                log_parent=sessions)
+        communicator = TestingCommunicator(
+                "180d",
+                60, 60, 57,
+                60, 60, 24
+                )
+        session = Session([Player("Peter", communicator=communicator)], 1,
+                log_parent=sessions, communicator=communicator)
         session.run()
 
         player_entry = analyze_sessions(sessions)["Peter"]

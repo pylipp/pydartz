@@ -4,22 +4,31 @@ from datetime import datetime
 
 from pydarts.session import Leg, Session
 from pydarts.player import Player
+from pydarts.communication import TestingCommunicator
 
 
 class LegTestCase(unittest.TestCase):
     def test_single_player_9_darter(self):
-        mike = Player("Mike")
-        leg = Leg([mike], test_visits=deque([
-            ("180d",), ("60", "60", "57"), ("60", "60", "24")]))
+        communicator = TestingCommunicator(
+                "180d",
+                60, 60, 57,
+                60, 60, 24
+                )
+        mike = Player("Mike", communicator=communicator)
+        leg = Leg([mike])
         leg.run()
         self.assertEqual(leg._current_player_index, 0)
         self.assertTrue(mike.victorious())
 
     def test_two_player_101(self):
-        hans = Player("Hans", 101)
-        fritz = Player("Fritz", 101)
-        leg = Leg([hans, fritz], test_visits=deque([
-                    ("60d",), ("19", "17", "3"), ("19", "b",), ("12", "50")]))
+        communicator = TestingCommunicator(
+                # Hans   Fritz
+                "60d",   19, 17, 3,
+                19, "b", 12, 50,
+                )
+        hans = Player("Hans", 101, communicator=communicator)
+        fritz = Player("Fritz", 101, communicator=communicator)
+        leg = Leg([hans, fritz])
         leg.run()
 
         self.assertEqual(leg._current_player_index, 1)
@@ -41,11 +50,14 @@ class LegTestCase(unittest.TestCase):
         self.assertEqual(len(log_entry), 0)
 
     def test_single_player_9_darter_logging(self):
-        players = [Player("Mike")]
+        communicator = TestingCommunicator(
+                "180d",
+                60, 60, 57,
+                60, 60, 24
+                )
+        players = [Player("Mike", communicator=communicator)]
         log_parent = []
-        leg = Leg(players, test_visits=deque([
-            ("180d",), ("60", "60", "57"), ("60", "60", "24")]),
-            log_parent=log_parent)
+        leg = Leg(players, log_parent=log_parent)
         leg.run()
 
         visits_log_entry = log_parent[0]
@@ -56,25 +68,31 @@ class LegTestCase(unittest.TestCase):
 
 class SessionTestCase(unittest.TestCase):
     def test_single_player_9_darter_session(self):
-        test_legs = deque([
-            deque([("180d",), ("60", "60", "57"), ("60", "60", "24")])
-            ])
-        players = [Player("Peter")]
-        session = Session(players, 1, test_legs=test_legs)
+        communicator = TestingCommunicator(
+                "180d",
+                60, 60, 57,
+                60, 60, 24
+                )
+        players = [Player("Peter", communicator=communicator)]
+        session = Session(players, 1, communicator=communicator)
         session.run()
 
         self.assertEqual(len(session._log_entry[0]), 3)
         self.assertEqual(len(session._log_entry), 1)
 
     def test_two_player_session(self):
-        test_legs = deque([
-            deque([("60d",), ("20", "11", "20"), ("40",)]),
-            deque([("60d",), ("20", "11", "20"), ("40",)]),
-            deque([("60d",), ("20", "11", "20"), ("40",)]),
-            ])
-        adam = Player("Adam", 100)
-        eve = Player("Eve", 100)
-        session = Session([adam, eve], 2, test_legs=test_legs)
+        communicator = TestingCommunicator(
+                # Adam     Eve
+                "60d",      20, 11, 20,
+                "40",
+                            "60d",
+                20, 11, 20, 40,
+                "60d",      20, 11, 20,
+                "40",
+                )
+        adam = Player("Adam", 100, communicator=communicator)
+        eve = Player("Eve", 100, communicator=communicator)
+        session = Session([adam, eve], 2, communicator=communicator)
         session.run()
 
         self.assertTrue(adam.victorious())
