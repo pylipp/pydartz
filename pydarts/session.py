@@ -209,8 +209,8 @@ class Session(LogEntryBase):
             save_session()
 
             if not test_run:
-                for player in self._players:
-                    print("    {}: {:2d}".format(player.name, counter.get(name, 0)))
+                for p in self._players:
+                    print("    {}: {:2d}".format(p.name, counter.get(p.name, 0)))
                 print(80 * "=")
 
 
