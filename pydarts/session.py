@@ -21,9 +21,12 @@ class Player(object):
     It is also required to pass a start value to initialize the player's
     remaining score."""
 
-    def __init__(self, name, index, start_value):
+    INDEX = 0
+
+    def __init__(self, name, start_value=501):
         self._name = name
-        self._index = index
+        self._index = Player.INDEX
+        Player.INDEX += 1
         self._score_left = start_value
         self._throws = 0
         self._darts = 3
@@ -182,12 +185,12 @@ class Session(LogEntryBase):
     passed. See the tests for an example.
     """
 
-    def __init__(self, player_names, start_value, nr_legs=1, test_legs=None,
+    def __init__(self, players, start_value, nr_legs=1, test_legs=None,
             log_parent=None):
         super().__init__(log_parent, test_data=test_legs,
-                players=','.join(player_names))
+                players=','.join([p.name for p in players]))
 
-        self._player_names = player_names
+        self._players = players
         self._start_value = start_value
         self._nr_legs = nr_legs
 
@@ -201,7 +204,7 @@ class Session(LogEntryBase):
         for _ in range(self._nr_legs):
             visits = None if self._test_data is None else self._test_data.popleft()
 
-            leg = Leg(self._player_names, self._start_value, log_parent=self,
+            leg = Leg(self._players, self._start_value, log_parent=self,
                     test_visits=visits)
             leg.run()
             counter[leg.current_player_name()] += 1
@@ -209,8 +212,8 @@ class Session(LogEntryBase):
             save_session()
 
             if not test_run:
-                for name in self._player_names:
-                    print("    {}: {:2d}".format(name, counter.get(name, 0)))
+                for player in self._players:
+                    print("    {}: {:2d}".format(player.name, counter.get(name, 0)))
                 print(80 * "=")
 
 
@@ -226,14 +229,12 @@ class Leg(LogEntryBase):
 
     start_player_index = 0
 
-    def __init__(self, player_names, start_value=501, test_visits=None,
+    def __init__(self, players, start_value=501, test_visits=None,
             log_parent=None):
 
         super().__init__(log_parent, test_visits)
 
-        self._players = []
-        for i, name in enumerate(player_names):
-            self._players.append(Player(name, i, start_value))
+        self._players = players
 
         self._nr_players = len(self._players)
 

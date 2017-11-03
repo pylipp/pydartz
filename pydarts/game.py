@@ -25,8 +25,8 @@ class Game(object):
         nr_legs = get_input("Nr of legs: ", type_=int, min_=1)
 
         players = []
-        for i, name in enumerate(names):
-            players.append(Player(name, i, start_value))
+        for name in names:
+            players.append(Player(name, start_value))
 
-        session = Session(names, start_value, nr_legs, log_parent=sessions_log)
+        session = Session(players, start_value, nr_legs, log_parent=sessions_log)
         session.run()
