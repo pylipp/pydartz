@@ -28,5 +28,5 @@ class Game(object):
         for name in names:
             players.append(Player(name, start_value))
 
-        session = Session(players, start_value, nr_legs, log_parent=sessions_log)
+        session = Session(players, nr_legs, log_parent=sessions_log)
         session.run()

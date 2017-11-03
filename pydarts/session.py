@@ -17,7 +17,7 @@ class Player(object):
     """Representation of a player.
     Holds long-term, per-game and per-visit information. Provides routines to
     perform a classic 501.
-    Each player has a unique name and index that are passed at initialization.
+    Each player has a unique name that are passed at initialization.
     It is also required to pass a start value to initialize the player's
     remaining score."""
 
@@ -178,20 +178,18 @@ class Player(object):
 
 class Session(LogEntryBase):
     """Representation of a darts session.
-    Initialized with a list of player names, the start value, and the number of
+    Initialized with a list of players and the number of
     legs to play.
 
     For testing, a deque of deques containing the players' visits can be
     passed. See the tests for an example.
     """
 
-    def __init__(self, players, start_value, nr_legs=1, test_legs=None,
-            log_parent=None):
+    def __init__(self, players, nr_legs=1, test_legs=None, log_parent=None):
         super().__init__(log_parent, test_data=test_legs,
                 players=','.join([p.name for p in players]))
 
         self._players = players
-        self._start_value = start_value
         self._nr_legs = nr_legs
 
     def run(self):
@@ -204,8 +202,7 @@ class Session(LogEntryBase):
         for _ in range(self._nr_legs):
             visits = None if self._test_data is None else self._test_data.popleft()
 
-            leg = Leg(self._players, self._start_value, log_parent=self,
-                    test_visits=visits)
+            leg = Leg(self._players, log_parent=self, test_visits=visits)
             leg.run()
             counter[leg.current_player_name()] += 1
 
@@ -229,8 +226,7 @@ class Leg(LogEntryBase):
 
     start_player_index = 0
 
-    def __init__(self, players, start_value=501, test_visits=None,
-            log_parent=None):
+    def __init__(self, players, test_visits=None, log_parent=None):
 
         super().__init__(log_parent, test_visits)
 
