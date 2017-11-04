@@ -168,3 +168,12 @@ def save_session():
     tree = etree.ElementTree(sessions_log)
     tree.write(log_filepath, pretty_print=True, xml_declaration=True,
             encoding="utf-8")
+
+def log_visit(player, log_entry):
+    """Log player's visit data in the log entry."""
+    etree.SubElement(log_entry, "visit",
+                    attrib=dict(
+                        player=player.name,
+                        points=str(player.visit_sum()),
+                        throws=str(3 - player.darts)
+                        ))

@@ -4,6 +4,7 @@ from lxml import etree
 
 from pydarts.player import Player
 from pydarts.communication import TestingCommunicator
+from pydarts.database import log_visit
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -113,7 +114,8 @@ class PlayerEntryTestCase(unittest.TestCase):
     def test_single_visit_logging(self):
         log_entry = etree.Element("leg")
         self.player._communicator = TestingCommunicator("60", "50", "40")
-        self.player.play(log_entry=log_entry)
+        self.player.play()
+        log_visit(self.player, log_entry=log_entry)
         self.assertEqual(len(log_entry), 1)
         visit_log_entry = log_entry[0]
         self.assertEqual(visit_log_entry.get("player"), self.player.name)

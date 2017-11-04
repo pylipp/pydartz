@@ -1,7 +1,6 @@
 import os.path
 from collections import deque
 
-from lxml import etree
 import yaml
 
 
@@ -119,14 +118,13 @@ class Player(object):
     def just_won_leg(self):
         self._nr_won_legs += 1
 
-    def play(self, log_entry=None):
+    def play(self):
         """Read score input given by the user while checking for errors.
         Player information is printed before each throw. If _process_score()
         does not raise any errors, the input score is substracted from the
         player's remaining score.
         The procedure is repeated if the player has darts remaining and has not
         yet won.
-        If the `log_entry` argument is passed, the current visit is logged.
         """
         self.begin()
 
@@ -139,13 +137,6 @@ class Player(object):
                 self.substract(score, is_total)
             except ValueError as e:
                 self._communicator.print_output(e)
-        if log_entry is not None:
-            etree.SubElement(log_entry, "visit",
-                    attrib=dict(
-                        player=self._name,
-                        points=str(self.visit_sum()),
-                        throws=str(3 - self._darts)
-                        ))
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:

@@ -1,4 +1,4 @@
-from .database import LogEntryBase, save_session
+from .database import LogEntryBase, save_session, log_visit
 
 
 class Session(LogEntryBase):
@@ -64,7 +64,9 @@ class Leg(LogEntryBase):
         while True:
             current_player = self._players[self._current_player_index]
 
-            current_player.play(log_entry=self._log_entry)
+            current_player.play()
+
+            log_visit(current_player, self._log_entry)
 
             if current_player.victorious():
                 current_player.just_won_leg()
