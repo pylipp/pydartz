@@ -60,6 +60,13 @@ class TestingCommunicatorTestCase(unittest.TestCase):
     def test_print_output(self):
         self.assertIsNone(self.communicator.print_output("some text"))
 
+    def test_get_typed_input(self):
+        self.assertEqual(str(self.data[0]), self.communicator.get_input())
+        self.assertEqual(self.data[1], self.communicator.get_input())
+        self.assertEqual(self.data[2], self.communicator.get_input(type_=int))
+        self.assertEqual(int(self.data[3]),
+                self.communicator.get_input(type_=int))
+
 
 if __name__ == "__main__":
     unittest.main()

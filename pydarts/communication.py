@@ -56,8 +56,14 @@ class TestingCommunicator(CommunicatorBase):
         self._data = deque((str(d) for d in data))
 
     def get_input(self, prompt=None, **kwargs):
-        """Pop element from data deque."""
-        return self._data.popleft()
+        """Pop element from data deque. Convert to type_ if given in kwargs."""
+        element = self._data.popleft()
+
+        type_ = kwargs.get("type_")
+        if type_ is not None:
+            element = type_(element)
+
+        return element
 
     def print_output(self, text):
         """Does not display any text. Re-raises any exception being passed."""
