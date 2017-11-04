@@ -38,6 +38,10 @@ class SanitizedInputTestCase(unittest.TestCase):
     def test_valid_int(self):
         self.assertEqual(sanitized_input("123", method=self.method, type_=int, max_=180), 123)
 
+    def test_strip(self):
+        self.assertEqual(sanitized_input(" 99  ", method=self.method,
+            type_=str), "99")
+
 
 class TestingCommunicatorTestCase(unittest.TestCase):
     def setUp(self):

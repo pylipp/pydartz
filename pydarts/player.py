@@ -131,7 +131,7 @@ class Player(object):
         while self._darts and not self.victorious():
             self.print_info()
             input_ = self._communicator.get_input(
-                    "{}'s score: ".format(self._name)).strip()
+                    "{}'s score: ".format(self._name))
             try:
                 score, is_total = self._process_score(input_)
                 self.substract(score, is_total)

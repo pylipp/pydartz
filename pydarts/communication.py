@@ -77,6 +77,7 @@ def create_communicator(kind, *args, **kwargs):
 def sanitized_input(prompt, method, type_=None, min_=None, max_=None):
     """Helper method to retrieve sanitized user input.
     Attempts conversion to requested type and validates the input.
+    Input that's supposed to be string is stripped from whitespace.
     Inspiration was taken from
     https://stackoverflow.com/questions/23294658/asking-the-user-for-input-until-they-give-a-valid-response
 
@@ -100,6 +101,8 @@ def sanitized_input(prompt, method, type_=None, min_=None, max_=None):
         except ValueError:
             raise SanitizationError(
                     "Input type must be {0}.".format(type_.__name__))
+        if type_ is str:
+            ui = ui.strip()
 
     if max_ is not None and ui > max_:
         raise SanitizationError(
