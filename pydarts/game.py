@@ -29,7 +29,8 @@ class Game(object):
         for i in range(nr_players):
             name = self._communicator.get_input(
                     "Name of player {}: ".format(i+1), min_=1)
-            players.append(Player(name, start_value, communicator=communicator))
+            players.append(
+                    Player(name, start_value, communicator=self._communicator))
 
         nr_legs = self._communicator.get_input("Nr of legs: ", type_=int, min_=1)
 
