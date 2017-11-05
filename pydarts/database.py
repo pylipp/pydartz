@@ -4,7 +4,6 @@ from collections import Counter
 from abc import ABCMeta
 
 from lxml import etree
-from data_hacks import histogram, HistogramOpt
 
 
 class LogEntryBase(object):
@@ -112,6 +111,7 @@ class PlayerEntry(object):
             print("    {:3d}-darter: {}".format(darter, self._darters[darter]))
 
         if len(set(self._points)) > 1:
+            from data_hacks import histogram, HistogramOpt
             # avoid bug that crashes data_hacks if only one value present
             histogram(
                     (str(p) for p in self._points),
