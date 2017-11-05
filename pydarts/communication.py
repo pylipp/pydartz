@@ -65,11 +65,24 @@ class TestingCommunicator(CommunicatorBase):
 
 
 class RosCommunicator(CommunicatorBase):
+    """Subclass providing communication using ROS via the '/get_input' service
+    and the 'print_output' topic.
+    """
 
-    def __init__(self, input_method, output_method):
-        self._input_method = input_method
-        self._output_method = output_method
+    def get_input(self, prompt=None, **kwargs):
+        """The user reply is a ServiceResponse object that the actual reply
+        string has to be passed to sanitized_input().
+        """
+        while True:
+            try:
+                user_input = self._input_method(prompt or "").reply
+                return sanitized_input(user_input, **kwargs)
+            except SanitizationError as e:
+                self.print_output(str(e))
 
+                if isinstance(e, MinLargerMaxError):
+                    # re-raise to avoid infinite loop
+                    raise
 
 def create_communicator(kind, *args, **kwargs):
     kind = kind.lower()
