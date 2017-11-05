@@ -24,8 +24,8 @@ def main():
         import sys; sys.exit(0)
 
     _display_banner()
-    g = Game()
-    g.run(CliCommunicator())
+    g = Game(CliCommunicator())
+    g.run()
 
     _play_ending_song()
 

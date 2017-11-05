@@ -17,8 +17,8 @@ class GameTestCase(unittest.TestCase):
                 "150d",
                 50,
                 )
-        game = Game()
-        game.run(communicator)
+        game = Game(communicator)
+        game.run()
 
         self.assertTrue(game._sessions[0]._players[0].victorious())
 

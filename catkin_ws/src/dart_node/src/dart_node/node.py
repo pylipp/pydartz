@@ -17,19 +17,16 @@ class DartNode(object):
         rospy.wait_for_service("/get_input")
         self.get_input_proxy = rospy.ServiceProxy("/get_input", GetInput)
 
-        self.communicator = RosCommunicator(
+        communicator = RosCommunicator(
                 self.get_input_proxy,
                 self.print_output_publisher.publish
                 )
 
-        self.game = Game()
-
-        # response = self.get_input_proxy("Type: ")
-        # print(response.reply)
+        self.game = Game(communicator)
 
 
 if __name__ == "__main__":
     node = DartNode()
     rospy.init_node("dart_node")
-    node.game.run(node.communicator)
+    node.game.run()
     rospy.spin()
