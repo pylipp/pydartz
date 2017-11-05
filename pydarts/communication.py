@@ -13,9 +13,9 @@ class CommunicatorBase(object):
     method, resp.
     """
 
-    def __init__(self):
-        self._input_method = lambda _: None
-        self._output_method = lambda _: None
+    def __init__(self, input_method, output_method):
+        self._input_method = input_method
+        self._output_method = output_method
 
     def get_input(self, prompt=None, **kwargs):
         """Prompt the user to give valid input. If invalid, display error and
@@ -41,9 +41,7 @@ class CliCommunicator(CommunicatorBase):
     """
 
     def __init__(self):
-        super().__init__()
-        self._input_method = input
-        self._output_method = print
+        super().__init__(input, print)
 
 class TestingCommunicator(CommunicatorBase):
     """Communicator for testing game procedures (visits, legs, sessions).
@@ -51,11 +49,10 @@ class TestingCommunicator(CommunicatorBase):
     """
 
     def __init__(self, *data):
-        super().__init__()
         self._data = deque((str(d) for d in data))
         def pop(deque_):
             return deque_.popleft()
-        self._input_method = pop
+        super().__init__(pop, lambda _: None)
 
     def get_input(self, prompt=None, **kwargs):
         """Pop element from data deque."""
