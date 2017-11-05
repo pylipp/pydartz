@@ -72,6 +72,13 @@ class TestingCommunicator(CommunicatorBase):
             raise text
 
 
+class RosCommunicator(CommunicatorBase):
+
+    def __init__(self, input_method, output_method):
+        self._input_method = input_method
+        self._output_method = output_method
+
+
 def create_communicator(kind, *args, **kwargs):
     kind = kind.lower()
     if kind == "cli":
