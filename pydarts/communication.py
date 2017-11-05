@@ -33,7 +33,7 @@ class CommunicatorBase(object):
 
     def print_output(self, text):
         """Print some info to the frontend."""
-        self._output_method(text)
+        self._output_method(str(text))
 
 class CliCommunicator(CommunicatorBase):
     """Command Line Interface communicator that request user input using
