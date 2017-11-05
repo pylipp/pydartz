@@ -17,15 +17,13 @@ class CommunicatorBase(object):
         self._input_method = lambda _: None
         self._output_method = lambda _: None
 
-    def _sanitized_input(self, prompt, type_=None, min_=None, max_=None):
-        return sanitized_input(prompt, self._input_method, type_, min_, max_)
-
     def get_input(self, prompt=None, **kwargs):
         """Prompt the user to give valid input. If invalid, display error and
         repeat. kwargs are forwarded to 'sanitized_input'."""
         while True:
             try:
-                return self._sanitized_input(prompt or "", **kwargs)
+                user_input = self._input_method(prompt or "")
+                return sanitized_input(user_input, **kwargs)
             except SanitizationError as e:
                 self.print_output(str(e))
 
@@ -88,17 +86,14 @@ def create_communicator(kind, *args, **kwargs):
     else:
         raise ValueError("Unknown communicator kind '{}'.".format(kind))
 
-def sanitized_input(prompt, method, type_=None, min_=None, max_=None):
+def sanitized_input(ui, type_=None, min_=None, max_=None):
     """Helper method to retrieve sanitized user input.
     Attempts conversion to requested type and validates the input.
     Input that's supposed to be string is stripped from whitespace.
     Inspiration was taken from
     https://stackoverflow.com/questions/23294658/asking-the-user-for-input-until-they-give-a-valid-response
 
-    :param prompt: Prompt to display when asking user for input
-    :type prompt: str
-    :param method: Method for communicating with user
-    :type method: str
+    :param ui: user input that is to be sanitized
     :param type_: Expected type of the input. Defaults to str
     :param min_: Minimum value for input number, or minimum length for input string
     :param max_: Maximum value for input number
@@ -106,8 +101,6 @@ def sanitized_input(prompt, method, type_=None, min_=None, max_=None):
 
     if min_ is not None and max_ is not None and max_ < min_:
         raise MinLargerMaxError("min_ must be less than or equal to max_.")
-
-    ui = method(prompt)
 
     if type_ is not None:
         try:

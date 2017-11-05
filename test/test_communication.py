@@ -8,39 +8,32 @@ from pydarts.communication import (sanitized_input, SanitizationError,
 
 class SanitizedInputTestCase(unittest.TestCase):
 
-    def setUp(self):
-        def _method(text): return text
-        self.method = _method
-
     def test_min_larger_max(self):
-        self.assertRaises(MinLargerMaxError, sanitized_input, "foo",
-                method=self.method, min_=1, max_=0)
+        self.assertRaises(MinLargerMaxError, sanitized_input, "foo", min_=1,
+                max_=0)
 
     def test_wrong_type(self):
-        self.assertRaises(SanitizationError, sanitized_input, "foo",
-                method=self.method, type_=int)
+        self.assertRaises(SanitizationError, sanitized_input, "foo", type_=int)
 
     def test_too_large(self):
-        self.assertRaises(SanitizationError, sanitized_input, "42",
-                method=self.method, type_=int, max_=11)
+        self.assertRaises(SanitizationError, sanitized_input, "42", type_=int,
+                max_=11)
 
     def test_too_small(self):
-        self.assertRaises(SanitizationError, sanitized_input, "42",
-                method=self.method, type_=int, min_=1337)
+        self.assertRaises(SanitizationError, sanitized_input, "42", type_=int,
+                min_=1337)
 
     def test_too_short(self):
-        self.assertRaises(SanitizationError, sanitized_input, "bar",
-                method=self.method, min_=5)
+        self.assertRaises(SanitizationError, sanitized_input, "bar", min_=5)
 
     def test_valid_str(self):
-        self.assertEqual(sanitized_input("süß", method=self.method, min_=1), "süß")
+        self.assertEqual(sanitized_input("süß", min_=1), "süß")
 
     def test_valid_int(self):
-        self.assertEqual(sanitized_input("123", method=self.method, type_=int, max_=180), 123)
+        self.assertEqual(sanitized_input("123", type_=int, max_=180), 123)
 
     def test_strip(self):
-        self.assertEqual(sanitized_input(" 99  ", method=self.method,
-            type_=str), "99")
+        self.assertEqual(sanitized_input(" 99  ", type_=str), "99")
 
 
 class TestingCommunicatorTestCase(unittest.TestCase):
