@@ -7,7 +7,7 @@ class Session(LogEntryBase):
     """
 
     def __init__(self, players, nr_legs=1, log_parent=None, communicator=None):
-        super().__init__(log_parent,
+        super(Session, self).__init__(log_parent,
                 players=','.join([p.name for p in players]))
 
         self._players = players
@@ -48,7 +48,7 @@ class Leg(LogEntryBase):
     start_player_index = 0
 
     def __init__(self, players, log_parent=None):
-        super().__init__(log_parent)
+        super(Leg, self).__init__(log_parent)
 
         self._players = players
         self._nr_players = len(self._players)
