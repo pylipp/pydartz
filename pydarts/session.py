@@ -1,4 +1,5 @@
 from .database import LogEntryBase, save_session, log_visit
+from .communication import INFO_LEG
 
 
 class Session(LogEntryBase):
@@ -33,10 +34,7 @@ class Session(LogEntryBase):
 
             save_session()
 
-            for p in self._players:
-                self._communicator.print_output(
-                        "    {}: {:2d}".format(p.name, p.nr_won_legs))
-            self._communicator.print_output(80 * "=")
+            self._communicator.print_output(INFO_LEG, players=self._players)
 
 
 class Leg(LogEntryBase):

@@ -1,13 +1,4 @@
-import os.path
-from collections import deque
-
-import yaml
-
-
-# load the finishes table
-dirname = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(dirname, "..", "data", "finishes.yml")) as file:
-    finishes = yaml.load(file)
+from .communication import ERROR, INFO_VISIT, INFO_FINISH
 
 
 #pylint: disable=too-many-instance-attributes
@@ -84,13 +75,8 @@ class Player(object):
     def print_info(self):
         """Print information on player's left score and darts and, optionally,
         finishing options."""
-        self._communicator.print_output(
-                "{p.name} has {p.score_left} and {0} left.".format(
-            ["one dart", "two darts", "three darts"][self._darts - 1], p=self))
-        if self._score_left in finishes:
-            self._communicator.print_output("Finish options: ")
-            for finish in finishes[self._score_left]:
-                self._communicator.print_output("\t" + " ".join(finish))
+        self._communicator.print_output(INFO_VISIT, player=self)
+        self._communicator.print_output(INFO_FINISH, player=self)
 
     @property
     def score_left(self):
@@ -136,7 +122,7 @@ class Player(object):
                 score, is_total = self._process_score(input_)
                 self.substract(score, is_total)
             except ValueError as e:
-                self._communicator.print_output(e)
+                self._communicator.print_output(ERROR, error=e)
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:

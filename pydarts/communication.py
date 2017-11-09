@@ -4,6 +4,17 @@ Module for user-backend communication.
 from __future__ import print_function
 
 from collections import deque
+import os.path
+import yaml
+
+
+# load the finishes table
+dirname = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(dirname, "..", "data", "finishes.yml")) as file:
+    finishes = yaml.load(file)
+
+
+ERROR, INFO_VISIT, INFO_FINISH, INFO_LEG = range(4)
 
 
 class CommunicatorBase(object):
@@ -25,15 +36,15 @@ class CommunicatorBase(object):
                 user_input = self._input_method(prompt or "")
                 return sanitized_input(user_input, **kwargs)
             except SanitizationError as e:
-                self.print_output(str(e))
+                self.print_output(ERROR, e)
 
                 if isinstance(e, MinLargerMaxError):
                     # re-raise to avoid infinite loop
                     raise
 
-    def print_output(self, text):
+    def print_output(self, message_type, **data):
         """Print some info to the frontend."""
-        self._output_method(str(text))
+
 
 class CliCommunicator(CommunicatorBase):
     """Command Line Interface communicator that request user input using
@@ -42,6 +53,33 @@ class CliCommunicator(CommunicatorBase):
 
     def __init__(self):
         super().__init__(input, print)
+
+    def print_output(self, message_type, **data):
+        output = None
+
+        if message_type == ERROR:
+            output = str(data["error"])
+        elif message_type == INFO_VISIT:
+            player = data["player"]
+            output = "{p.name} has {p.score_left} and {0} left.".format(
+                ["one dart", "two darts", "three darts"][player.darts - 1],
+                p=player)
+        elif message_type == INFO_FINISH:
+            player = data["player"]
+            if player.score_left in finishes:
+                output = "Finish options:"
+                for finish in finishes[player.score_left]:
+                    output += "\n\t" + " ".join(finish)
+        elif message_type == INFO_LEG:
+            players = data["players"]
+            output = "\n".join(
+                        "    {}: {:2d}".format(p.name, p.nr_won_legs)
+                        for p in players)
+            output += 80 * "="
+
+        if output is not None:
+            self._output_method(output)
+
 
 class TestingCommunicator(CommunicatorBase):
     """Communicator for testing game procedures (visits, legs, sessions).
@@ -58,10 +96,10 @@ class TestingCommunicator(CommunicatorBase):
         """Pop element from data deque."""
         return super().get_input(prompt=self._data, **kwargs)
 
-    def print_output(self, text):
+    def print_output(self, message_type, **data):
         """Does not display any text. Re-raises any exception being passed."""
-        if issubclass(text.__class__, Exception):
-            raise text
+        if message_type == ERROR:
+            raise data["error"]
 
 
 def create_communicator(kind, *args, **kwargs):
