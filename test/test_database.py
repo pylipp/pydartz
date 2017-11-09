@@ -2,7 +2,7 @@ import os
 import unittest
 from collections import Counter, deque
 
-from lxml import etree
+from xml.etree import ElementTree as etree
 
 from pydarts.database import PlayerEntry, analyze_sessions
 from pydarts.session import Session

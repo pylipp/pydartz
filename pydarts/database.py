@@ -3,21 +3,21 @@ import time
 from collections import Counter
 from abc import ABCMeta
 
-from lxml import etree
+from xml.etree import ElementTree as etree
 
 
 class LogEntryBase(object):
     """Abstract base class for all classes that are supposed to support
     logging.
 
-    It holds a member `_log_entry` of type `lxml.etree._Element`. Its tag is
+    It holds a member `_log_entry` of type `xml.etree._Element`. Its tag is
     derived from the lowercase class name. If a `parent` argument (an instance
     of a class that implements an `append` method, such as a list or this
     class) is passed, the `log_entry` is appended, s.t. the hierarchy of the
     `session` classes is reflected in the XML log.
     The initialization time of each instance is stored as timestamp for later
     reference.
-    Any additional kwargs are passed to `lxml.etree.Element` where they are
+    Any additional kwargs are passed to `xml.etree.Element` where they are
     interpreted as XML attributes.
     """
 
@@ -69,7 +69,7 @@ class PlayerEntry(object):
             self._darters[darter] += 1
 
     def update_from_log(self, log_element):
-        """Convenience method to update from a `lxml.etree._Element` visit."""
+        """Convenience method to update from a `xml.etree._Element` visit."""
         self.update(
                 points=int(log_element.get("points")),
                 throws=int(log_element.get("throws"))
@@ -119,7 +119,7 @@ class PlayerEntry(object):
                     )
 
 def analyze_sessions(sessions):
-    """Analyze a `lxml.etree._Element` sessions object.
+    """Analyze a `xml.etree._Element` sessions object.
 
     First all player names occurring are collected and a dict of PlayerEntrys
     is built.
@@ -166,7 +166,7 @@ else:
 def save_session():
     """Write the `sessions_log` XML object to disk."""
     tree = etree.ElementTree(sessions_log)
-    tree.write(log_filepath, pretty_print=True, xml_declaration=True,
+    tree.write(log_filepath, xml_declaration=True,
             encoding="utf-8")
 
 def log_visit(player, log_entry):
