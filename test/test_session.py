@@ -28,6 +28,9 @@ class LegTestCase(unittest.TestCase):
                 )
         hans = Player("Hans", 101, communicator=communicator)
         fritz = Player("Fritz", 101, communicator=communicator)
+        # static variable is increased by previous tests...
+        # in reality, the Session handles this
+        Leg.start_player_index = 0
         leg = Leg([hans, fritz])
         leg.run()
 
