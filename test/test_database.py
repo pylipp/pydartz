@@ -1,10 +1,9 @@
-import os
 import unittest
-from collections import Counter, deque
+from collections import Counter
 
 from xml.etree import ElementTree as etree
 
-from pydarts.database import PlayerEntry, analyze_sessions
+from pydarts.database import PlayerEntry, analyze_sessions, log_visit
 from pydarts.session import Session
 from pydarts.player import Player
 from pydarts.communication import TestingCommunicator
@@ -65,6 +64,21 @@ class AnalysisTestCase(unittest.TestCase):
         self.assertEqual(player_entry._finishes[144], 1)
         self.assertEqual(player_entry._darters[9], 1)
 
+
+class PlayerLoggingTestCase(unittest.TestCase):
+    def setUp(self):
+        self.player = Player("Raymond")
+
+    def test_single_visit_logging(self):
+        log_entry = etree.Element("leg")
+        self.player._communicator = TestingCommunicator("60", "50", "40")
+        self.player.play()
+        log_visit(self.player, log_entry=log_entry)
+        self.assertEqual(len(log_entry), 1)
+        visit_log_entry = log_entry[0]
+        self.assertEqual(visit_log_entry.get("player"), self.player.name)
+        self.assertEqual(visit_log_entry.get("points"), "150")
+        self.assertEqual(visit_log_entry.get("throws"), "3")
 
 if __name__ == '__main__':
     unittest.main()

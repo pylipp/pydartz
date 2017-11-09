@@ -1,10 +1,7 @@
 import unittest
 
-from xml.etree import ElementTree as etree
-
 from pydarts.player import Player
 from pydarts.communication import TestingCommunicator
-from pydarts.database import log_visit
 
 
 class PlayerEntryTestCase(unittest.TestCase):
@@ -110,17 +107,6 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(self.player.darts, 3)
         self.player.play()
         self.assertTrue(self.player.victorious())
-
-    def test_single_visit_logging(self):
-        log_entry = etree.Element("leg")
-        self.player._communicator = TestingCommunicator("60", "50", "40")
-        self.player.play()
-        log_visit(self.player, log_entry=log_entry)
-        self.assertEqual(len(log_entry), 1)
-        visit_log_entry = log_entry[0]
-        self.assertEqual(visit_log_entry.get("player"), self.player.name)
-        self.assertEqual(visit_log_entry.get("points"), "150")
-        self.assertEqual(visit_log_entry.get("throws"), "3")
 
     def test_reset(self):
         self.player._communicator = TestingCommunicator("50", "111d")
