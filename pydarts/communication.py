@@ -36,7 +36,7 @@ class CommunicatorBase(object):
                 user_input = self._input_method(prompt or "")
                 return sanitized_input(user_input, **kwargs)
             except SanitizationError as e:
-                self.print_output(ERROR, e)
+                self.print_output(ERROR, error=e)
 
                 if isinstance(e, MinLargerMaxError):
                     # re-raise to avoid infinite loop
