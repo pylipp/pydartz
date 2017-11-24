@@ -79,6 +79,7 @@ class CliCommunicator(CommunicatorBase):
             output = "\n".join(
                         "    {}: {:2d}".format(p.name, p.nr_won_legs)
                         for p in players)
+            output += "\n"
             output += 80 * "="
 
         if output is not None:
