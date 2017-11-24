@@ -2,8 +2,6 @@ import os.path
 import sys
 import argparse
 
-import simpleaudio
-
 from .database import analyze_sessions, sessions_log
 from .game import Game
 from .communication import CliCommunicator
@@ -55,7 +53,11 @@ def _display_banner():
     print()
 
 def _play_ending_song():
-    wave_obj = simpleaudio.WaveObject.from_wave_file(
-            os.path.join(dirname, "..", "data", "chase_the_sun.wav"))
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
+    try:
+        import simpleaudio
+        wave_obj = simpleaudio.WaveObject.from_wave_file(
+                os.path.join(dirname, "..", "data", "chase_the_sun.wav"))
+        play_obj = wave_obj.play()
+        play_obj.wait_done()
+    except ImportError:
+        print("Run 'pip install simpleaudio==1.0.1' for sound support!")
