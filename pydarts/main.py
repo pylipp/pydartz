@@ -1,4 +1,5 @@
 import os.path
+import sys
 import argparse
 
 import simpleaudio
@@ -18,10 +19,11 @@ def main():
     if player_names is not None:
         player_entries = analyze_sessions(sessions_log)
         for name, entry in player_entries.items():
+            # pylint: disable=len-as-condition
             if len(player_names) and name not in player_names:
                 continue
             entry.print_info()
-        import sys; sys.exit(0)
+        sys.exit(0)
 
     _display_banner()
     g = Game(CliCommunicator())
@@ -37,6 +39,7 @@ def _parse_command():
 
     return parser.parse_args()
 
+# pylint: disable=line-too-long
 def _display_banner():
     print(r"      ___                                   ___           ___                         ___     ")
     print(r"     /\  \                   _____         /\  \         /\  \                       /\__\    ")

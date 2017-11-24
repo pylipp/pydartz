@@ -158,8 +158,7 @@ log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
 
 # parse existing tree or create new sessions element
 if os.path.exists(log_filepath):
-    tree = etree.parse(log_filepath)
-    sessions_log = tree.getroot()
+    sessions_log = etree.parse(log_filepath).getroot()
 else:
     sessions_log = etree.Element("sessions")
 

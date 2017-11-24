@@ -1,6 +1,6 @@
+# pylint: disable=protected-access
 import unittest
 from unittest.mock import patch
-from collections import deque
 from datetime import datetime
 
 from pydarts.session import Leg, Session
@@ -8,13 +8,17 @@ from pydarts.player import Player
 from pydarts.communication import TestingCommunicator
 
 
-class LegTestCase(unittest.TestCase):
-    def test_single_player_9_darter(self):
-        communicator = TestingCommunicator(
+def _180_single_player_communicator():
+    return TestingCommunicator(
                 "180d",
                 60, 60, 57,
                 60, 60, 24
                 )
+
+
+class LegTestCase(unittest.TestCase):
+    def test_single_player_9_darter(self):
+        communicator = _180_single_player_communicator()
         mike = Player("Mike", communicator=communicator)
         leg = Leg([mike])
         leg.run()
@@ -22,6 +26,7 @@ class LegTestCase(unittest.TestCase):
         self.assertTrue(mike.victorious())
 
     def test_two_player_101(self):
+        # pylint: disable=bad-whitespace
         communicator = TestingCommunicator(
                 # Hans   Fritz
                 "60d",   19, 17, 3,
@@ -54,11 +59,7 @@ class LegTestCase(unittest.TestCase):
         self.assertEqual(len(log_entry), 0)
 
     def test_single_player_9_darter_logging(self):
-        communicator = TestingCommunicator(
-                "180d",
-                60, 60, 57,
-                60, 60, 24
-                )
+        communicator = _180_single_player_communicator()
         players = [Player("Mike", communicator=communicator)]
         log_parent = []
         leg = Leg(players, log_parent=log_parent)
@@ -88,11 +89,7 @@ class LegTestCase(unittest.TestCase):
 
 class SessionTestCase(unittest.TestCase):
     def test_single_player_9_darter_session(self):
-        communicator = TestingCommunicator(
-                "180d",
-                60, 60, 57,
-                60, 60, 24
-                )
+        communicator = _180_single_player_communicator()
         players = [Player("Peter", communicator=communicator)]
         session = Session(players, 1, communicator=communicator)
         session.run()
@@ -101,6 +98,7 @@ class SessionTestCase(unittest.TestCase):
         self.assertEqual(len(session._log_entry), 1)
 
     def test_two_player_session(self):
+        # pylint: disable=bad-whitespace
         communicator = TestingCommunicator(
                 # Adam     Eve
                 "60d",      20, 11, 20,
@@ -117,6 +115,7 @@ class SessionTestCase(unittest.TestCase):
 
         self.assertTrue(adam.victorious())
         self.assertEqual(eve.score_left, 49)
+
 
 if __name__ == '__main__':
     unittest.main()
