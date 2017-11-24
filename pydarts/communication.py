@@ -5,13 +5,13 @@ from __future__ import print_function
 
 from collections import deque
 import os.path
-import yaml
+import json
 
 
 # load the finishes table
 dirname = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(dirname, "..", "data", "finishes.yml")) as file:
-    finishes = yaml.load(file)
+with open(os.path.join(dirname, "..", "data", "finishes.json")) as file:
+    finishes = json.load(file)
 
 
 ERROR, INFO_VISIT, INFO_FINISH, INFO_LEG = range(4)
@@ -69,9 +69,10 @@ class CliCommunicator(CommunicatorBase):
                 p=player)
         elif message_type == INFO_FINISH:
             player = data["player"]
-            if player.score_left in finishes:
+            score_left = str(player.score_left)
+            if score_left in finishes:
                 output = "Finish options:"
-                for finish in finishes[player.score_left]:
+                for finish in finishes[score_left]:
                     output += "\n\t" + " ".join(finish)
         elif message_type == INFO_LEG:
             players = data["players"]
