@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from collections import deque
 from datetime import datetime
 
@@ -68,6 +69,22 @@ class LegTestCase(unittest.TestCase):
         self.assertEqual(visits_log_entry[0].get("throws"), "3")
         self.assertEqual(visits_log_entry[2].get("points"), "144")
         # assert average etc
+
+    def test_single_player_invalid_visit(self):
+        with patch.object(TestingCommunicator, 'print_error') as \
+                print_error_patch:
+            communicator = TestingCommunicator(
+                    "180d",
+                    60, 60, 57,
+                    60, 60, 60,  # <-- this is invalid
+                    24
+                    )
+            player = Player("Mike", communicator=communicator)
+            leg = Leg([player])
+            leg.run()
+        self.assertEqual(print_error_patch.call_count, 1)
+        self.assertTrue(player.victorious())
+
 
 class SessionTestCase(unittest.TestCase):
     def test_single_player_9_darter_session(self):

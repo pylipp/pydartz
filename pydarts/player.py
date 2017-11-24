@@ -1,4 +1,4 @@
-from .communication import ERROR, INFO_VISIT, INFO_FINISH
+from .communication import INFO_VISIT, INFO_FINISH
 
 
 #pylint: disable=too-many-instance-attributes
@@ -122,7 +122,7 @@ class Player(object):
                 score, is_total = self._process_score(input_)
                 self.substract(score, is_total)
             except ValueError as e:
-                self._communicator.print_info(ERROR, error=e)
+                self._communicator.print_error(error=e)
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:

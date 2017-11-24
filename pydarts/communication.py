@@ -20,13 +20,15 @@ ERROR, INFO_VISIT, INFO_FINISH, INFO_LEG = range(4)
 class CommunicatorBase(object):
     """Communicators provide a high-level interface to fetch data requested by
     the game routine and to display information about game stastics.
-    The only member variables are two callables functioning as input and output
-    method, resp.
+    The only member variables are three callables functioning as input and
+    output (info and error) method, resp.
     """
 
-    def __init__(self, input_method, output_info_method):
+    def __init__(self, input_method, output_info_method,
+                 output_error_method=None):
         self._input_method = input_method
         self._output_info_method = output_info_method
+        self._output_error_method = output_error_method or output_info_method
 
     def get_input(self, prompt=None, **kwargs):
         """Prompt the user to give valid input. If invalid, display error and
@@ -36,7 +38,7 @@ class CommunicatorBase(object):
                 user_input = self._input_method(prompt or "")
                 return sanitized_input(user_input, **kwargs)
             except SanitizationError as e:
-                self.print_info(ERROR, e)
+                self.print_error(error=e)
 
                 if isinstance(e, MinLargerMaxError):
                     # re-raise to avoid infinite loop
@@ -44,6 +46,9 @@ class CommunicatorBase(object):
 
     def print_info(self, message_type, **data):
         """Print some info to the frontend."""
+
+    def print_error(self, **data):
+        """Report error to the frontend."""
 
 
 class CliCommunicator(CommunicatorBase):
@@ -57,9 +62,7 @@ class CliCommunicator(CommunicatorBase):
     def print_info(self, message_type, **data):
         output = None
 
-        if message_type == ERROR:
-            output = str(data["error"])
-        elif message_type == INFO_VISIT:
+        if message_type == INFO_VISIT:
             player = data["player"]
             output = "{p.name} has {p.score_left} and {0} left.".format(
                 ["one dart", "two darts", "three darts"][player.darts - 1],
@@ -80,6 +83,10 @@ class CliCommunicator(CommunicatorBase):
         if output is not None:
             self._output_info_method(output)
 
+    def print_error(self, **data):
+        output = str(data["error"])
+        self._output_error_method(output)
+
 
 class TestingCommunicator(CommunicatorBase):
     """Communicator for testing game procedures (visits, legs, sessions).
@@ -96,10 +103,9 @@ class TestingCommunicator(CommunicatorBase):
         """Pop element from data deque."""
         return super().get_input(prompt=self._data, **kwargs)
 
-    def print_info(self, message_type, **data):
+    def print_error(self, **data):
         """Does not display any text. Re-raises any exception being passed."""
-        if message_type == ERROR:
-            raise data["error"]
+        raise data["error"]
 
 
 def create_communicator(kind, *args, **kwargs):

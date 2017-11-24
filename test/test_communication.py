@@ -53,6 +53,12 @@ class TestingCommunicatorTestCase(unittest.TestCase):
     def test_print_info(self):
         self.assertIsNone(self.communicator.print_info("some text"))
 
+    def test_print_error(self):
+        class TestException(Exception):
+            pass
+        self.assertRaises(TestException,
+                          self.communicator.print_error, error=TestException())
+
     def test_get_typed_input(self):
         self.assertEqual(str(self.data[0]), self.communicator.get_input())
         self.assertEqual(self.data[1], self.communicator.get_input())
