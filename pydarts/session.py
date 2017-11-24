@@ -34,7 +34,7 @@ class Session(LogEntryBase):
 
             save_session()
 
-            self._communicator.print_output(INFO_LEG, players=self._players)
+            self._communicator.print_info(INFO_LEG, players=self._players)
 
 
 class Leg(LogEntryBase):

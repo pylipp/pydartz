@@ -75,8 +75,8 @@ class Player(object):
     def print_info(self):
         """Print information on player's left score and darts and, optionally,
         finishing options."""
-        self._communicator.print_output(INFO_VISIT, player=self)
-        self._communicator.print_output(INFO_FINISH, player=self)
+        self._communicator.print_info(INFO_VISIT, player=self)
+        self._communicator.print_info(INFO_FINISH, player=self)
 
     @property
     def score_left(self):
@@ -122,7 +122,7 @@ class Player(object):
                 score, is_total = self._process_score(input_)
                 self.substract(score, is_total)
             except ValueError as e:
-                self._communicator.print_output(ERROR, error=e)
+                self._communicator.print_info(ERROR, error=e)
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:

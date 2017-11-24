@@ -24,9 +24,9 @@ class CommunicatorBase(object):
     method, resp.
     """
 
-    def __init__(self, input_method, output_method):
+    def __init__(self, input_method, output_info_method):
         self._input_method = input_method
-        self._output_method = output_method
+        self._output_info_method = output_info_method
 
     def get_input(self, prompt=None, **kwargs):
         """Prompt the user to give valid input. If invalid, display error and
@@ -36,13 +36,13 @@ class CommunicatorBase(object):
                 user_input = self._input_method(prompt or "")
                 return sanitized_input(user_input, **kwargs)
             except SanitizationError as e:
-                self.print_output(ERROR, e)
+                self.print_info(ERROR, e)
 
                 if isinstance(e, MinLargerMaxError):
                     # re-raise to avoid infinite loop
                     raise
 
-    def print_output(self, message_type, **data):
+    def print_info(self, message_type, **data):
         """Print some info to the frontend."""
 
 
@@ -54,7 +54,7 @@ class CliCommunicator(CommunicatorBase):
     def __init__(self):
         super().__init__(input, print)
 
-    def print_output(self, message_type, **data):
+    def print_info(self, message_type, **data):
         output = None
 
         if message_type == ERROR:
@@ -78,7 +78,7 @@ class CliCommunicator(CommunicatorBase):
             output += 80 * "="
 
         if output is not None:
-            self._output_method(output)
+            self._output_info_method(output)
 
 
 class TestingCommunicator(CommunicatorBase):
@@ -96,7 +96,7 @@ class TestingCommunicator(CommunicatorBase):
         """Pop element from data deque."""
         return super().get_input(prompt=self._data, **kwargs)
 
-    def print_output(self, message_type, **data):
+    def print_info(self, message_type, **data):
         """Does not display any text. Re-raises any exception being passed."""
         if message_type == ERROR:
             raise data["error"]
