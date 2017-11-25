@@ -124,6 +124,7 @@ def create_communicator(kind, *args, **kwargs):
     else:
         raise ValueError("Unknown communicator kind '{}'.".format(kind))
 
+
 def sanitized_input(ui, type_=None, min_=None, max_=None):
     """Helper method to retrieve sanitized user input.
     Attempts conversion to requested type and validates the input.
@@ -145,22 +146,22 @@ def sanitized_input(ui, type_=None, min_=None, max_=None):
             ui = type_(ui)
         except ValueError:
             raise SanitizationError(
-                    "Input type must be {0}.".format(type_.__name__))
+                    "Input != {0}.".format(type_.__name__))
         if type_ is str:
             ui = ui.strip()
 
     if max_ is not None and ui > max_:
         raise SanitizationError(
-                "Input must be less than or equal to {0}.".format(max_))
+                "Input <= {0}.".format(max_))
     elif min_ is not None:
         if type_ in [None, str]:
             if len(ui) < min_:
                 raise SanitizationError(
-                        "Input length must be greater of equal to {}".format(min_))
+                        "Input length >= {}".format(min_))
         else:
             if ui < min_:
                 raise SanitizationError(
-                        "Input must be greater than or equal to {0}.".format(min_))
+                        "Input >= {0}.".format(min_))
     return ui
 
 class SanitizationError(Exception):
