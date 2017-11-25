@@ -14,9 +14,15 @@ class Game(object):
         self._communicator = communicator
 
     def run(self):
-        """Sets up the game by querying required input (number of players, start
-        value, player names, number of legs to win). Creates a session and runs
-        it.
+        """Creates a session and runs it."""
+
+        session = self._init_session()
+        session.run()
+        self._sessions.append(session)
+
+    def _init_session(self):
+        """Initializes a new session by querying required input (number of
+        players, start value, player names, number of legs to win).
         """
 
         nr_players = self._communicator.get_input("Nr of players: ", type_=int,
@@ -34,7 +40,5 @@ class Game(object):
 
         nr_legs = self._communicator.get_input("Nr of legs: ", type_=int, min_=1)
 
-        session = Session(players, nr_legs, log_parent=sessions_log,
+        return Session(players, nr_legs, log_parent=sessions_log,
                 communicator=self._communicator)
-        session.run()
-        self._sessions.append(session)
