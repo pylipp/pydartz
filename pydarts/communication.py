@@ -4,6 +4,7 @@ Module for user-backend communication.
 from __future__ import print_function
 
 from collections import deque
+from abc import ABCMeta, abstractmethod
 import os.path
 import json
 
@@ -23,6 +24,8 @@ class CommunicatorBase(object):
     The only member variables are three callables functioning as input and
     output (info and error) method, resp.
     """
+
+    __metaclass__ = ABCMeta
 
     def __init__(self, input_method, output_info_method,
                  output_error_method=None):
@@ -44,9 +47,11 @@ class CommunicatorBase(object):
                     # re-raise to avoid infinite loop
                     raise
 
+    @abstractmethod
     def print_info(self, message_type, **data):
         """Print some info to the frontend."""
 
+    @abstractmethod
     def print_error(self, **data):
         """Report error to the frontend."""
 
