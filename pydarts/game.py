@@ -14,11 +14,34 @@ class Game(object):
         self._sessions_log = sessions_log
 
     def run(self):
-        """Creates a session and runs it."""
+        """Repeatly creates and runs sessions. Stops if the player decides to
+        quit.
+        """
 
-        session = self._init_session()
-        session.run()
-        self._sessions.append(session)
+        session = None
+        while True:
+            if session is None:
+                session = self._init_session()
+            else:
+                # non-first run
+                reply = "_"
+                while not len(reply) or reply not in "ynq":
+                    reply = self._communicator.get_input(
+                        "Again (y/n/q)? ").strip().lower()
+
+                if reply == 'n':
+                    # query parameters for new session
+                    session = self._init_session()
+                elif reply == 'y':
+                    # copy previous session's parameters
+                    session = Session(session._players, session._nr_legs,
+                                      log_parent=self._sessions_log,
+                                      communicator=self._communicator)
+                else:  # quit
+                    return
+
+            session.run()
+            self._sessions.append(session)
 
     def _init_session(self):
         """Initializes a new session by querying required input (number of
