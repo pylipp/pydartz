@@ -25,6 +25,9 @@ class Session(LogEntryBase):
         """
         Leg.start_player_index = 0
 
+        for p in self._players:
+            p._nr_won_legs = 0
+
         while not self._player_won_enough_legs():
             for p in self._players:
                 p.reset()
