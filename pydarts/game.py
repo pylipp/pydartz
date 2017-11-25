@@ -4,14 +4,14 @@ Module containing top game logic and routine.
 
 from .session import Session
 from .player import Player
-from .database import sessions_log
 
 
 class Game(object):
 
-    def __init__(self, communicator):
+    def __init__(self, communicator, sessions_log=None):
         self._sessions = []
         self._communicator = communicator
+        self._sessions_log = sessions_log
 
     def run(self):
         """Creates a session and runs it."""
@@ -40,5 +40,5 @@ class Game(object):
 
         nr_legs = self._communicator.get_input("Nr of legs: ", type_=int, min_=1)
 
-        return Session(players, nr_legs, log_parent=sessions_log,
+        return Session(players, nr_legs, log_parent=self._sessions_log,
                 communicator=self._communicator)

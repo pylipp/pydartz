@@ -24,7 +24,7 @@ def main():
         sys.exit(0)
 
     _display_banner()
-    g = Game(CliCommunicator())
+    g = Game(CliCommunicator(), sessions_log)
     g.run()
 
     _play_ending_song()
