@@ -110,6 +110,9 @@ class TestingCommunicator(CommunicatorBase):
         """Pop element from data deque."""
         return super().get_input(prompt=self._data, **kwargs)
 
+    def print_info(self, message_type, **data):
+        """Does not do anything."""
+
     def print_error(self, **data):
         """Does not display any text. Re-raises any exception being passed."""
         raise data["error"]
