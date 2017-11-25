@@ -15,7 +15,7 @@ with open(os.path.join(dirname, "..", "data", "finishes.json")) as file:
     finishes = json.load(file)
 
 
-ERROR, INFO_VISIT, INFO_FINISH, INFO_LEG = range(4)
+INFO_VISIT, INFO_FINISH, INFO_LEG = range(3)
 
 
 class CommunicatorBase(object):
