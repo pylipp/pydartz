@@ -136,13 +136,14 @@ class Player(object):
         caused by a score that exceeds the remaining score allowed in the
         current visit or by a typo."""
         try:
+            score = score.lower()
             if score.endswith("d"):
                 if len(score) == 1:
                     score = 0
                 else:
                     score = int(score[:-1])
                 is_total = True
-            elif score.lower() == "b":
+            elif score == "b":
                 # player busted, undo whatever he scored so far in his turn
                 # all three darts are taken into account for the average, see
                 # http://www.dartsnutz.net/forum/archive/index.php/thread-18910.html
