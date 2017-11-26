@@ -137,8 +137,8 @@ def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
 
     :param ui: user input that is to be sanitized
     :param type_: Expected type of the input. Defaults to str
-    :param min_: Minimum value for input number, or minimum length for input string
-    :param max_: Maximum value for input number
+    :param min_: Minimum value for input number, or minimum length for input str
+    :param max_: Maximum value for input number, or maximum length for input str
     :param choices: Iterable that the input has to be contained in, 
         default: None, meaning that no check is performed
     """
@@ -155,9 +155,13 @@ def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
         if type_ is str:
             ui = ui.strip()
 
-    if max_ is not None and ui > max_:
-        raise SanitizationError(
-                "Input <= {0}.".format(max_))
+    if max_ is not None:
+        if type_ is str:
+            if len(ui) > max_:
+                raise SanitizationError("Input length <= {}".format(max_))
+        else:
+            if ui > max_:
+                raise SanitizationError("Input <= {0}.".format(max_))
     elif min_ is not None:
         if type_ is str:
             if len(ui) < min_:

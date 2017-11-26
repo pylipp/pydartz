@@ -28,7 +28,7 @@ class SanitizedInputTestCase(unittest.TestCase):
         self.assertRaises(SanitizationError, sanitized_input, "bar", min_=5)
 
     def test_valid_str(self):
-        self.assertEqual(sanitized_input("süß", min_=1), "süß")
+        self.assertEqual(sanitized_input("süß", min_=1, max_=3), "süß")
 
     def test_valid_int(self):
         self.assertEqual(sanitized_input("123", type_=int, max_=180), 123)
@@ -45,6 +45,9 @@ class SanitizedInputTestCase(unittest.TestCase):
     def test_invalid_int_choices(self):
         self.assertRaises(SanitizationError, sanitized_input, "4",
                           choices=list(range(3)), type_=int)
+
+    def test_too_long(self):
+        self.assertRaises(SanitizationError, sanitized_input, "bar", max_=2)
 
 
 class TestingCommunicatorTestCase(unittest.TestCase):
