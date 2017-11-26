@@ -128,7 +128,7 @@ def create_communicator(kind, *args, **kwargs):
         raise ValueError("Unknown communicator kind '{}'.".format(kind))
 
 
-def sanitized_input(ui, type_=str, min_=None, max_=None):
+def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
     """Helper method to retrieve sanitized user input.
     Attempts conversion to requested type and validates the input.
     Input that's supposed to be string is stripped from whitespace.
@@ -139,6 +139,8 @@ def sanitized_input(ui, type_=str, min_=None, max_=None):
     :param type_: Expected type of the input. Defaults to str
     :param min_: Minimum value for input number, or minimum length for input string
     :param max_: Maximum value for input number
+    :param choices: Iterable that the input has to be contained in, 
+        default: None, meaning that no check is performed
     """
 
     if min_ is not None and max_ is not None and max_ < min_:
@@ -165,6 +167,11 @@ def sanitized_input(ui, type_=str, min_=None, max_=None):
             if ui < min_:
                 raise SanitizationError(
                         "Input >= {0}.".format(min_))
+
+    if choices is not None and ui not in choices:
+        raise SanitizationError("Input != [{}]".format(
+            ",".join((str(c) for c in choices))))
+
     return ui
 
 

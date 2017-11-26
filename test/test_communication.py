@@ -36,6 +36,16 @@ class SanitizedInputTestCase(unittest.TestCase):
     def test_strip(self):
         self.assertEqual(sanitized_input(" 99  ", type_=str), "99")
 
+    def test_valid_choices(self):
+        self.assertEqual(sanitized_input("a", choices="abc"), "a")
+
+    def test_invalid_choices(self):
+        self.assertRaises(SanitizationError, sanitized_input, "Y", choices="yn")
+
+    def test_invalid_int_choices(self):
+        self.assertRaises(SanitizationError, sanitized_input, "4",
+                          choices=list(range(3)), type_=int)
+
 
 class TestingCommunicatorTestCase(unittest.TestCase):
     def setUp(self):
