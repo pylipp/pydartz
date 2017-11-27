@@ -45,6 +45,27 @@ class LogEntryBase(object):
             pass
 
 
+class Sessions(LogEntryBase):
+    """Wrapper around the top-most XML-log element 'sessions'. Does not have a
+    parent.
+    """
+
+    def __init__(self, log_filepath=None, **kwargs):
+        """Parse existing tree from filepath or create new sessions element."""
+        if log_filepath is not None and os.path.exists(log_filepath):
+            self._log_entry = etree.parse(log_filepath).getroot()
+        else:
+            self._log_entry = etree.Element("sessions")
+        self._log_filepath = log_filepath
+
+    def save(self):
+        """Write the `log_entry` XML object to disk."""
+        if self._log_filepath is not None:
+            tree = etree.ElementTree(self._log_entry)
+            tree.write(self._log_filepath, xml_declaration=True,
+                    encoding="utf-8")
+
+
 class PlayerEntry(object):
     """A container to facilitate evaluation of player statistics.
 
@@ -160,20 +181,6 @@ def analyze_sessions(sessions):
 
     return players
 
-dirname = os.path.dirname(os.path.abspath(__file__))
-log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
-
-# parse existing tree or create new sessions element
-if os.path.exists(log_filepath):
-    sessions_log = etree.parse(log_filepath).getroot()
-else:
-    sessions_log = etree.Element("sessions")
-
-def save_session():
-    """Write the `sessions_log` XML object to disk."""
-    tree = etree.ElementTree(sessions_log)
-    tree.write(log_filepath, xml_declaration=True,
-            encoding="utf-8")
 
 def log_visit(player, log_entry):
     """Log player's visit data in the log entry."""

@@ -2,12 +2,14 @@ import os.path
 import sys
 import argparse
 
-from .database import analyze_sessions, sessions_log
+from .database import analyze_sessions, Sessions
 from .game import Game
 from .communication import CliCommunicator
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
+log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
+sessions_log = Sessions(log_filepath=log_filepath)
 
 
 def main():
@@ -15,7 +17,7 @@ def main():
     player_names = args.pop("stats", None)
 
     if player_names is not None:
-        player_entries = analyze_sessions(sessions_log)
+        player_entries = analyze_sessions(sessions_log._log_entry)
         for name, entry in player_entries.items():
             # pylint: disable=len-as-condition
             if len(player_names) and name not in player_names:

@@ -1,4 +1,4 @@
-from .database import LogEntryBase, save_session, log_visit
+from .database import LogEntryBase, log_visit
 from .communication import INFO_LEG
 
 
@@ -35,7 +35,7 @@ class Session(LogEntryBase):
             leg = Leg(self._players, log_parent=self)
             leg.run()
 
-            save_session()
+            self.save()
 
             self._communicator.print_info(INFO_LEG, players=self._players)
 
