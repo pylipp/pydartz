@@ -20,18 +20,13 @@ class Session(LogEntryBase):
         return self._nr_legs <= largest_nr_of_victories
 
     def run(self):
-        """Play until a player has won the predefined number of legs. Print the
-        score if not in test mode.
-        """
+        """Play until a player has won the predefined number of legs."""
         Leg.start_player_index = 0
 
         for p in self._players:
             p._nr_won_legs = 0
 
         while not self._player_won_enough_legs():
-            for p in self._players:
-                p.reset()
-
             leg = Leg(self._players, log_parent=self)
             leg.run()
 
@@ -58,10 +53,10 @@ class Leg(LogEntryBase):
         Leg.start_player_index += 1
 
     def run(self):
-        """Main game loop. Players are taking turns and playing until a player
-        wins. If this is repeatedly run, the players' start value is not
-        automatically reset.
-        """
+        """Players are taking turns and playing until a player wins."""
+        for p in self._players:
+            p.reset()
+
         while True:
             current_player = self._players[self._current_player_index]
 
