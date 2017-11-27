@@ -27,10 +27,9 @@ class GameTestCase(unittest.TestCase):
                 50,
                 "q",
                 )
-        game = Game(communicator)
-        game.run()
-
-        self.assertTrue(game._sessions[0]._players[0].victorious())
+        infos = run_game(communicator)
+        player_info = infos["Herbert"].to_dict()["Herbert"]
+        self.assertListEqual(player_info["points"], [177, 118, 6, 150, 50])
 
     def test_single_player_two_sessions_game(self):
         communicator = TestingCommunicator(

@@ -9,7 +9,6 @@ from .player import Player
 class Game(object):
 
     def __init__(self, communicator, sessions_log=None):
-        self._sessions = []
         self._communicator = communicator
         self._sessions_log = sessions_log
         self._current_session = None
@@ -27,7 +26,6 @@ class Game(object):
                     return
 
             self._current_session.run()
-            self._sessions.append(self._current_session)
 
     def _init_session(self):
         """Initializes a new session by querying required input (number of
