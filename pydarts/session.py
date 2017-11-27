@@ -65,10 +65,8 @@ class Leg(LogEntryBase):
         while True:
             current_player = self._players[self._current_player_index]
 
-            current_player.play()
-
-            # TODO rather create visit and call visit.run()?
-            Visit(current_player, log_parent=self)
+            visit = Visit(current_player, log_parent=self)
+            visit.run()
 
             if current_player.victorious():
                 current_player.just_won_leg()
@@ -84,6 +82,13 @@ class Visit(LogEntryBase):
     """
 
     def __init__(self, player, log_parent=None):
-        super(Visit, self).__init__(log_parent, player=player.name,
-                    points=str(player.visit_sum()),
-                    throws=str(3 - player.darts))
+        super(Visit, self).__init__(log_parent, player=player.name)
+        self._player = player
+
+    def run(self):
+        """The player plays one visit. The log entry is updated."""
+        self._player.play()
+        self._log_entry.attrib.update(
+            dict(
+                points=str(self._player.visit_sum()),
+                throws=str(3 - self._player.darts)))

@@ -84,8 +84,8 @@ class PlayerLoggingTestCase(unittest.TestCase):
     def test_single_visit_logging(self):
         log_entry = etree.Element("leg")
         self.player._communicator = TestingCommunicator("60", "50", "40")
-        self.player.play()
-        Visit(self.player, log_parent=log_entry)
+        visit = Visit(self.player, log_parent=log_entry)
+        visit.run()
         self.assertEqual(len(log_entry), 1)
         visit_log_entry = log_entry[0]
         self.assertEqual(visit_log_entry.get("player"), self.player.name)
