@@ -33,12 +33,10 @@ class GameTestCase(unittest.TestCase):
             2,
             16,
             8, 8,
-            "a",  # invalid input
             "y",
             4, 4, 8,
             16,
-            " ",  # invalid input
-            "Q",
+            "q",
         )
         log = []
         game = Game(communicator, sessions_log=log)

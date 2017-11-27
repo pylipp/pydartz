@@ -24,10 +24,8 @@ class Game(object):
                 session = self._init_session()
             else:
                 # non-first run
-                reply = "_"
-                while not len(reply) or reply not in "ynq":
-                    reply = self._communicator.get_input(
-                        "Again (y/n/q)? ").strip().lower()
+                reply = self._communicator.get_input(
+                    "Again (y/n/q)? ", choices="ynq").lower()
 
                 if reply == 'n':
                     # query parameters for new session
