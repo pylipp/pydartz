@@ -25,17 +25,24 @@ class LogEntryBase(object):
 
     DT_FORMAT = "%Y%m%d-%H%M%S"
 
-    def __init__(self, parent=None, test_data=None, **kwargs):
+    def __init__(self, parent=None, **kwargs):
         tag = self.__class__.__name__.lower()
         self._log_entry = etree.Element(tag,
                 timestamp=time.strftime(self.DT_FORMAT), **kwargs)
-        if parent is not None:
-            parent.append(self._log_entry)
 
-        self._test_data = test_data
+        self._parent = parent
+        if self._parent is not None:
+            self._parent.append(self._log_entry)
 
     def append(self, child_log_entry):
         self._log_entry.append(child_log_entry)
+
+    def save(self):
+        try:
+            self._parent.save()
+        except AttributeError:
+            # parent is e.g. None or a list
+            pass
 
 
 class PlayerEntry(object):

@@ -1,10 +1,12 @@
 # pylint: disable=protected-access
 import unittest
+from unittest import mock
 from collections import Counter
 
 from xml.etree import ElementTree as etree
 
-from pydarts.database import PlayerEntry, analyze_sessions, log_visit
+from pydarts.database import PlayerEntry, analyze_sessions, log_visit, \
+    LogEntryBase
 from pydarts.session import Session
 from pydarts.player import Player
 from pydarts.communication import TestingCommunicator
@@ -44,6 +46,16 @@ class PlayerEntryTestCase(unittest.TestCase):
         entry = PlayerEntry()
         entry.update(10, 420)
         self.assertEqual(42, entry.average())
+
+
+class LogEntryBaseTestCase(unittest.TestCase):
+    def test_save(self):
+        parent = LogEntryBase()
+        parent.save = mock.MagicMock()
+        log_entry_base = LogEntryBase(parent=parent)
+        log_entry_base.save()
+        self.assertEqual(parent.save.call_count, 1)
+
 
 class AnalysisTestCase(unittest.TestCase):
     def test_analyse_sessions(self):
