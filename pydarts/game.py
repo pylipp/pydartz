@@ -12,34 +12,22 @@ class Game(object):
         self._sessions = []
         self._communicator = communicator
         self._sessions_log = sessions_log
+        self._current_session = None
 
     def run(self):
         """Repeatly creates and runs sessions. Stops if the player decides to
         quit.
         """
 
-        session = None
         while True:
-            if session is None:
-                session = self._init_session()
+            if self._current_session is None:
+                self._init_session()
             else:
-                # non-first run
-                reply = self._communicator.get_input(
-                    "Again (y/n/q)? ", choices="ynq").lower()
-
-                if reply == 'n':
-                    # query parameters for new session
-                    session = self._init_session()
-                elif reply == 'y':
-                    # copy previous session's parameters
-                    session = Session(session._players, session._nr_legs,
-                                      log_parent=self._sessions_log,
-                                      communicator=self._communicator)
-                else:  # quit
+                if not self._query_another_session():  # quit
                     return
 
-            session.run()
-            self._sessions.append(session)
+            self._current_session.run()
+            self._sessions.append(self._current_session)
 
     def _init_session(self):
         """Initializes a new session by querying required input (number of
@@ -61,5 +49,33 @@ class Game(object):
 
         nr_legs = self._communicator.get_input("Nr of legs: ", type_=int, min_=1)
 
-        return Session(players, nr_legs, log_parent=self._sessions_log,
-                communicator=self._communicator)
+        self._current_session = Session(players, nr_legs,
+                                        log_parent=self._sessions_log,
+                                        communicator=self._communicator)
+
+    def _query_another_session(self):
+        """Query the user about how to proceed. Three replies are possible:
+        - n (no): play again but ask for new session parameters
+        - y (yes): play again, using the previous session's parameters
+        - q (quit): quit the game
+
+        :return: False if user requested to quit
+        """
+
+        continuing = True
+        reply = self._communicator.get_input(
+            "Again (y/n/q)? ", choices="ynq").lower()
+
+        if reply == 'n':
+            # query parameters for new session
+            self._init_session()
+        elif reply == 'y':
+            # copy previous session's parameters
+            self._current_session = Session(self._current_session._players,
+                                            self._current_session._nr_legs,
+                                            log_parent=self._sessions_log,
+                                            communicator=self._communicator)
+        else:
+            continuing = False
+
+        return continuing
