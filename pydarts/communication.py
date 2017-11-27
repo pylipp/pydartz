@@ -170,9 +170,10 @@ def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
             if ui < min_:
                 raise SanitizationError("Input < {}".format(min_))
 
-    if choices is not None and ui not in choices:
-        raise SanitizationError("Input != [{}]".format(
-            ",".join((str(c) for c in choices))))
+    if choices is not None:
+        if not len(str(ui)) or ui not in choices:
+            raise SanitizationError("Input != [{}]".format(
+                ",".join((str(c) for c in choices))))
 
     return ui
 

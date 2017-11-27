@@ -49,6 +49,9 @@ class SanitizedInputTestCase(unittest.TestCase):
     def test_too_long(self):
         self.assertRaises(SanitizationError, sanitized_input, "bar", max_=2)
 
+    def test_empty_string_not_in_choices(self):
+        self.assertRaises(SanitizationError, sanitized_input, "", choices="ab")
+
 
 class TestingCommunicatorTestCase(unittest.TestCase):
     def setUp(self):
