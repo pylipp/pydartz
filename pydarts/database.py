@@ -180,13 +180,3 @@ def analyze_sessions(sessions):
             winner.update(points=final_points, throws=final_throws, darter=visit_throws)
 
     return players
-
-
-def log_visit(player, log_entry):
-    """Log player's visit data in the log entry."""
-    etree.SubElement(log_entry, "visit",
-                    attrib=dict(
-                        player=player.name,
-                        points=str(player.visit_sum()),
-                        throws=str(3 - player.darts)
-                        ))

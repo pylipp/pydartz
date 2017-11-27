@@ -1,4 +1,4 @@
-from .database import LogEntryBase, log_visit
+from .database import LogEntryBase
 from .communication import INFO_LEG
 
 
@@ -67,7 +67,8 @@ class Leg(LogEntryBase):
 
             current_player.play()
 
-            log_visit(current_player, self._log_entry)
+            # TODO rather create visit and call visit.run()?
+            Visit(current_player, log_parent=self)
 
             if current_player.victorious():
                 current_player.just_won_leg()
@@ -75,3 +76,14 @@ class Leg(LogEntryBase):
 
             self._current_player_index += 1
             self._current_player_index %= self._nr_players
+
+
+class Visit(LogEntryBase):
+    """Representation of a player's visit. Only used to log visit information to
+    the parent leg log.
+    """
+
+    def __init__(self, player, log_parent=None):
+        super(Visit, self).__init__(log_parent, player=player.name,
+                    points=str(player.visit_sum()),
+                    throws=str(3 - player.darts))
