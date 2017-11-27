@@ -3,8 +3,11 @@
 
 import unittest
 
-from pydarts.communication import (sanitized_input, SanitizationError,
-        MinLargerMaxError, TestingCommunicator)
+from pydarts.communication import (
+    sanitized_input, SanitizationError, MinLargerMaxError, TestingCommunicator,
+    INPUT_NR_LEGS, INPUT_START_VALUE, INPUT_NR_PLAYERS, INPUT_PLAYER_NAME,
+    INPUT_ANOTHER_SESSION, INPUT_THROW,
+)
 
 
 class SanitizedInputTestCase(unittest.TestCase):
@@ -55,7 +58,7 @@ class SanitizedInputTestCase(unittest.TestCase):
 
 class TestingCommunicatorTestCase(unittest.TestCase):
     def setUp(self):
-        self.data = (11, "2d", 180, "0", "d", 33)
+        self.data = (11, "2d", 180, "1", "d", "Pete", "n")
         self.communicator = TestingCommunicator(*self.data)
 
     def test_data(self):
@@ -66,6 +69,14 @@ class TestingCommunicatorTestCase(unittest.TestCase):
         self.assertEqual(str(self.data[0]), self.communicator.get_input())
         self.assertEqual(self.data[1], self.communicator.get_input())
         self.assertEqual(str(self.data[2]), self.communicator.get_input())
+        self.assertEqual(int(self.data[3]),
+                         self.communicator.get_input(INPUT_NR_PLAYERS))
+        self.assertEqual(self.data[4],
+                         self.communicator.get_input(INPUT_THROW, "Simon"))
+        self.assertEqual(self.data[5],
+                         self.communicator.get_input(INPUT_PLAYER_NAME, (1,)))
+        self.assertEqual(self.data[6],
+                         self.communicator.get_input(INPUT_ANOTHER_SESSION))
 
     def test_print_info(self):
         self.assertIsNone(self.communicator.print_info("some text"))
@@ -79,9 +90,10 @@ class TestingCommunicatorTestCase(unittest.TestCase):
     def test_get_typed_input(self):
         self.assertEqual(str(self.data[0]), self.communicator.get_input())
         self.assertEqual(self.data[1], self.communicator.get_input())
-        self.assertEqual(self.data[2], self.communicator.get_input(type_=int))
+        self.assertEqual(self.data[2],
+                         self.communicator.get_input(INPUT_START_VALUE))
         self.assertEqual(int(self.data[3]),
-                self.communicator.get_input(type_=int))
+                self.communicator.get_input(INPUT_NR_LEGS))
 
 
 if __name__ == "__main__":

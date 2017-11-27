@@ -1,4 +1,4 @@
-from .communication import INFO_VISIT, INFO_FINISH
+from .communication import INFO_VISIT, INFO_FINISH, INPUT_THROW
 
 
 #pylint: disable=too-many-instance-attributes
@@ -116,8 +116,7 @@ class Player(object):
 
         while self._darts and not self.victorious():
             self.print_info()
-            input_ = self._communicator.get_input(
-                    "{}'s score: ".format(self._name))
+            input_ = self._communicator.get_input(INPUT_THROW, self._name)
             try:
                 score, is_total = self._process_score(input_)
                 self.substract(score, is_total)

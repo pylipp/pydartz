@@ -4,6 +4,9 @@ Module containing top game logic and routine.
 
 from .session import Session
 from .player import Player
+from .communication import (INPUT_NR_PLAYERS, INPUT_NR_LEGS, INPUT_PLAYER_NAME,
+                            INPUT_START_VALUE, INPUT_ANOTHER_SESSION
+                            )
 
 
 class Game(object):
@@ -32,20 +35,17 @@ class Game(object):
         players, start value, player names, number of legs to win).
         """
 
-        nr_players = self._communicator.get_input("Nr of players: ", type_=int,
-                min_=1)
+        nr_players = self._communicator.get_input(INPUT_NR_PLAYERS)
 
-        start_value = self._communicator.get_input("Start value: ", type_=int,
-                min_=2)
+        start_value = self._communicator.get_input(INPUT_START_VALUE)
 
         players = []
         for i in range(nr_players):
-            name = self._communicator.get_input(
-                    "Name of player {}: ".format(i+1), min_=1)
+            name = self._communicator.get_input(INPUT_PLAYER_NAME, (i + 1,))
             players.append(
                     Player(name, start_value, communicator=self._communicator))
 
-        nr_legs = self._communicator.get_input("Nr of legs: ", type_=int, min_=1)
+        nr_legs = self._communicator.get_input(INPUT_NR_LEGS)
 
         self._current_session = Session(players, nr_legs,
                                         log_parent=self._sessions_log,
@@ -61,8 +61,7 @@ class Game(object):
         """
 
         continuing = True
-        reply = self._communicator.get_input(
-            "Again (y/n/q)? ", choices="ynq").lower()
+        reply = self._communicator.get_input(INPUT_ANOTHER_SESSION).lower()
 
         if reply == 'n':
             # query parameters for new session

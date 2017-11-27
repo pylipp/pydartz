@@ -16,6 +16,9 @@ with open(os.path.join(dirname, "..", "data", "finishes.json")) as file:
 
 
 INFO_VISIT, INFO_FINISH, INFO_LEG = range(3)
+INPUT_NR_PLAYERS, INPUT_START_VALUE, INPUT_PLAYER_NAME, INPUT_NR_LEGS,\
+    INPUT_ANOTHER_SESSION, \
+    INPUT_THROW = range(6)
 
 
 class CommunicatorBase(object):
@@ -23,6 +26,8 @@ class CommunicatorBase(object):
     the game routine and to display information about game stastics.
     The only member variables are three callables functioning as input and
     output (info and error) method, resp.
+    A dictionary contains prompts for all possible input queries including
+    sanitization kwargs. It can be overwritten in subclasses.
     """
 
     __metaclass__ = ABCMeta
@@ -32,13 +37,44 @@ class CommunicatorBase(object):
         self._input_method = input_method
         self._output_info_method = output_info_method
         self._output_error_method = output_error_method or output_info_method
+        self._input_prompts = {
+            INPUT_NR_PLAYERS: {
+                "prompt": "Nr of players: ",
+                "kwargs": {"type_": int, "min_": 1},
+            },
+            INPUT_START_VALUE: {
+                "prompt": "Start value: ",
+                "kwargs": {"type_": int, "min_": 2},
+            },
+            INPUT_PLAYER_NAME: {
+                "prompt": "Name of player {}: ",
+                "kwargs": {"min_": 1},
+            },
+            INPUT_NR_LEGS: {
+                "prompt": "Nr of legs: ",
+                "kwargs": {"type_": int, "min_": 1},
+            },
+            INPUT_ANOTHER_SESSION: {
+                "prompt": "Again (y/n/q)? ",
+                "kwargs": {"choices": "ynq"},
+            },
+            INPUT_THROW: {
+                "prompt": "{}'s score: ",
+                "kwargs": {},
+            },
+        }
 
-    def get_input(self, prompt=None, **kwargs):
+    def get_input(self, input_mode, *format_args):
         """Prompt the user to give valid input. If invalid, display error and
-        repeat. kwargs are forwarded to 'sanitized_input'."""
+        repeat. Prompt parameters are read acc. to the given `input_mode` and,
+        if specified, formatted using `format_args`.
+        """
         while True:
+            prompt_parameters = self._input_prompts[input_mode]
+            prompt = prompt_parameters["prompt"].format(*format_args)
+            kwargs = prompt_parameters["kwargs"]
             try:
-                user_input = self._input_method(prompt or "")
+                user_input = self._input_method(prompt)
                 return sanitized_input(user_input, **kwargs)
             except SanitizationError as e:
                 self.print_error(error=e)
@@ -106,9 +142,11 @@ class TestingCommunicator(CommunicatorBase):
             return deque_.popleft()
         super().__init__(pop, lambda _: None)
 
-    def get_input(self, prompt=None, **kwargs):
+    def get_input(self, input_mode=INPUT_THROW, *format_args):
         """Pop element from data deque."""
-        return super().get_input(prompt=self._data, **kwargs)
+        element = self._input_method(self._data)
+        return sanitized_input(element,
+                               **self._input_prompts[input_mode]["kwargs"])
 
     def print_info(self, message_type, **data):
         """Does not do anything."""
