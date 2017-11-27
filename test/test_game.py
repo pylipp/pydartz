@@ -6,6 +6,13 @@ from pydarts.communication import TestingCommunicator
 from pydarts.database import analyze_sessions
 
 
+def run_game(communicator):
+    log = []
+    game = Game(communicator, sessions_log=log)
+    game.run()
+    return analyze_sessions(log)
+
+
 class GameTestCase(unittest.TestCase):
     def test_single_player_game(self):
         communicator = TestingCommunicator(
@@ -38,11 +45,8 @@ class GameTestCase(unittest.TestCase):
             16,
             "q",
         )
-        log = []
-        game = Game(communicator, sessions_log=log)
-        game.run()
-
-        player_info = analyze_sessions(log)["Anton"].to_dict()["Anton"]
+        infos = run_game(communicator)
+        player_info = infos["Anton"].to_dict()["Anton"]
         self.assertEqual(player_info["throws"], 7)
         self.assertListEqual(player_info["points"], [16 for _ in range(4)])
 
@@ -62,11 +66,8 @@ class GameTestCase(unittest.TestCase):
             16, 16,
             "q",
         )
-        log = []
-        game = Game(communicator, sessions_log=log)
-        game.run()
-
-        player_info = analyze_sessions(log)["Anton"].to_dict()["Anton"]
+        infos = run_game(communicator)
+        player_info = infos["Anton"].to_dict()["Anton"]
         self.assertEqual(player_info["throws"], 6)
         self.assertListEqual(player_info["points"], [16, 16, 32])
         self.assertEqual(player_info["darters"][2], 3)
