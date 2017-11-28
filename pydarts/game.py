@@ -41,7 +41,7 @@ class Game(object):
 
         players = []
         for i in range(nr_players):
-            name = self._communicator.get_input(INPUT_PLAYER_NAME, (i + 1,))
+            name = self._communicator.get_input(INPUT_PLAYER_NAME, i + 1)
             players.append(
                     Player(name, start_value, communicator=self._communicator))
 
@@ -61,7 +61,7 @@ class Game(object):
         """
 
         continuing = True
-        reply = self._communicator.get_input(INPUT_ANOTHER_SESSION).lower()
+        reply = self._communicator.get_input(INPUT_ANOTHER_SESSION)
 
         if reply == 'n':
             # query parameters for new session
