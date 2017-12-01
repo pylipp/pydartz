@@ -10,8 +10,8 @@ setup(
         license='GPLv3',
         #classifiers=[],
         packages=find_packages(exclude=['test', 'doc', 'data']),
-        entry_points = {
-            'console_scripts': ['pydarts = pydarts.main:main']
+        entry_points={
+            'console_scripts': ['pydarts = pydarts.cli:main']
             },
         install_requires=[]
         )
