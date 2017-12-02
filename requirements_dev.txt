@@ -1,3 +1,5 @@
 requests==2.12.4
-pylint==1.7.2
 pyyaml==3.12
+flake8==3.5.0
+ptpython==0.41
+pudb==2017.1.4
