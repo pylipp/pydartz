@@ -138,13 +138,18 @@ class PlayerEntry(object):
         for darter in sorted(self._darters):
             print("    {:3d}-darter: {}".format(darter, self._darters[darter]))
 
+        # avoid bug that crashes data_hacks if only one value present
         if len(set(self._points)) > 1:
-            from data_hacks import histogram, HistogramOpt
-            # avoid bug that crashes data_hacks if only one value present
-            histogram(
-                    (str(p) for p in self._points),
-                    HistogramOpt(min=0, max=180, buckets=30, mvsd=False, format="%3i")
-                    )
+            try:
+                from data_hacks import histogram, HistogramOpt
+                histogram((str(p) for p in self._points),
+                          HistogramOpt(min=0, max=180, buckets=30, mvsd=False,
+                                       format="%3i"))
+            except ImportError:
+                print("Run "
+"'pip install -e git+https://github.com/pylipp/data_hacks.git@refactoring#egg=data_hacks' "
+                      "for histograms.")
+
 
 def analyze_sessions(sessions):
     """Analyze a `xml.etree._Element` sessions object.

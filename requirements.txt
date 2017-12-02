@@ -1,1 +1,0 @@
--e "git+https://github.com/pylipp/data-hacks.git@updates#egg=data_hacks"
