@@ -42,7 +42,7 @@ setup(
             "Topic :: Games/Entertainment",
             "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-        packages=find_packages("pydarts"),
+        packages=find_packages(exclude=["test"]),
         entry_points={
             'console_scripts': ['pydarts = pydarts.cli:main']
             },

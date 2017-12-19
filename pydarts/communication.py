@@ -7,12 +7,17 @@ from collections import deque
 from abc import ABCMeta, abstractmethod
 import os.path
 import json
+import sys
 
 
 # load the finishes table
-dirname = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(dirname, "..", "data", "finishes.json")) as file:
-    finishes = json.load(file)
+try:
+    dirname = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(dirname, "..", "data", "finishes.json")) as file:
+        finishes = json.load(file)
+except FileNotFoundError:
+    with open(os.path.join(sys.prefix, "data", "finishes.json")) as file:
+        finishes = json.load(file)
 
 
 INFO_VISIT, INFO_FINISH, INFO_LEG = range(3)
