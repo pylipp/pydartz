@@ -17,17 +17,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from setuptools import setup, find_packages
+from pydarts import __version__
+
+
+with open("README.md") as readme:
+    description = readme.read()
+
 
 setup(
         name='pydarts',
-        version='0.1',
-        description='TODO',
+        version=__version__,
+        description="command line assistant and library for playing darts",
+        long_description=description,
         url='http://github.com/pylipp/pydarts',
         author='Philipp Metzner',
         author_email='beth.aleph@yahoo.de',
         license='GPLv3',
-        #classifiers=[],
-        packages=find_packages(exclude=['test', 'doc', 'data']),
+        keywords='commandline darts',
+        classifiers=[
+            "Development Status :: 3 - Alpha",
+            "Environment :: Console",
+            "Intended Audience :: End Users/Desktop",
+            "Intended Audience :: Other Audience",
+            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+            "Operating System :: Unix",
+            "Programming Language :: Python :: 3.5",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Topic :: Games/Entertainment",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+        ],
+        packages=find_packages(exclude=['test', 'data']),
         entry_points={
             'console_scripts': ['pydarts = pydarts.cli:main']
             },
