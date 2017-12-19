@@ -24,7 +24,7 @@ README.rst: README.md
 	pandoc README.md -o README.rst
 	python setup.py check -r
 
-upload: README.rst tag
+upload: README.rst setup.py
 	rm -f dist/*
 	python setup.py bdist_wheel --universal
 	twine upload dist/*

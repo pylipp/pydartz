@@ -20,15 +20,10 @@ from setuptools import setup, find_packages
 from pydarts import __version__
 
 
-with open("README.md") as readme:
-    description = readme.read()
-
-
 setup(
-        name='pydarts',
+        name='pydartz',
         version=__version__,
         description="command line assistant and library for playing darts",
-        long_description=description,
         url='http://github.com/pylipp/pydarts',
         author='Philipp Metzner',
         author_email='beth.aleph@yahoo.de',
@@ -47,9 +42,12 @@ setup(
             "Topic :: Games/Entertainment",
             "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-        packages=find_packages(exclude=['test', 'data']),
+        packages=find_packages("pydarts"),
         entry_points={
             'console_scripts': ['pydarts = pydarts.cli:main']
             },
-        install_requires=[]
+        install_requires=[],
+        data_files=[
+            ("data", ["data/finishes.json"]),
+        ],
         )
