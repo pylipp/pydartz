@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import os.path
 import sys
+import time
 import argparse
 
 from .database import analyze_sessions, Sessions
@@ -27,7 +28,11 @@ def main():
             entry.print_info()
         sys.exit(0)
 
+    _display_license()
+    time.sleep(1)
+    os.system("cls || clear")
     _display_banner()
+
     g = Game(CliCommunicator(), sessions_log)
     g.run()
 
@@ -40,6 +45,16 @@ def _parse_command():
             help="display player stats")
 
     return parser.parse_args()
+
+
+def _display_license():
+    print("""\
+pydarts  Copyright (C) 2017  Philipp Metzner
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions.
+""")
+
 
 # pylint: disable=line-too-long
 def _display_banner():
