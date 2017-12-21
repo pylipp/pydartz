@@ -34,3 +34,11 @@ tag:
 	git push --tags
 
 publish: tag upload
+
+coverage:
+	@for f in test/test_*.py; do coverage run $$f; done
+	coverage report
+
+coverage-html: coverage
+	coverage html
+	xdg-open htmlcov/index.html
