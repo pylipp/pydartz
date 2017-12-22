@@ -1,7 +1,4 @@
-"""
-Module for user-backend communication.
-"""
-from __future__ import print_function
+"""Module for user-backend communication."""
 
 from collections import deque
 from abc import ABCMeta, abstractmethod
@@ -95,45 +92,6 @@ class CommunicatorBase(object):
     @abstractmethod
     def print_error(self, **data):
         """Report error to the frontend."""
-
-
-class CliCommunicator(CommunicatorBase):
-    """Command Line Interface communicator that request user input using
-    Python's builtin 'input' method and that prints to stdout.
-    """
-
-    def __init__(self):
-        super(CliCommunicator, self).__init__(input, print)
-
-    def print_info(self, message_type, **data):
-        output = None
-
-        if message_type == INFO_VISIT:
-            player = data["player"]
-            output = "{p.name} has {p.score_left} and {0} left.".format(
-                ["one dart", "two darts", "three darts"][player.darts - 1],
-                p=player)
-        elif message_type == INFO_FINISH:
-            player = data["player"]
-            score_left = str(player.score_left)
-            if score_left in finishes:
-                output = "Finish options:"
-                for finish in finishes[score_left]:
-                    output += "\n\t" + " ".join(finish)
-        elif message_type == INFO_LEG:
-            players = data["players"]
-            output = "\n".join(
-                        "    {}: {:2d}".format(p.name, p.nr_won_legs)
-                        for p in players)
-            output += "\n"
-            output += 80 * "="
-
-        if output is not None:
-            self._output_info_method(output)
-
-    def print_error(self, **data):
-        output = str(data["error"])
-        self._output_error_method(output)
 
 
 class TestingCommunicator(CommunicatorBase):
