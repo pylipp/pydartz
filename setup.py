@@ -19,11 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from setuptools import setup, find_packages
 from pydartz import __version__
 
+with open("README.rst") as readme:
+    long_description = readme.read()
+
 
 setup(
         name='pydartz',
         version=__version__,
         description="command line assistant and library for playing darts",
+        long_description=long_description,
         url='http://github.com/pylipp/pydartz',
         author='Philipp Metzner',
         author_email='beth.aleph@yahoo.de',
