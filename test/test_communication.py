@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # pylint: disable=protected-access
 
 import unittest
@@ -31,7 +32,8 @@ class SanitizedInputTestCase(unittest.TestCase):
         self.assertRaises(SanitizationError, sanitized_input, "bar", min_=5)
 
     def test_valid_str(self):
-        self.assertEqual(sanitized_input("süß", min_=1, max_=3), "süß")
+        word = "foo"
+        self.assertEqual(sanitized_input(word, min_=1, max_=3), word)
 
     def test_valid_int(self):
         self.assertEqual(sanitized_input("123", type_=int, max_=180), 123)

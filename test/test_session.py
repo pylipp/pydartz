@@ -1,6 +1,9 @@
 # pylint: disable=protected-access
 import unittest
-from unittest.mock import patch
+try:
+    from unittest import mock
+except ImportError:  # Python 2.7
+    import mock
 from datetime import datetime
 
 from pydartz.session import Leg, Session
@@ -72,7 +75,7 @@ class LegTestCase(unittest.TestCase):
         # assert average etc
 
     def test_single_player_invalid_visit(self):
-        with patch.object(TestingCommunicator, 'print_error') as \
+        with mock.patch.object(TestingCommunicator, 'print_error') as \
                 print_error_patch:
             communicator = TestingCommunicator(
                     "180d",

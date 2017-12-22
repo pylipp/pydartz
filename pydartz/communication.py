@@ -92,7 +92,7 @@ class TestingCommunicator(CommunicatorBase):
         self._data = deque((str(d) for d in data))
         def pop(deque_):
             return deque_.popleft()
-        super().__init__(pop, lambda _: None)
+        super(TestingCommunicator, self).__init__(pop, lambda _: None)
 
     def get_input(self, input_mode=INPUT_THROW, *format_args):
         """Pop element from data deque."""

@@ -15,6 +15,7 @@ install:
 
 test:
 	@$$WORKON_HOME/pydarts/bin/python -m unittest discover
+	@$$WORKON_HOME/pydarts-py2/bin/python -m unittest discover
 
 lint:
 	find pydartz -name "*.py" | xargs pylint
