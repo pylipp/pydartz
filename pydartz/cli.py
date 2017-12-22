@@ -117,7 +117,7 @@ def _play_ending_song():
     try:
         import simpleaudio
         wave_obj = simpleaudio.WaveObject.from_wave_file(
-                os.path.join(dirname, "..", "data", "chase_the_sun.wav"))
+                os.path.join(sys.prefix, "data", "chase_the_sun.wav"))
         play_obj = wave_obj.play()
         play_obj.wait_done()
     except ImportError:
