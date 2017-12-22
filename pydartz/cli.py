@@ -10,7 +10,7 @@ from .game import Game
 from .communication import CommunicatorBase, INFO_VISIT, INFO_FINISH, INFO_LEG
 from .finishes import FINISHES
 
-log_dir = os.path.expanduser("~/.local/share/pydarts")
+log_dir = os.path.expanduser("~/.local/share/pydartz")
 os.makedirs(log_dir, exist_ok=True)
 log_filepath = os.path.join(log_dir, "stats.xml")
 open(log_filepath, "a").close()

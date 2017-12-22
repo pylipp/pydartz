@@ -14,8 +14,8 @@ install:
 	pip install -U -r requirements.txt -e .
 
 test:
-	@$$WORKON_HOME/pydarts/bin/python -m unittest discover
-	@$$WORKON_HOME/pydarts-py2/bin/python -m unittest discover
+	@$$WORKON_HOME/pydartz/bin/python -m unittest discover
+	@$$WORKON_HOME/pydartz-py2/bin/python -m unittest discover
 
 lint:
 	find pydartz -name "*.py" | xargs pylint
