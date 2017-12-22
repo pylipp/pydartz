@@ -1,4 +1,6 @@
-{
+"""Module listing possible 2/3-dart finishes."""
+
+FINISHES = {
     "41": [
         [
             "9",

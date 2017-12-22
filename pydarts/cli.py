@@ -7,8 +7,8 @@ import argparse
 
 from .database import analyze_sessions, Sessions
 from .game import Game
-from .communication import CommunicatorBase, INFO_VISIT, INFO_FINISH, INFO_LEG,\
-    finishes
+from .communication import CommunicatorBase, INFO_VISIT, INFO_FINISH, INFO_LEG
+from .finishes import FINISHES
 
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -59,9 +59,9 @@ class CliCommunicator(CommunicatorBase):
         elif message_type == INFO_FINISH:
             player = data["player"]
             score_left = str(player.score_left)
-            if score_left in finishes:
+            if score_left in FINISHES:
                 output = "Finish options:"
-                for finish in finishes[score_left]:
+                for finish in FINISHES[score_left]:
                     output += "\n\t" + " ".join(finish)
         elif message_type == INFO_LEG:
             players = data["players"]

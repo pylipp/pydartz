@@ -48,6 +48,6 @@ setup(
             },
         install_requires=[],
         data_files=[
-            ("data", ["data/finishes.json"]),
+            # ("data", ["data/finishes.json"]),
         ],
         )
