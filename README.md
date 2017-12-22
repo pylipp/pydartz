@@ -16,8 +16,17 @@ Play with your friends and keep track of your darts scores!
 
 ## TODO
 - revisit finish options (e.g. 56, 46)
+- full test coverage
+- Python2 unicode support
+- check song copyright
 
 ## Installation
+
+### From PyPI package
+
+    pip install pydartz
+
+### From source
 
 Get the source code
 
