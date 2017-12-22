@@ -36,7 +36,7 @@ tag:
 publish: tag upload
 
 coverage:
-	@for f in test/test_*.py; do coverage run $$f; done
+	@for f in test/test_*.py; do coverage run -a $$f; done
 	coverage report
 
 coverage-html: coverage
