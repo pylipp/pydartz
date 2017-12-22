@@ -10,9 +10,10 @@ from .game import Game
 from .communication import CommunicatorBase, INFO_VISIT, INFO_FINISH, INFO_LEG
 from .finishes import FINISHES
 
-
-dirname = os.path.dirname(os.path.abspath(__file__))
-log_filepath = os.path.join(dirname, "..", "data", "stats.xml")
+log_dir = os.path.expanduser("~/.local/share/pydarts")
+os.makedirs(log_dir, exist_ok=True)
+log_filepath = os.path.join(log_dir, "stats.xml")
+open(log_filepath, "a").close()
 sessions_log = Sessions(log_filepath=log_filepath)
 
 
