@@ -26,7 +26,7 @@ def main():
             # pylint: disable=len-as-condition
             if len(player_names) and name not in player_names:
                 continue
-            entry.print_info()
+            print(entry.information())
         sys.exit(0)
 
     _display_license()

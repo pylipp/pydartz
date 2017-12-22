@@ -126,29 +126,22 @@ class PlayerEntry(object):
     def throws(self):
         return self._throws
 
-    def print_info(self):
-        print(self._name + ":")
-        print("Legs won: {}".format(sum(self._finishes.values())))
-        print("Average: {:.2f}".format(3 * self.average()))
-        print("Highscore: {:3d}".format(max(self._points)))
-        print("Finishes:")
+    def information(self):
+        info = [
+            self._name + ":",
+            "Legs won: {}".format(sum(self._finishes.values())),
+            "Average: {:.2f}".format(3 * self.average()),
+            "Highscore: {:3d}".format(max(self._points)),
+            "Finishes:",
+        ]
         for finish in sorted(self._finishes)[::-1]:
-            print("    {:3d}: {}".format(finish, self._finishes[finish]))
-        print("Darters:")
+            info.append("    {:3d}: {}".format(finish, self._finishes[finish]))
+        info.append("Darters:")
         for darter in sorted(self._darters):
-            print("    {:3d}-darter: {}".format(darter, self._darters[darter]))
+            info.append("    {:3d}-darter: {}".format(
+                darter,self._darters[darter]))
 
-        # avoid bug that crashes data_hacks if only one value present
-        if len(set(self._points)) > 1:
-            try:
-                from data_hacks import histogram, HistogramOpt
-                histogram((str(p) for p in self._points),
-                          HistogramOpt(min=0, max=180, buckets=30, mvsd=False,
-                                       format="%3i"))
-            except ImportError:
-                print("Run "
-"'pip install -e git+https://github.com/pylipp/data_hacks.git@refactoring#egg=data_hacks' "
-                      "for histograms.")
+        return '\n'.join(info)
 
 
 def analyze_sessions(sessions):
