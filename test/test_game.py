@@ -1,9 +1,9 @@
 # pylint: disable=protected-access
 import unittest
 
-from pydarts.game import Game
-from pydarts.communication import TestingCommunicator
-from pydarts.database import analyze_sessions
+from pydartz.game import Game
+from pydartz.communication import TestingCommunicator
+from pydartz.database import analyze_sessions
 
 
 def run_game(communicator):

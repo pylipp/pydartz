@@ -1,8 +1,8 @@
 # pylint: disable=protected-access
 import unittest
 
-from pydarts.player import Player
-from pydarts.communication import TestingCommunicator
+from pydartz.player import Player
+from pydartz.communication import TestingCommunicator
 
 
 class PlayerEntryTestCase(unittest.TestCase):

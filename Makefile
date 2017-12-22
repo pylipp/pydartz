@@ -1,4 +1,4 @@
-VERSION=$(shell python -c "import pydarts; print(pydarts.__version__)")
+VERSION=$(shell python -c "import pydartz; print(pydartz.__version__)")
 
 # Make sure we're on the master branch
 ifneq "$(shell git rev-parse --abbrev-ref HEAD)" "master"
@@ -17,7 +17,7 @@ test:
 	@$$WORKON_HOME/pydarts/bin/python -m unittest discover
 
 lint:
-	find pydarts -name "*.py" | xargs pylint
+	find pydartz -name "*.py" | xargs pylint
 	find test -name "*.py" | xargs pylint
 
 README.rst: README.md

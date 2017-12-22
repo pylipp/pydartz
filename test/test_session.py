@@ -3,9 +3,9 @@ import unittest
 from unittest.mock import patch
 from datetime import datetime
 
-from pydarts.session import Leg, Session
-from pydarts.player import Player
-from pydarts.communication import TestingCommunicator
+from pydartz.session import Leg, Session
+from pydartz.player import Player
+from pydartz.communication import TestingCommunicator
 
 
 def _180_single_player_communicator():

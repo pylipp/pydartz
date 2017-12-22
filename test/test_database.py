@@ -5,10 +5,10 @@ from collections import Counter
 
 from xml.etree import ElementTree as etree
 
-from pydarts.database import PlayerEntry, analyze_sessions, LogEntryBase
-from pydarts.session import Session, Visit
-from pydarts.player import Player
-from pydarts.communication import TestingCommunicator
+from pydartz.database import PlayerEntry, analyze_sessions, LogEntryBase
+from pydartz.session import Session, Visit
+from pydartz.player import Player
+from pydartz.communication import TestingCommunicator
 
 
 class PlayerEntryTestCase(unittest.TestCase):

@@ -1,5 +1,5 @@
 """
-pydarts - command line assistant and library for playing darts
+pydartz - command line assistant and library for playing darts
 Copyright (C) 2017 Philipp Metzner
 
 This program is free software: you can redistribute it and/or modify
@@ -17,14 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from setuptools import setup, find_packages
-from pydarts import __version__
+from pydartz import __version__
 
 
 setup(
         name='pydartz',
         version=__version__,
         description="command line assistant and library for playing darts",
-        url='http://github.com/pylipp/pydarts',
+        url='http://github.com/pylipp/pydartz',
         author='Philipp Metzner',
         author_email='beth.aleph@yahoo.de',
         license='GPLv3',
@@ -44,7 +44,7 @@ setup(
         ],
         packages=find_packages(exclude=["test"]),
         entry_points={
-            'console_scripts': ['pydarts = pydarts.cli:main']
+            'console_scripts': ['pydartz = pydartz.cli:main']
             },
         install_requires=[],
         data_files=[

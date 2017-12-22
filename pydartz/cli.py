@@ -91,7 +91,7 @@ def _parse_command():
 
 def _display_license():
     print("""\
-pydarts  Copyright (C) 2017  Philipp Metzner
+pydartz  Copyright (C) 2017  Philipp Metzner
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions.
