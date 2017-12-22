@@ -42,11 +42,12 @@ def main():
 
 class CliCommunicator(CommunicatorBase):
     """Command Line Interface communicator that request user input using
-    Python's builtin 'input' method and that prints to stdout.
+    Python's builtin '(raw_)input' method and that prints to stdout.
     """
 
     def __init__(self):
-        super(CliCommunicator, self).__init__(input, print)
+        super(CliCommunicator, self).__init__(
+            raw_input if sys.version_info.major < 3 else input, print)
 
     def print_info(self, message_type, **data):
         output = None

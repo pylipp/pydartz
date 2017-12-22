@@ -12,7 +12,7 @@
 
 # pydarts
 
->   A Python3 assistant (and library) for playing darts
+>   A Python2/3 assistant (and library) for playing darts
 
 Play with your friends and keep track of your darts scores!
 
@@ -28,7 +28,6 @@ Play with your friends and keep track of your darts scores!
 
 ## TODO
 - revisit finish options (e.g. 56, 46)
-- make command line program run with Python 2
 
 ## Installation
 
@@ -52,7 +51,7 @@ OPTIONALLY, you can install sound and histogram support
     pip install simpleaudio==1.0.1
     pip install -e git+https://github.com/pylipp/data_hacks.git@refactoring#egg=data_hacks
 
-Tested on Debian using Python 3.5 and 3.6.
+Tested on Debian using Python 2.7, 3.5 and 3.6.
 
 ## Usage
 
