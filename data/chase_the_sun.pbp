@@ -1,0 +1,69 @@
+<trackboy_project >
+<point>
+<pages number="4" />
+<bpm number="140" />
+<track number= "0"volume="0" pan="0" highs="0" lows="0" echo="0" type="3" />
+<track number= "1"volume="0" pan="0" highs="0" lows="0" echo="0" type="2" />
+<track number= "2"volume="0" pan="0" highs="0" lows="0" echo="0" type="5" />
+<track number= "3"volume="0" pan="0" highs="0" lows="0" echo="0" type="6" />
+<track number= "4"volume="0" pan="0" highs="0" lows="0" echo="0" type="8" />
+<track number= "5"volume="0" pan="0" highs="0" lows="0" echo="0" type="1" />
+<track number= "6"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "7"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "8"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "9"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "10"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "11"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "12"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "13"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "14"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<track number= "15"volume="0" pan="0" highs="0" lows="0" echo="0" type="0" />
+<note track="0" page="0" position= "0" originalNote="E3" currentPitch="164.81" pan="0" gain="0" />
+<note track="0" page="1" position= "0" originalNote="G3" currentPitch="196" pan="0" gain="0" />
+<note track="0" page="2" position= "0" originalNote="A3" currentPitch="220" pan="0" gain="0" />
+<note track="0" page="3" position= "0" originalNote="C3" currentPitch="130.81" pan="0" gain="0" />
+<note track="1" page="0" position= "4" originalNote="B4" currentPitch="493.88" pan="0" gain="0" />
+<note track="1" page="0" position= "8" originalNote="B4" currentPitch="493.88" pan="0" gain="0" />
+<note track="1" page="0" position= "10" originalNote="A4" currentPitch="440" pan="0" gain="0" />
+<note track="1" page="0" position= "12" originalNote="G4" currentPitch="392" pan="0" gain="0" />
+<note track="1" page="0" position= "14" originalNote="F#4" currentPitch="369.99" pan="0" gain="0" />
+<note track="1" page="1" position= "4" originalNote="F#4" currentPitch="369.99" pan="0" gain="0" />
+<note track="1" page="1" position= "6" originalNote="G4" currentPitch="392" pan="0" gain="0" />
+<note track="1" page="1" position= "8" originalNote="F#4" currentPitch="369.99" pan="0" gain="0" />
+<note track="1" page="1" position= "10" originalNote="E4" currentPitch="329.63" pan="0" gain="0" />
+<note track="1" page="1" position= "14" originalNote="D4" currentPitch="293.66" pan="0" gain="0" />
+<note track="1" page="2" position= "4" originalNote="B3" currentPitch="246.94" pan="0" gain="0" />
+<note track="1" page="2" position= "6" originalNote="D4" currentPitch="293.66" pan="0" gain="0" />
+<note track="1" page="2" position= "8" originalNote="E4" currentPitch="329.63" pan="0" gain="0" />
+<note track="1" page="2" position= "10" originalNote="F#4" currentPitch="369.99" pan="0" gain="0" />
+<note track="1" page="2" position= "14" originalNote="E4" currentPitch="329.63" pan="0" gain="0" />
+<note track="2" page="0" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="0" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="1" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="1" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="2" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="2" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="3" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="3" position= "8" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="2" page="3" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="0" position= "0" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="0" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="0" position= "8" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="0" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="1" position= "0" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="1" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="1" position= "8" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="1" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="2" position= "0" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="2" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="2" position= "8" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="2" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="3" position= "0" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="3" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="3" position= "8" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="3" page="3" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="4" page="3" position= "4" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="4" page="3" position= "8" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+<note track="4" page="3" position= "12" originalNote="G5" currentPitch="783.99" pan="0" gain="0" />
+</point>
+</trackboy_project>
