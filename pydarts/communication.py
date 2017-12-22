@@ -119,16 +119,6 @@ class TestingCommunicator(CommunicatorBase):
         raise data["error"]
 
 
-def create_communicator(kind, *args, **kwargs):
-    kind = kind.lower()
-    if kind == "cli":
-        return CliCommunicator()
-    elif kind == "testing":
-        return TestingCommunicator(*args, **kwargs)
-    else:
-        raise ValueError("Unknown communicator kind '{}'.".format(kind))
-
-
 def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
     """Helper method to retrieve sanitized user input.
     Attempts conversion to requested type and validates the input.
