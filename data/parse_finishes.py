@@ -1,20 +1,20 @@
-import requests
 import lxml.html
-import yaml
+import json
 import os.path
+from urllib import request
 
-r = requests.get("https://www.uni-muenster.de/ZIV.GuidoWessendorf/checkout.html")
+contents = request.urlopen("https://www.uni-muenster.de/ZIV.GuidoWessendorf/checkout.html").read().decode("utf-8")
 
 finishes = {}
 table_end = -1
 while True:
-    table_start = r.text.find("TABLE", table_end+1)
+    table_start = contents.find("TABLE", table_end+1)
     if table_start == -1:
         break
-    table_end = r.text.find("TABLE", table_start+1)
+    table_end = contents.find("TABLE", table_start+1)
 
     # http://stackoverflow.com/questions/20418807/python-parse-html-table-using-lxml
-    table = lxml.html.fromstring(r.text[table_start-2:table_end+7])
+    table = lxml.html.fromstring(contents[table_start-2:table_end+7])
     data = table.xpath('//tr/td//text()')
 
     # skip table header
@@ -55,5 +55,5 @@ for score, finish in finishes.items():
         finishes[score].append(finish_list)
 
 dirname = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(dirname, "finishes.yml"), "w") as file:
-    file.write(yaml.dump(eval(finishes.__repr__())))
+with open(os.path.join(dirname, "finishes.json"), "w") as file:
+    json.dump(eval(finishes.__repr__())), file)
