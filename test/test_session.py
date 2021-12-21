@@ -1,9 +1,6 @@
 # pylint: disable=protected-access
 import unittest
-try:
-    from unittest import mock
-except ImportError:  # Python 2.7
-    import mock
+from unittest import mock
 from datetime import datetime
 
 from pydartz.session import Leg, Session

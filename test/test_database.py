@@ -1,9 +1,6 @@
 # pylint: disable=protected-access
 import unittest
-try:
-    from unittest import mock
-except ImportError:  # Python 2.7
-    import mock
+from unittest import mock
 from collections import Counter
 
 from xml.etree import ElementTree as etree
