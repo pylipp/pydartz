@@ -46,7 +46,7 @@ class CliCommunicator(CommunicatorBase):
     """
 
     def __init__(self):
-        super(CliCommunicator).__init__(input, print)
+        super().__init__(input, print)
 
     def print_info(self, message_type, **data):
         output = None
