@@ -21,6 +21,8 @@ Play with your friends and keep track of your darts scores!
 
 ## Installation
 
+`pydartz` requires Python 3.6 or higher.
+
 ### From PyPI package
 
     pip install --user -U pydartz
@@ -129,8 +131,6 @@ Install to a virtualenv
 ### Test suite
 
     make test
-
-Tested on Debian using Python 2.7, 3.5 and 3.6.
 
 ### Coverage analysis
 
