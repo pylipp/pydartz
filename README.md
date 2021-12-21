@@ -129,3 +129,8 @@ Tested on Debian using Python 2.7, 3.5 and 3.6.
 ### Coverage analysis
 
     make coverage
+
+### Releasing
+
+1. `git tag` with new version number
+1. `make release`
