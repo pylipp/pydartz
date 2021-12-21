@@ -1,0 +1,46 @@
+name: Upload Python Package
+
+on:
+  push:
+    tags:
+      - v*.*.*.*
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        pip install -U pip
+        pip install -U .[packaging]
+    # - name: Construct release body
+    #   id: construct
+    #   run: |
+    #     echo "RELEASEBODY<<EOF" >> $GITHUB_ENV
+    #     awk -v RS='' '/## \\[v/ {print $0; exit}' Changelog.md | tail -n+2 >> $GITHUB_ENV
+    #     echo "EOF" >> $GITHUB_ENV
+    #   env:
+    #     REPOSITORY: ${{ github.event.repository.name }}
+    - name: Create Github release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        # body: |
+        #   $RELEASEBODY
+    - name: Build package and publish to PyPI
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python -m build
+        twine upload dist/*
