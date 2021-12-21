@@ -37,9 +37,7 @@ tag:
 publish: tag upload
 
 coverage:
-	@for f in test/test_*.py; do coverage run -a $$f; done
+	coverage erase
+	coverage run -m unittest
 	coverage report
-
-coverage-html: coverage
 	coverage html
-	xdg-open htmlcov/index.html
