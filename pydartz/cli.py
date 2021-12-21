@@ -3,6 +3,7 @@ import sys
 import time
 import argparse
 
+from . import __version__
 from .database import analyze_sessions, Sessions
 from .game import Game
 from .communication import CommunicatorBase, INFO_VISIT, INFO_FINISH, INFO_LEG
@@ -83,6 +84,10 @@ def _parse_command():
 
     parser.add_argument("-s", "--stats", metavar="NAME", nargs="*",
             help="display player stats")
+    parser.add_argument("-V", "--version",
+        action="version",
+        version="pydartz version {}".format(__version__),
+        help="display version info and exit")  # pragma: no cover
 
     return parser.parse_args()
 
