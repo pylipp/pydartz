@@ -29,7 +29,6 @@ def main():
             print(entry.information())
         sys.exit(0)
 
-    _display_license()
     time.sleep(1)
     os.system("cls || clear")
     _display_banner()
@@ -90,15 +89,6 @@ def _parse_command():
         help="display version info and exit")  # pragma: no cover
 
     return parser.parse_args()
-
-
-def _display_license():
-    print("""\
-pydartz  Copyright (C) 2017  Philipp Metzner
-This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it
-under certain conditions.
-""")
 
 
 # pylint: disable=line-too-long
