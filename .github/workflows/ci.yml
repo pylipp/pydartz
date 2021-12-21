@@ -54,6 +54,6 @@ jobs:
           coverage run -m unittest
       - name: Upload coverage result
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           coveralls --service=github
