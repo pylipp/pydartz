@@ -1,6 +1,6 @@
 # pydartz
 
->   A Python2/3 assistant (and library) for playing darts
+>   A Python3 assistant (and library) for playing darts
 
 Play with your friends and keep track of your darts scores!
 
@@ -23,9 +23,15 @@ Play with your friends and keep track of your darts scores!
 
 ### From PyPI package
 
-    pip install pydartz
+    pip install --user -U pydartz
 
+### Using pipx
 
+    pipx install pydartz
+
+### Backwards compatibility
+
+`v1.2` is the last version to support Python2.
 
 ## Usage
 

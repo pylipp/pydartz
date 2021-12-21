@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import os.path
 import sys
 import time
@@ -43,12 +41,11 @@ def main():
 
 class CliCommunicator(CommunicatorBase):
     """Command Line Interface communicator that request user input using
-    Python's builtin '(raw_)input' method and that prints to stdout.
+    Python's builtin 'input' method and that prints to stdout.
     """
 
     def __init__(self):
-        super(CliCommunicator, self).__init__(
-            raw_input if sys.version_info.major < 3 else input, print)
+        super(CliCommunicator).__init__(input, print)
 
     def print_info(self, message_type, **data):
         output = None
@@ -122,4 +119,4 @@ def _play_ending_song():
         play_obj = wave_obj.play()
         play_obj.wait_done()
     except ImportError:
-        print("Run 'pip install simpleaudio==1.0.1' for sound support!")
+        print("Run 'pip install -U pydartz[audio]' for sound support!")

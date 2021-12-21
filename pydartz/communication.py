@@ -2,8 +2,6 @@
 
 from collections import deque
 from abc import ABCMeta, abstractmethod
-import os.path
-import sys
 
 
 INFO_VISIT, INFO_FINISH, INFO_LEG = range(3)
@@ -12,7 +10,7 @@ INPUT_NR_PLAYERS, INPUT_START_VALUE, INPUT_PLAYER_NAME, INPUT_NR_LEGS,\
     INPUT_THROW = range(6)
 
 
-class CommunicatorBase(object):
+class CommunicatorBase:
     """Communicators provide a high-level interface to fetch data requested by
     the game routine and to display information about game stastics.
     The only member variables are three callables functioning as input and

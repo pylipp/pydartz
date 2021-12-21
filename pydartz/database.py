@@ -6,7 +6,7 @@ from abc import ABCMeta
 from xml.etree import ElementTree as etree
 
 
-class LogEntryBase(object):
+class LogEntryBase:
     """Abstract base class for all classes that are supposed to support
     logging.
 
@@ -66,7 +66,7 @@ class Sessions(LogEntryBase):
                     encoding="utf-8")
 
 
-class PlayerEntry(object):
+class PlayerEntry:
     """A container to facilitate evaluation of player statistics.
 
     It stores the player's total throws, points (visit per visit for e.g.

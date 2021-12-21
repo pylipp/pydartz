@@ -2,7 +2,7 @@ from .communication import INFO_VISIT, INFO_FINISH, INPUT_THROW
 
 
 #pylint: disable=too-many-instance-attributes
-class Player(object):
+class Player:
     """Representation of a player.
     Holds long-term, per-game and per-visit information. Provides routines to
     perform a classic 501.
