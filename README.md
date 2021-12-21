@@ -138,5 +138,5 @@ Tested on Debian using Python 2.7, 3.5 and 3.6.
 
 ### Releasing
 
-1. `git tag` with new version number
+1. `git tag` with new version number (scheme `vX.Y.Z`)
 1. `make release`
