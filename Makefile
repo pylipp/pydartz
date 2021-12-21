@@ -11,7 +11,7 @@ all:
 	@echo "Available targets: install, test, lint, publish"
 
 install:
-	pip install -U -r requirements.txt -e .
+	pip install -U -e .[develop,audio]
 
 test:
 	@$$WORKON_HOME/pydartz/bin/python -m unittest discover

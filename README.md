@@ -33,20 +33,11 @@ Get the source code
     git clone https://github.com/pylipp/pydartz
     cd pydartz
 
-Install to a virtualenv (I like using virtualenvwrapper)
+Install to a virtualenv
 
-    mkvirtualenv --python=$(which python3) pydartz
+    python3 -m venv .venv
+    source .venv/bin/activate
     make install
-    make test
-
-ALTERNATIVELY, install to `~/.local` using pip
-
-    pip install --user -e .
-
-OPTIONALLY, you can install sound and histogram support
-
-    pip install simpleaudio==1.0.1
-    pip install -e git+https://github.com/pylipp/data_hacks.git@refactoring#egg=data_hacks
 
 Tested on Debian using Python 2.7, 3.5 and 3.6.
 
