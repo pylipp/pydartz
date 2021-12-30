@@ -13,7 +13,7 @@ from .communication import (
 )
 
 
-class Game(object):
+class Game:
     def __init__(self, communicator, sessions_log=None):
         self._communicator = communicator
         self._sessions_log = sessions_log
