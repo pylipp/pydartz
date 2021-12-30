@@ -35,9 +35,11 @@ def main():
     _display_banner()
 
     g = Game(CliCommunicator(), sessions_log)
-    g.run()
-
-    _play_ending_song()
+    try:
+        g.run()
+        _play_ending_song()
+    except KeyboardInterrupt:
+        print("\n\nUser quit by pressing Ctrl-C. Good bye!")
 
 
 class CliCommunicator(CommunicatorBase):
