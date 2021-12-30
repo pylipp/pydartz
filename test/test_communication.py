@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# pylint: disable=protected-access
-
 import unittest
 
 from pydartz.communication import (

@@ -23,7 +23,6 @@ def main():
     if player_names is not None:
         player_entries = analyze_sessions(sessions_log._log_entry)
         for name, entry in player_entries.items():
-            # pylint: disable=len-as-condition
             if len(player_names) and name not in player_names:
                 continue
             print(entry.information())
@@ -95,7 +94,6 @@ def _parse_command():
     return parser.parse_args()
 
 
-# pylint: disable=line-too-long
 # fmt: off
 def _display_banner():
     print(r"      ___                                   ___           ___                         ___     ")

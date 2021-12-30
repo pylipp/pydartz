@@ -1,4 +1,3 @@
-# pylint: disable=protected-access
 import unittest
 from unittest import mock
 from datetime import datetime
@@ -22,7 +21,6 @@ class LegTestCase(unittest.TestCase):
         self.assertTrue(mike.victorious())
 
     def test_two_player_101(self):
-        # pylint: disable=bad-whitespace
         communicator = TestingCommunicator(
             # Hans   Fritz
             "60d",
@@ -97,7 +95,6 @@ class SessionTestCase(unittest.TestCase):
         self.assertEqual(len(session._log_entry), 1)
 
     def test_two_player_session(self):
-        # pylint: disable=bad-whitespace
         communicator = TestingCommunicator(
             # Adam     Eve
             "60d",

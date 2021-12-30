@@ -1,4 +1,3 @@
-# pylint: disable=protected-access
 import unittest
 from unittest import mock
 from collections import Counter

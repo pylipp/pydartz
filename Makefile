@@ -1,7 +1,7 @@
 .PHONY: all test install lint release coverage
 
 all:
-	@echo "Available targets: install, test, format, lint, release, coverage"
+	@echo "Available targets: install, test, format, release, coverage"
 
 install:
 	pip install -U -e .[develop,audio]
@@ -11,10 +11,6 @@ test:
 
 format:
 	black pydartz/*.py test/*.py
-
-lint:
-	find pydartz -name "*.py" | xargs pylint
-	find test -name "*.py" | xargs pylint
 
 release:
 	git push --tags origin master
