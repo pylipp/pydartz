@@ -5,9 +5,14 @@ from abc import ABCMeta, abstractmethod
 
 
 INFO_VISIT, INFO_FINISH, INFO_LEG = range(3)
-INPUT_NR_PLAYERS, INPUT_START_VALUE, INPUT_PLAYER_NAME, INPUT_NR_LEGS,\
-    INPUT_ANOTHER_SESSION, \
-    INPUT_THROW = range(6)
+(
+    INPUT_NR_PLAYERS,
+    INPUT_START_VALUE,
+    INPUT_PLAYER_NAME,
+    INPUT_NR_LEGS,
+    INPUT_ANOTHER_SESSION,
+    INPUT_THROW,
+) = range(6)
 
 
 class CommunicatorBase:
@@ -21,8 +26,7 @@ class CommunicatorBase:
 
     __metaclass__ = ABCMeta
 
-    def __init__(self, input_method, output_info_method,
-                 output_error_method=None):
+    def __init__(self, input_method, output_info_method, output_error_method=None):
         self._input_method = input_method
         self._output_info_method = output_info_method
         self._output_error_method = output_error_method or output_info_method
@@ -88,15 +92,16 @@ class TestingCommunicator(CommunicatorBase):
 
     def __init__(self, *data):
         self._data = deque((str(d) for d in data))
+
         def pop(deque_):
             return deque_.popleft()
+
         super().__init__(pop, lambda _: None)
 
     def get_input(self, input_mode=INPUT_THROW, *format_args):
         """Pop element from data deque."""
         element = self._input_method(self._data)
-        return sanitized_input(element,
-                               **self._input_prompts[input_mode]["kwargs"])
+        return sanitized_input(element, **self._input_prompts[input_mode]["kwargs"])
 
     def print_info(self, message_type, **data):
         """Does not do anything."""
@@ -128,8 +133,7 @@ def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
         try:
             ui = type_(ui)
         except ValueError:
-            raise SanitizationError(
-                    "Input != {0}.".format(type_.__name__))
+            raise SanitizationError("Input != {0}.".format(type_.__name__))
         if type_ is str:
             ui = ui.strip()
 
@@ -150,14 +154,16 @@ def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
 
     if choices is not None:
         if not len(str(ui)) or ui not in choices:
-            raise SanitizationError("Input != [{}]".format(
-                ",".join((str(c) for c in choices))))
+            raise SanitizationError(
+                "Input != [{}]".format(",".join((str(c) for c in choices)))
+            )
 
     return ui
 
 
 class SanitizationError(Exception):
     """Raised if sanitization cannot be performed with given parameters."""
+
 
 class MinLargerMaxError(SanitizationError):
     pass

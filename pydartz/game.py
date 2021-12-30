@@ -4,13 +4,16 @@ Module containing top game logic and routine.
 
 from .session import Session
 from .player import Player
-from .communication import (INPUT_NR_PLAYERS, INPUT_NR_LEGS, INPUT_PLAYER_NAME,
-                            INPUT_START_VALUE, INPUT_ANOTHER_SESSION
-                            )
+from .communication import (
+    INPUT_NR_PLAYERS,
+    INPUT_NR_LEGS,
+    INPUT_PLAYER_NAME,
+    INPUT_START_VALUE,
+    INPUT_ANOTHER_SESSION,
+)
 
 
 class Game(object):
-
     def __init__(self, communicator, sessions_log=None):
         self._communicator = communicator
         self._sessions_log = sessions_log
@@ -42,14 +45,16 @@ class Game(object):
         players = []
         for i in range(nr_players):
             name = self._communicator.get_input(INPUT_PLAYER_NAME, i + 1)
-            players.append(
-                    Player(name, start_value, communicator=self._communicator))
+            players.append(Player(name, start_value, communicator=self._communicator))
 
         nr_legs = self._communicator.get_input(INPUT_NR_LEGS)
 
-        self._current_session = Session(players, nr_legs,
-                                        log_parent=self._sessions_log,
-                                        communicator=self._communicator)
+        self._current_session = Session(
+            players,
+            nr_legs,
+            log_parent=self._sessions_log,
+            communicator=self._communicator,
+        )
 
     def _query_another_session(self):
         """Query the user about how to proceed. Three replies are possible:
@@ -63,15 +68,17 @@ class Game(object):
         continuing = True
         reply = self._communicator.get_input(INPUT_ANOTHER_SESSION)
 
-        if reply == 'n':
+        if reply == "n":
             # query parameters for new session
             self._init_session()
-        elif reply == 'y':
+        elif reply == "y":
             # copy previous session's parameters
-            self._current_session = Session(self._current_session._players,
-                                            self._current_session._nr_legs,
-                                            log_parent=self._sessions_log,
-                                            communicator=self._communicator)
+            self._current_session = Session(
+                self._current_session._players,
+                self._current_session._nr_legs,
+                log_parent=self._sessions_log,
+                communicator=self._communicator,
+            )
         else:
             continuing = False
 

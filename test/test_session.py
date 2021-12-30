@@ -9,11 +9,7 @@ from pydartz.communication import TestingCommunicator
 
 
 def _180_single_player_communicator():
-    return TestingCommunicator(
-                "180d",
-                60, 60, 57,
-                60, 60, 24
-                )
+    return TestingCommunicator("180d", 60, 60, 57, 60, 60, 24)
 
 
 class LegTestCase(unittest.TestCase):
@@ -28,10 +24,16 @@ class LegTestCase(unittest.TestCase):
     def test_two_player_101(self):
         # pylint: disable=bad-whitespace
         communicator = TestingCommunicator(
-                # Hans   Fritz
-                "60d",   19, 17, 3,
-                19, "b", 12, 50,
-                )
+            # Hans   Fritz
+            "60d",
+            19,
+            17,
+            3,
+            19,
+            "b",
+            12,
+            50,
+        )
         hans = Player("Hans", 101, communicator=communicator)
         fritz = Player("Fritz", 101, communicator=communicator)
         # static variable is increased by previous tests...
@@ -48,8 +50,9 @@ class LegTestCase(unittest.TestCase):
         leg = Leg(["Peter"])
         # might fail around midnight...
         self.assertEqual(
-                datetime.strptime(leg._log_entry.get("timestamp"),
-                    Leg.DT_FORMAT).day, datetime.today().day)
+            datetime.strptime(leg._log_entry.get("timestamp"), Leg.DT_FORMAT).day,
+            datetime.today().day,
+        )
 
     def test_logging_with_parent(self):
         log_parent = []
@@ -72,14 +75,10 @@ class LegTestCase(unittest.TestCase):
         # assert average etc
 
     def test_single_player_invalid_visit(self):
-        with mock.patch.object(TestingCommunicator, 'print_error') as \
-                print_error_patch:
+        with mock.patch.object(TestingCommunicator, "print_error") as print_error_patch:
             communicator = TestingCommunicator(
-                    "180d",
-                    60, 60, 57,
-                    60, 60, 60,  # <-- this is invalid
-                    24
-                    )
+                "180d", 60, 60, 57, 60, 60, 60, 24  # <-- this is invalid
+            )
             player = Player("Mike", communicator=communicator)
             leg = Leg([player])
             leg.run()
@@ -100,14 +99,23 @@ class SessionTestCase(unittest.TestCase):
     def test_two_player_session(self):
         # pylint: disable=bad-whitespace
         communicator = TestingCommunicator(
-                # Adam     Eve
-                "60d",      20, 11, 20,
-                "40",
-                            "60d",
-                20, 11, 20, 40,
-                "60d",      20, 11, 20,
-                "40",
-                )
+            # Adam     Eve
+            "60d",
+            20,
+            11,
+            20,
+            "40",
+            "60d",
+            20,
+            11,
+            20,
+            40,
+            "60d",
+            20,
+            11,
+            20,
+            "40",
+        )
         adam = Player("Adam", 100, communicator=communicator)
         eve = Player("Eve", 100, communicator=communicator)
         session = Session([adam, eve], 2, communicator=communicator)
@@ -117,5 +125,5 @@ class SessionTestCase(unittest.TestCase):
         self.assertEqual(eve.score_left, 49)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

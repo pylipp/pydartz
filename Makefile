@@ -1,13 +1,16 @@
 .PHONY: all test install lint release coverage
 
 all:
-	@echo "Available targets: install, test, lint, release, coverage"
+	@echo "Available targets: install, test, format, lint, release, coverage"
 
 install:
 	pip install -U -e .[develop,audio]
 
 test:
 	python -m unittest
+
+format:
+	black pydartz/*.py test/*.py
 
 lint:
 	find pydartz -name "*.py" | xargs pylint

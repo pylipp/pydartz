@@ -8,8 +8,7 @@ class Session(LogEntryBase):
     """
 
     def __init__(self, players, nr_legs=1, log_parent=None, communicator=None):
-        super().__init__(log_parent,
-                players=','.join([p.name for p in players]))
+        super().__init__(log_parent, players=",".join([p.name for p in players]))
 
         self._players = players
         self._nr_legs = nr_legs
@@ -85,5 +84,6 @@ class Visit(LogEntryBase):
         self._player.play()
         self._log_entry.attrib.update(
             dict(
-                points=str(self._player.visit_sum()),
-                throws=str(3 - self._player.darts)))
+                points=str(self._player.visit_sum()), throws=str(3 - self._player.darts)
+            )
+        )

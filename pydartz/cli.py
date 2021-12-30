@@ -53,8 +53,8 @@ class CliCommunicator(CommunicatorBase):
         if message_type == INFO_VISIT:
             player = data["player"]
             output = "{p.name} has {p.score_left} and {0} left.".format(
-                ["one dart", "two darts", "three darts"][player.darts - 1],
-                p=player)
+                ["one dart", "two darts", "three darts"][player.darts - 1], p=player
+            )
         elif message_type == INFO_FINISH:
             player = data["player"]
             score_left = str(player.score_left)
@@ -65,8 +65,8 @@ class CliCommunicator(CommunicatorBase):
         elif message_type == INFO_LEG:
             players = data["players"]
             output = "\n".join(
-                        "    {}: {:2d}".format(p.name, p.nr_won_legs)
-                        for p in players)
+                "    {}: {:2d}".format(p.name, p.nr_won_legs) for p in players
+            )
             output += "\n"
             output += 80 * "="
 
@@ -81,17 +81,22 @@ class CliCommunicator(CommunicatorBase):
 def _parse_command():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-s", "--stats", metavar="NAME", nargs="*",
-            help="display player stats")
-    parser.add_argument("-V", "--version",
+    parser.add_argument(
+        "-s", "--stats", metavar="NAME", nargs="*", help="display player stats"
+    )
+    parser.add_argument(
+        "-V",
+        "--version",
         action="version",
         version="pydartz version {}".format(__version__),
-        help="display version info and exit")  # pragma: no cover
+        help="display version info and exit",
+    )  # pragma: no cover
 
     return parser.parse_args()
 
 
 # pylint: disable=line-too-long
+# fmt: off
 def _display_banner():
     print(r"      ___                                   ___           ___                         ___     ")
     print(r"     /\  \                   _____         /\  \         /\  \                       /\__\    ")
@@ -105,12 +110,16 @@ def _display_banner():
     print(r"    \:\__\        \:\__\    \::/  /       \:\__\        \:\__\          \:\__\       /:/  /   ")
     print(r"     \/__/         \/__/     \/__/         \/__/         \/__/           \/__/       \/__/    ")
     print()
+# fmt: on
+
 
 def _play_ending_song():
     try:
         import simpleaudio
+
         wave_obj = simpleaudio.WaveObject.from_wave_file(
-                os.path.join(sys.prefix, "data", "chase_the_sun.wav"))
+            os.path.join(sys.prefix, "data", "chase_the_sun.wav")
+        )
         play_obj = wave_obj.play()
         play_obj.wait_done()
     except ImportError:

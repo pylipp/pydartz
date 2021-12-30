@@ -74,14 +74,20 @@ class PlayerEntryTestCase(unittest.TestCase):
 
     def test_play(self):
         communicator = TestingCommunicator(
-                60, 60, 60,
-                180,
-                1, 20, "d",
-                "20d",
-                60, 60,  # invalid
-                "darts<3",  # invalid
-                50, "50",
-                )
+            60,
+            60,
+            60,
+            180,
+            1,
+            20,
+            "d",
+            "20d",
+            60,
+            60,  # invalid
+            "darts<3",  # invalid
+            50,
+            "50",
+        )
         self.player._communicator = communicator
         self.player.play()
         self.assertEqual(self.player.score_left, 321)
@@ -120,5 +126,6 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.player.just_won_leg()
         self.assertEqual(self.player.nr_won_legs, 1)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

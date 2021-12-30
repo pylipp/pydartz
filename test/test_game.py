@@ -16,17 +16,22 @@ def run_game(communicator):
 class GameTestCase(unittest.TestCase):
     def test_single_player_game(self):
         communicator = TestingCommunicator(
-                1,           # nr of players
-                501,        # start value
-                "Herbert",  # name
-                1,          # nr of legs to win
-                59, 59, 59, # visit data...
-                58, "60d",
-                1, 2, 3,
-                "150d",
-                50,
-                "q",
-                )
+            1,  # nr of players
+            501,  # start value
+            "Herbert",  # name
+            1,  # nr of legs to win
+            59,
+            59,
+            59,  # visit data...
+            58,
+            "60d",
+            1,
+            2,
+            3,
+            "150d",
+            50,
+            "q",
+        )
         infos = run_game(communicator)
         player_info = infos["Herbert"].to_dict()["Herbert"]
         self.assertListEqual(player_info["points"], [177, 118, 6, 150, 50])
@@ -38,9 +43,12 @@ class GameTestCase(unittest.TestCase):
             "Anton",
             2,
             16,
-            8, 8,
+            8,
+            8,
             "y",
-            4, 4, 8,
+            4,
+            4,
+            8,
             16,
             "q",
         )
@@ -55,14 +63,18 @@ class GameTestCase(unittest.TestCase):
             16,
             "Anton",
             2,
-            8, 8,
-            8, 8,
+            8,
+            8,
+            8,
+            8,
             "n",
             2,
             32,
-            "Anton", "Herbert",
+            "Anton",
+            "Herbert",
             1,
-            16, 16,
+            16,
+            16,
             "q",
         )
         infos = run_game(communicator)

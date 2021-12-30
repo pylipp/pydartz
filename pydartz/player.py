@@ -1,7 +1,7 @@
 from .communication import INFO_VISIT, INFO_FINISH, INPUT_THROW
 
 
-#pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-instance-attributes
 class Player:
     """Representation of a player.
     Holds long-term, per-game and per-visit information. Provides routines to
@@ -47,7 +47,7 @@ class Player:
         Note that score has to be valid since this method does not do any
         checks on its own."""
         self._score_left -= score
-        #TODO this logic should be moved to _process_score
+        # TODO this logic should be moved to _process_score
         if is_total or score + sum(self._visit) == 180:
             self._throws += self._darts
             self._darts = 0
@@ -65,9 +65,12 @@ class Player:
         """
         difference = self._score_left - score
 
-        if score + sum(self._visit) > 180 or \
-                score > 60 * self._darts or \
-                difference < 0 or difference == 1:
+        if (
+            score + sum(self._visit) > 180
+            or score > 60 * self._darts
+            or difference < 0
+            or difference == 1
+        ):
             raise ValueError
 
         return True

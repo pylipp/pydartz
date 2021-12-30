@@ -5,28 +5,33 @@
 import unittest
 
 from pydartz.communication import (
-    sanitized_input, SanitizationError, MinLargerMaxError, TestingCommunicator,
-    INPUT_NR_LEGS, INPUT_START_VALUE, INPUT_NR_PLAYERS, INPUT_PLAYER_NAME,
-    INPUT_ANOTHER_SESSION, INPUT_THROW,
+    sanitized_input,
+    SanitizationError,
+    MinLargerMaxError,
+    TestingCommunicator,
+    INPUT_NR_LEGS,
+    INPUT_START_VALUE,
+    INPUT_NR_PLAYERS,
+    INPUT_PLAYER_NAME,
+    INPUT_ANOTHER_SESSION,
+    INPUT_THROW,
 )
 
 
 class SanitizedInputTestCase(unittest.TestCase):
-
     def test_min_larger_max(self):
-        self.assertRaises(MinLargerMaxError, sanitized_input, "foo", min_=1,
-                max_=0)
+        self.assertRaises(MinLargerMaxError, sanitized_input, "foo", min_=1, max_=0)
 
     def test_wrong_type(self):
         self.assertRaises(SanitizationError, sanitized_input, "foo", type_=int)
 
     def test_too_large(self):
-        self.assertRaises(SanitizationError, sanitized_input, "42", type_=int,
-                max_=11)
+        self.assertRaises(SanitizationError, sanitized_input, "42", type_=int, max_=11)
 
     def test_too_small(self):
-        self.assertRaises(SanitizationError, sanitized_input, "42", type_=int,
-                min_=1337)
+        self.assertRaises(
+            SanitizationError, sanitized_input, "42", type_=int, min_=1337
+        )
 
     def test_too_short(self):
         self.assertRaises(SanitizationError, sanitized_input, "bar", min_=5)
@@ -48,8 +53,9 @@ class SanitizedInputTestCase(unittest.TestCase):
         self.assertRaises(SanitizationError, sanitized_input, "Y", choices="yn")
 
     def test_invalid_int_choices(self):
-        self.assertRaises(SanitizationError, sanitized_input, "4",
-                          choices=list(range(3)), type_=int)
+        self.assertRaises(
+            SanitizationError, sanitized_input, "4", choices=list(range(3)), type_=int
+        )
 
     def test_too_long(self):
         self.assertRaises(SanitizationError, sanitized_input, "bar", max_=2)
@@ -71,14 +77,18 @@ class TestingCommunicatorTestCase(unittest.TestCase):
         self.assertEqual(str(self.data[0]), self.communicator.get_input())
         self.assertEqual(self.data[1], self.communicator.get_input())
         self.assertEqual(str(self.data[2]), self.communicator.get_input())
-        self.assertEqual(int(self.data[3]),
-                         self.communicator.get_input(INPUT_NR_PLAYERS))
-        self.assertEqual(self.data[4],
-                         self.communicator.get_input(INPUT_THROW, "Simon"))
-        self.assertEqual(self.data[5],
-                         self.communicator.get_input(INPUT_PLAYER_NAME, (1,)))
-        self.assertEqual(self.data[6],
-                         self.communicator.get_input(INPUT_ANOTHER_SESSION))
+        self.assertEqual(
+            int(self.data[3]), self.communicator.get_input(INPUT_NR_PLAYERS)
+        )
+        self.assertEqual(
+            self.data[4], self.communicator.get_input(INPUT_THROW, "Simon")
+        )
+        self.assertEqual(
+            self.data[5], self.communicator.get_input(INPUT_PLAYER_NAME, (1,))
+        )
+        self.assertEqual(
+            self.data[6], self.communicator.get_input(INPUT_ANOTHER_SESSION)
+        )
 
     def test_print_info(self):
         self.assertIsNone(self.communicator.print_info("some text"))
@@ -86,16 +96,16 @@ class TestingCommunicatorTestCase(unittest.TestCase):
     def test_print_error(self):
         class TestException(Exception):
             pass
-        self.assertRaises(TestException,
-                          self.communicator.print_error, error=TestException())
+
+        self.assertRaises(
+            TestException, self.communicator.print_error, error=TestException()
+        )
 
     def test_get_typed_input(self):
         self.assertEqual(str(self.data[0]), self.communicator.get_input())
         self.assertEqual(self.data[1], self.communicator.get_input())
-        self.assertEqual(self.data[2],
-                         self.communicator.get_input(INPUT_START_VALUE))
-        self.assertEqual(int(self.data[3]),
-                self.communicator.get_input(INPUT_NR_LEGS))
+        self.assertEqual(self.data[2], self.communicator.get_input(INPUT_START_VALUE))
+        self.assertEqual(int(self.data[3]), self.communicator.get_input(INPUT_NR_LEGS))
 
 
 if __name__ == "__main__":

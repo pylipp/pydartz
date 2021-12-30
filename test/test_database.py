@@ -19,8 +19,9 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(0, len(entry._finishes))
 
     def test_init_with_stats(self):
-        player_stats = dict(throws=123, points=4567, finishes=Counter({20:
-            89}), darters=Counter())
+        player_stats = dict(
+            throws=123, points=4567, finishes=Counter({20: 89}), darters=Counter()
+        )
         entry = PlayerEntry(player_stats=player_stats)
         self.assertEqual(123, entry._throws)
         self.assertEqual(4567, entry._points)
@@ -36,8 +37,9 @@ class PlayerEntryTestCase(unittest.TestCase):
         self.assertEqual(501, entry.total_points())
 
     def test_to_dict(self):
-        player_stats = dict(throws=123, points=4567, finishes=Counter({20: 89}),
-                darters=Counter({9: 2}))
+        player_stats = dict(
+            throws=123, points=4567, finishes=Counter({20: 89}), darters=Counter({9: 2})
+        )
         entry = PlayerEntry("Michael", player_stats)
         self.assertDictEqual(player_stats, entry.to_dict()["Michael"])
 
@@ -59,19 +61,19 @@ class LogEntryBaseTestCase(unittest.TestCase):
 class AnalysisTestCase(unittest.TestCase):
     def test_analyse_sessions(self):
         sessions = etree.Element("sessions")
-        communicator = TestingCommunicator(
-                "180d",
-                60, 60, 57,
-                60, 60, 24
-                )
-        session = Session([Player("Peter", communicator=communicator)], 1,
-                log_parent=sessions, communicator=communicator)
+        communicator = TestingCommunicator("180d", 60, 60, 57, 60, 60, 24)
+        session = Session(
+            [Player("Peter", communicator=communicator)],
+            1,
+            log_parent=sessions,
+            communicator=communicator,
+        )
         session.run()
 
         player_entry = analyze_sessions(sessions)["Peter"]
 
         self.assertEqual(player_entry.total_points(), 501)
-        self.assertAlmostEqual(player_entry.average(), 501/9)
+        self.assertAlmostEqual(player_entry.average(), 501 / 9)
         self.assertEqual(player_entry.throws, 9)
         self.assertEqual(player_entry._finishes[144], 1)
         self.assertEqual(player_entry._darters[9], 1)
@@ -92,5 +94,6 @@ class PlayerLoggingTestCase(unittest.TestCase):
         self.assertEqual(visit_log_entry.get("points"), "150")
         self.assertEqual(visit_log_entry.get("throws"), "3")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

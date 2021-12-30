@@ -27,8 +27,9 @@ class LogEntryBase:
 
     def __init__(self, parent=None, **kwargs):
         tag = self.__class__.__name__.lower()
-        self._log_entry = etree.Element(tag,
-                timestamp=time.strftime(self.DT_FORMAT), **kwargs)
+        self._log_entry = etree.Element(
+            tag, timestamp=time.strftime(self.DT_FORMAT), **kwargs
+        )
 
         self._parent = parent
         if self._parent is not None:
@@ -62,8 +63,7 @@ class Sessions(LogEntryBase):
         """Write the `log_entry` XML object to disk."""
         if self._log_filepath is not None:
             tree = etree.ElementTree(self._log_entry)
-            tree.write(self._log_filepath, xml_declaration=True,
-                    encoding="utf-8")
+            tree.write(self._log_filepath, xml_declaration=True, encoding="utf-8")
 
 
 class PlayerEntry:
@@ -99,20 +99,19 @@ class PlayerEntry:
     def update_from_log(self, log_element):
         """Convenience method to update from a `xml.etree._Element` visit."""
         self.update(
-                points=int(log_element.get("points")),
-                throws=int(log_element.get("throws"))
-                )
+            points=int(log_element.get("points")), throws=int(log_element.get("throws"))
+        )
 
     def to_dict(self):
         """Returns a dict representation of the PlayerEntry data."""
         return {
-                self._name: dict(
-                    throws=self._throws,
-                    points=self._points,
-                    finishes=self._finishes,
-                    darters=self._darters
-                    )
-                }
+            self._name: dict(
+                throws=self._throws,
+                points=self._points,
+                finishes=self._finishes,
+                darters=self._darters,
+            )
+        }
 
     def average(self):
         if self._throws != 0:
@@ -138,10 +137,9 @@ class PlayerEntry:
             info.append("    {:3d}: {}".format(finish, self._finishes[finish]))
         info.append("Darters:")
         for darter in sorted(self._darters):
-            info.append("    {:3d}-darter: {}".format(
-                darter,self._darters[darter]))
+            info.append("    {:3d}-darter: {}".format(darter, self._darters[darter]))
 
-        return '\n'.join(info)
+        return "\n".join(info)
 
 
 def analyze_sessions(sessions):
@@ -155,7 +153,7 @@ def analyze_sessions(sessions):
     """
     player_names = set()
     for session in sessions:
-        for name in session.get("players").split(','):
+        for name in session.get("players").split(","):
             player_names.add(name)
 
     players = {name: PlayerEntry(name) for name in player_names}
