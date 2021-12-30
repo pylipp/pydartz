@@ -1,4 +1,5 @@
 import os.path
+import shutil
 import sys
 import time
 import argparse
@@ -95,8 +96,14 @@ def _parse_command():
     return parser.parse_args()
 
 
-# fmt: off
 def _display_banner():
+    terminal_width = shutil.get_terminal_size((80, 20)).columns
+    if terminal_width < 94:
+        # Display smaller banner for narrow terminals
+        print(" pydarts ".center(terminal_width, "#"))
+        return
+
+    # fmt: off
     print(r"      ___                                   ___           ___                         ___     ")
     print(r"     /\  \                   _____         /\  \         /\  \                       /\__\    ")
     print(r"    /::\  \       ___       /::\  \       /::\  \       /::\  \         ___         /:/ _/_   ")
@@ -109,7 +116,7 @@ def _display_banner():
     print(r"    \:\__\        \:\__\    \::/  /       \:\__\        \:\__\          \:\__\       /:/  /   ")
     print(r"     \/__/         \/__/     \/__/         \/__/         \/__/           \/__/       \/__/    ")
     print()
-# fmt: on
+    # fmt: on
 
 
 def _play_ending_song():
