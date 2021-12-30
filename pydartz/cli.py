@@ -12,7 +12,8 @@ from .finishes import FINISHES
 log_dir = os.path.expanduser("~/.local/share/pydartz")
 os.makedirs(log_dir, exist_ok=True)
 log_filepath = os.path.join(log_dir, "stats.xml")
-open(log_filepath, "a").close()
+with open(log_filepath, "a"):
+    pass
 sessions_log = Sessions(log_filepath=log_filepath)
 
 

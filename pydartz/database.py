@@ -1,6 +1,7 @@
 import os.path
 import time
 from collections import Counter
+import contextlib
 from abc import ABCMeta
 
 from xml.etree import ElementTree as etree
@@ -39,11 +40,9 @@ class LogEntryBase:
         self._log_entry.append(child_log_entry)
 
     def save(self):
-        try:
-            self._parent.save()
-        except AttributeError:
+        with contextlib.suppress(AttributeError):
             # parent is e.g. None or a list
-            pass
+            self._parent.save()
 
 
 class Sessions(LogEntryBase):
