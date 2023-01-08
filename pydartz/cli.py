@@ -1,4 +1,4 @@
-import os.path
+import os
 import shutil
 import sys
 import time
@@ -136,8 +136,9 @@ def _play_ending_song():
         try:
             import subprocess
 
+            media_player = os.getenv("PYDARTZ_MEDIA_PLAYER", "mpv")
             subprocess.run(
-                ["mpv", f"{data_directory}/{filename}"],
+                [media_player, f"{data_directory}/{filename}"],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
             )

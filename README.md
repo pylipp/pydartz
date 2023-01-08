@@ -25,6 +25,12 @@ Play with your friends and keep track of your darts scores!
 
     pip install --user -U pydartz
 
+To enable sound support, either install additional dependencies
+
+    pip install --user -U pydartz[audio]
+
+or set the `PYDARTZ_MEDIA_PLAYER` environment variable (default: `mpv`).
+
 ### Using pipx
 
     pipx install pydartz
