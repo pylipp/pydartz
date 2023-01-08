@@ -122,13 +122,24 @@ def _display_banner():
 
 
 def _play_ending_song():
+    data_directory = "data"
+    filename = "chase_the_sun.wav"
     try:
         import simpleaudio
 
         wave_obj = simpleaudio.WaveObject.from_wave_file(
-            os.path.join(sys.prefix, "data", "chase_the_sun.wav")
+            os.path.join(sys.prefix, data_directory, filename)
         )
         play_obj = wave_obj.play()
         play_obj.wait_done()
     except ImportError:
-        print("Run 'pip install -U pydartz[audio]' for sound support!")
+        try:
+            import subprocess
+
+            subprocess.run(
+                ["mpv", f"{data_directory}/{filename}"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+        except Exception:
+            print("Run 'pip install -U pydartz[audio]' for sound support!")
