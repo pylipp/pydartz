@@ -1,5 +1,89 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
 build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=61.2",
+  "setuptools_scm[toml]>=6.2",
+  "wheel",
+]
+
+[project]
+name = "pydartz"
+description = "command line assistant and library for playing darts"
+readme = "README.md"
+keywords = [
+  "commandline darts",
+]
+license = {text = "GPLv3"}
+authors = [{ name = "Philipp Metzner", email = "beth.aleph@yahoo.de" }]
+dependencies = [
+  'importlib-metadata>=1.7; python_version < "3.8"',
+]
+dynamic = [
+  "version",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Other Audience",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: Unix",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Games/Entertainment",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+ ]
+[project.optional-dependencies]
+audio = [
+  "simpleaudio==1.0.4",
+]
+develop = [
+  "black==22.12",
+  "coverage==7.0.1",
+  "flake8-pyproject==1.2.2",
+]
+packaging = [
+  "build",
+  "twine>=1.11",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/pylipp/pydartz/issues"
+Documentation = "https://github.com/pylipp/pydartz"
+Homepage = "https://github.com/pylipp/pydartz"
+"Source Code" = "https://github.com/pylipp/pydartz"
+
+[project.scripts]
+pydartz = "pydartz.cli:main"
+
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+exclude = ["test"]
+namespaces = false
+
+[tool.setuptools.data-files]
+data = ["data/chase_the_sun.wav"]
+
+[tool.flake8]
+max-line-length = "88"
+
+[tool.coverage.run]
+branch = true
+source = ["pydartz"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if __name__ == .__main__.:",
+  "except Exception:",
+  "def .*main()",
+]
 
 [tool.setuptools_scm]
