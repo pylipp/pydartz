@@ -15,9 +15,7 @@ Play with your friends and keep track of your darts scores!
 ## Upcoming
 
 ## TODO
-- revisit finish options (e.g. 56, 46)
 - full test coverage
-- check song copyright
 
 ## Installation
 
