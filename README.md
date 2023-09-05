@@ -142,6 +142,10 @@ Install to a virtualenv
 
     make coverage
 
+### Style checks
+
+    make style-check
+
 ### Releasing
 
 1. `git tag` with new version number (scheme `vX.Y.Z`)
