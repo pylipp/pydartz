@@ -52,3 +52,4 @@ jobs:
         run: |
           coverage run -m unittest
           coverage report
+          python -c "from pydartz import cli"
