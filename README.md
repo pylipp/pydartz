@@ -19,7 +19,7 @@ Play with your friends and keep track of your darts scores!
 
 ## Installation
 
-`pydartz` requires Python 3.7 or higher.
+`pydartz` requires Python 3.8 or higher.
 
 ### From PyPI package
 

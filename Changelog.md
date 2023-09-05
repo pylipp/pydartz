@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [v2.2.1] - 2023-
 ### Fixed
 - Prevent crash when reading from empty log file at very first invocation.
+- Remove Python 3.7 support.
 
 ## [v2.2.0] - 2023-02-07
 ### Added

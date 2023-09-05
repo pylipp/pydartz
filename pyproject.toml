@@ -15,9 +15,6 @@ keywords = [
 ]
 license = {text = "GPLv3"}
 authors = [{ name = "Philipp Metzner", email = "beth.aleph@yahoo.de" }]
-dependencies = [
-  'importlib-metadata>=1.7; python_version < "3.8"',
-]
 dynamic = [
   "version",
 ]
@@ -28,7 +25,6 @@ classifiers = [
   "Intended Audience :: Other Audience",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
   "Operating System :: Unix",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
