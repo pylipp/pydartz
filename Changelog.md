@@ -10,9 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 ### Deprecated
 
-## [v2.2.1] - 2023-
+## [v2.3.0] - 2023-09-05
 ### Fixed
 - Prevent crash when reading from empty log file at very first invocation.
+### Removed
 - Remove Python 3.7 support.
 
 ## [v2.2.0] - 2023-02-07

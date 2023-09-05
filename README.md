@@ -37,8 +37,9 @@ or set the `PYDARTZ_MEDIA_PLAYER` environment variable (default: `mpv`).
 
 ### Backwards compatibility
 
-- `v1.2` is the last version to support Python2.
-- `v2.1.1` is the last version to support Python3.6.
+- `v1.2` is the last version to support Python 2.
+- `v2.1.1` is the last version to support Python 3.6.
+- `v2.2.0` is the last version to support Python 3.7.
 
 ## Usage
 
