@@ -1,10 +1,10 @@
 import unittest
-from unittest import mock
 from datetime import datetime
+from unittest import mock
 
-from pydartz.session import Leg, Session
-from pydartz.player import Player
 from pydartz.communication import TestingCommunicator
+from pydartz.player import Player
+from pydartz.session import Leg, Session
 
 
 def _180_single_player_communicator():

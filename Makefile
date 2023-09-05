@@ -11,6 +11,7 @@ test:
 
 format:
 	pre-commit run --all-files black
+	pre-commit run --all-files isort
 
 release:
 	git push --tags origin master

@@ -1,8 +1,8 @@
 import unittest
 
-from pydartz.game import Game
 from pydartz.communication import TestingCommunicator
 from pydartz.database import analyze_sessions
+from pydartz.game import Game
 
 
 def run_game(communicator):

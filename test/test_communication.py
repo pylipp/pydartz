@@ -1,16 +1,16 @@
 import unittest
 
 from pydartz.communication import (
-    sanitized_input,
-    SanitizationError,
-    MinLargerMaxError,
-    TestingCommunicator,
+    INPUT_ANOTHER_SESSION,
     INPUT_NR_LEGS,
-    INPUT_START_VALUE,
     INPUT_NR_PLAYERS,
     INPUT_PLAYER_NAME,
-    INPUT_ANOTHER_SESSION,
+    INPUT_START_VALUE,
     INPUT_THROW,
+    MinLargerMaxError,
+    SanitizationError,
+    TestingCommunicator,
+    sanitized_input,
 )
 
 

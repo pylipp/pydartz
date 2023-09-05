@@ -1,9 +1,8 @@
+import contextlib
 import os.path
 import time
-from collections import Counter
-import contextlib
 from abc import ABCMeta
-
+from collections import Counter
 from xml.etree import ElementTree as etree
 
 

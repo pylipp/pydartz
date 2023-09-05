@@ -1,14 +1,14 @@
+import argparse
 import os
 import shutil
 import sys
 import time
-import argparse
 
 from . import __version__
-from .database import analyze_sessions, Sessions
-from .game import Game
-from .communication import CommunicatorBase, INFO_VISIT, INFO_FINISH, INFO_LEG
+from .communication import INFO_FINISH, INFO_LEG, INFO_VISIT, CommunicatorBase
+from .database import Sessions, analyze_sessions
 from .finishes import FINISHES
+from .game import Game
 
 log_dir = os.path.expanduser("~/.local/share/pydartz")
 os.makedirs(log_dir, exist_ok=True)

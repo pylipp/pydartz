@@ -1,4 +1,4 @@
-from .communication import INFO_VISIT, INFO_FINISH, INPUT_THROW
+from .communication import INFO_FINISH, INFO_VISIT, INPUT_THROW
 
 
 class Player:

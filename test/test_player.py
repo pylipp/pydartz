@@ -1,7 +1,7 @@
 import unittest
 
-from pydartz.player import Player
 from pydartz.communication import TestingCommunicator
+from pydartz.player import Player
 
 
 class PlayerEntryTestCase(unittest.TestCase):

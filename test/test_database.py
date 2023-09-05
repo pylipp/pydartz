@@ -1,13 +1,12 @@
 import unittest
-from unittest import mock
 from collections import Counter
-
+from unittest import mock
 from xml.etree import ElementTree as etree
 
-from pydartz.database import PlayerEntry, analyze_sessions, LogEntryBase
-from pydartz.session import Session, Visit
-from pydartz.player import Player
 from pydartz.communication import TestingCommunicator
+from pydartz.database import LogEntryBase, PlayerEntry, analyze_sessions
+from pydartz.player import Player
+from pydartz.session import Session, Visit
 
 
 class PlayerEntryTestCase(unittest.TestCase):

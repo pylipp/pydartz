@@ -2,15 +2,15 @@
 Module containing top game logic and routine.
 """
 
-from .session import Session
-from .player import Player
 from .communication import (
-    INPUT_NR_PLAYERS,
+    INPUT_ANOTHER_SESSION,
     INPUT_NR_LEGS,
+    INPUT_NR_PLAYERS,
     INPUT_PLAYER_NAME,
     INPUT_START_VALUE,
-    INPUT_ANOTHER_SESSION,
 )
+from .player import Player
+from .session import Session
 
 
 class Game:

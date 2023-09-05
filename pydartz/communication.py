@@ -1,8 +1,7 @@
 """Module for user-backend communication."""
 
-from collections import deque
 from abc import ABCMeta, abstractmethod
-
+from collections import deque
 
 INFO_VISIT, INFO_FINISH, INFO_LEG = range(3)
 (

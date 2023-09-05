@@ -1,5 +1,5 @@
-from .database import LogEntryBase
 from .communication import INFO_LEG
+from .database import LogEntryBase
 
 
 class Session(LogEntryBase):

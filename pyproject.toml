@@ -68,6 +68,13 @@ namespaces = false
 [tool.setuptools.data-files]
 data = ["data/chase_the_sun.wav"]
 
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+ensure_newline_before_comments = true
+
 [tool.flake8]
 max-line-length = "88"
 per-file-ignores = "pydartz/cli.py: E501"

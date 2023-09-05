@@ -1,7 +1,8 @@
-import lxml.html
 import json
 import os.path
 from urllib import request
+
+import lxml.html
 
 contents = (
     request.urlopen("https://www.uni-muenster.de/ZIV.GuidoWessendorf/checkout.html")
