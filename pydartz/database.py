@@ -52,7 +52,11 @@ class Sessions(LogEntryBase):
 
     def __init__(self, log_filepath=None, **kwargs):
         """Parse existing tree from filepath or create new sessions element."""
-        if log_filepath is not None and os.path.exists(log_filepath):
+        if (
+            log_filepath is not None
+            and os.path.exists(log_filepath)
+            and os.path.getsize(log_filepath) > 0
+        ):
             self._log_entry = etree.parse(log_filepath).getroot()
         else:
             self._log_entry = etree.Element("sessions")
