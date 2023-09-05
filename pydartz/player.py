@@ -156,6 +156,6 @@ class Player:
 
             if self.score_valid(score):
                 return score, is_total
-        except (ValueError):
+        except ValueError:
             # custom message
             raise ValueError("Invalid input: {}".format(score))

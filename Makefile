@@ -10,7 +10,7 @@ test:
 	python -m unittest
 
 format:
-	black pydartz/*.py test/*.py
+	pre-commit run --all-files black
 
 release:
 	git push --tags origin master
