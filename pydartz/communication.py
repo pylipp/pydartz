@@ -83,6 +83,9 @@ class CommunicatorBase:
     def print_error(self, **data):
         """Report error to the frontend."""
 
+    def print_newline(self):
+        self._output_info_method("")
+
 
 class TestingCommunicator(CommunicatorBase):
     """Communicator for testing game procedures (visits, legs, sessions).

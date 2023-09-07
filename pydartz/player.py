@@ -125,6 +125,7 @@ class Player:
             except ValueError as e:
                 self._communicator.print_error(error=e)
         self._communicator.print_info(INFO_VISIT, player=self)
+        self._communicator.print_newline()
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:
