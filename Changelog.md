@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 ### Deprecated
 
+## [v2.3.x] - 2023-0
+### Changed
+- Print score info at end of visit.
+
 ## [v2.3.0] - 2023-09-05
 ### Fixed
 - Prevent crash when reading from empty log file at very first invocation.

@@ -56,7 +56,8 @@ class CliCommunicator(CommunicatorBase):
         if message_type == INFO_VISIT:
             player = data["player"]
             output = "{p.name} has {p.score_left} and {0} left.".format(
-                ["one dart", "two darts", "three darts"][player.darts - 1], p=player
+                ["no darts", "one dart", "two darts", "three darts"][player.darts],
+                p=player,
             )
         elif message_type == INFO_FINISH:
             player = data["player"]

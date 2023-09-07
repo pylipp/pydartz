@@ -124,6 +124,7 @@ class Player:
                 self.substract(score, is_total)
             except ValueError as e:
                 self._communicator.print_error(error=e)
+        self._communicator.print_info(INFO_VISIT, player=self)
 
     def _process_score(self, score):
         """Parse the passed score. Valid options are:
