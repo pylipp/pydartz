@@ -160,4 +160,4 @@ class Player:
                 return score, is_total
         except ValueError:
             # custom message
-            raise ValueError("Invalid input: {}".format(score))
+            raise ValueError(f"Invalid input: {score}")

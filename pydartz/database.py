@@ -130,16 +130,16 @@ class PlayerEntry:
     def information(self):
         info = [
             self._name + ":",
-            "Legs won: {}".format(sum(self._finishes.values())),
-            "Average: {:.2f}".format(3 * self.average()),
-            "Highscore: {:3d}".format(max(self._points)),
+            f"Legs won: {sum(self._finishes.values())}",
+            f"Average: {3 * self.average():.2f}",
+            f"Highscore: {max(self._points):3d}",
             "Finishes:",
         ]
         for finish in sorted(self._finishes)[::-1]:
-            info.append("    {:3d}: {}".format(finish, self._finishes[finish]))
+            info.append(f"    {finish:3d}: {self._finishes[finish]}")
         info.append("Darters:")
         for darter in sorted(self._darters):
-            info.append("    {:3d}-darter: {}".format(darter, self._darters[darter]))
+            info.append(f"    {darter:3d}-darter: {self._darters[darter]}")
 
         return "\n".join(info)
 

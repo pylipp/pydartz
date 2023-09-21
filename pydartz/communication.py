@@ -135,29 +135,27 @@ def sanitized_input(ui, type_=str, min_=None, max_=None, choices=None):
         try:
             ui = type_(ui)
         except ValueError:
-            raise SanitizationError("Input != {0}.".format(type_.__name__))
+            raise SanitizationError(f"Input != {type_.__name__}.")
         if type_ is str:
             ui = ui.strip()
 
     if max_ is not None:
         if type_ is str:
             if len(ui) > max_:
-                raise SanitizationError("Input length > {}".format(max_))
+                raise SanitizationError(f"Input length > {max_}")
         else:
             if ui > max_:
-                raise SanitizationError("Input > {}".format(max_))
+                raise SanitizationError(f"Input > {max_}")
     elif min_ is not None:
         if type_ is str:
             if len(ui) < min_:
-                raise SanitizationError("Input length < {}".format(min_))
+                raise SanitizationError(f"Input length < {min_}")
         else:
             if ui < min_:
-                raise SanitizationError("Input < {}".format(min_))
+                raise SanitizationError(f"Input < {min_}")
 
     if choices is not None and (not len(str(ui)) or ui not in choices):
-        raise SanitizationError(
-            "Input != [{}]".format(",".join((str(c) for c in choices)))
-        )
+        raise SanitizationError(f"Input != [{','.join(str(c) for c in choices)}]")
 
     return ui
 

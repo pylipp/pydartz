@@ -55,10 +55,8 @@ class CliCommunicator(CommunicatorBase):
 
         if message_type == INFO_VISIT:
             player = data["player"]
-            output = "{p.name} has {p.score_left} and {0} left.".format(
-                ["no darts", "one dart", "two darts", "three darts"][player.darts],
-                p=player,
-            )
+            info = ["no darts", "one dart", "two darts", "three darts"][player.darts]
+            output = f"{player.name} has {player.score_left} and {info} left."
         elif message_type == INFO_FINISH:
             player = data["player"]
             score_left = str(player.score_left)
@@ -68,9 +66,7 @@ class CliCommunicator(CommunicatorBase):
                     output += "\n\t" + " ".join(finish)
         elif message_type == INFO_LEG:
             players = data["players"]
-            output = "\n".join(
-                "    {}: {:2d}".format(p.name, p.nr_won_legs) for p in players
-            )
+            output = "\n".join(f"    {p.name}: {p.nr_won_legs:2d}" for p in players)
             output += "\n"
             output += 80 * "="
 
@@ -92,7 +88,7 @@ def _parse_command():
         "-V",
         "--version",
         action="version",
-        version="pydartz version {}".format(__version__),
+        version=f"pydartz version {__version__}",
         help="display version info and exit",
     )  # pragma: no cover
 
