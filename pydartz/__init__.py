@@ -1,7 +1,3 @@
-try:
-    from importlib import metadata as importlib_metadata
-except ImportError:
-    import importlib_metadata
+from importlib import metadata
 
-
-__version__ = importlib_metadata.version(__package__)
+__version__ = metadata.version(__package__)
