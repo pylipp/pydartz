@@ -42,7 +42,8 @@ develop = [
   "coverage==7.5.3",
   "flake8-pyproject==1.2.3",
   "isort==5.13.2",
-  "pre-commit==3.5.0",
+  'pre-commit==3.7.1; python_version >= "3.9"',
+  'pre-commit==3.5.0; python_version < "3.9"',
 ]
 packaging = [
   "build",
