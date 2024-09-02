@@ -4,5 +4,27 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      deps:
+        applies-to: version-updates
+        dependency-type: production
+        update-types:
+        - "major"
+        - "minor"
+        - "patch"
+    assignees:
+      - "pylipp"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        applies-to: version-updates
+        dependency-type: production
+        update-types:
+        - "major"
+        - "minor"
+        - "patch"
     assignees:
       - "pylipp"
