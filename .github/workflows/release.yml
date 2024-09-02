@@ -16,9 +16,9 @@ jobs:
       id-token: write
       contents: write
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
     - name: Install dependencies
@@ -31,7 +31,7 @@ jobs:
         awk -v RS='' '/\[v/ {print $0; exit}' Changelog.md | tail -n+2 > ${{ github.workspace }}-release_notes.md
         cat ${{ github.workspace }}-release_notes.md
     - name: Create Github release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         body_path: ${{ github.workspace }}-release_notes.md
         token: ${{ secrets.GITHUB_TOKEN }}
