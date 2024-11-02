@@ -19,7 +19,7 @@ Play with your friends and keep track of your darts scores!
 
 ## Installation
 
-`pydartz` requires Python 3.8 or higher.
+`pydartz` requires Python 3.9 or higher.
 
 ### From PyPI package
 
@@ -40,6 +40,7 @@ or set the `PYDARTZ_MEDIA_PLAYER` environment variable (default: `mpv`).
 - `v1.2` is the last version to support Python 2.
 - `v2.1.1` is the last version to support Python 3.6.
 - `v2.2.0` is the last version to support Python 3.7.
+- `v2.3.3` is the last version to support Python 3.8.
 
 ## Usage
 
