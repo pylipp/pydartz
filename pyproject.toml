@@ -38,11 +38,11 @@ audio = [
   "simpleaudio==1.0.4",
 ]
 develop = [
-  "black==25.1.0",
-  "coverage==7.10.1",
+  "black==25.9.0",
+  "coverage==7.10.7",
   "flake8-pyproject==1.2.3",
   "isort==6.0.1",
-  'pre-commit==4.2.0',
+  'pre-commit==4.3.0',
 ]
 packaging = [
   "build",
