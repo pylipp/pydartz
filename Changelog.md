@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [v2.5.0] - 2025-10-16
 ### Added
 - Support Python 3.14.
+### Removed
+- Remove Python 3.9 support.
 
 ## [v2.4.0] - 2024-11-02
 ### Removed
