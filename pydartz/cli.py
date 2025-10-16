@@ -80,6 +80,7 @@ class CliCommunicator(CommunicatorBase):
 
 def _parse_command():
     parser = argparse.ArgumentParser()
+    parser.suggest_on_error = True
 
     parser.add_argument(
         "-s", "--stats", metavar="NAME", nargs="*", help="display player stats"
