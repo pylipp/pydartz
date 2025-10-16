@@ -3,11 +3,11 @@
 [![Downloads](https://img.shields.io/pypi/dm/pydartz.svg)](https://pypistats.org/packages/pydartz)
 ![Build Status](https://github.com/pylipp/pydartz/workflows/CI/badge.svg)
 
-# pydartz
-
->   A Python3 assistant (and library) for playing darts
-
-Play with your friends and keep track of your darts scores!
+<p align="center">
+  <h1 align="center">pydartz</h1>
+  <p align="center">A Python3 assistant (and library) for playing darts</p>
+  <p align="center"><b>Play with your friends and keep track of your darts scores!</b></p>
+</p>
 
 ## Features
 - arbitrary start value (501, 301, whatever positive number you like, ...)
@@ -46,6 +46,7 @@ or set the `PYDARTZ_MEDIA_PLAYER` environment variable (default: `mpv`).
 - `v2.1.1` is the last version to support Python 3.6.
 - `v2.2.0` is the last version to support Python 3.7.
 - `v2.3.3` is the last version to support Python 3.8.
+- `v2.4.0` is the last version to support Python 3.9.
 
 ## Usage
 
