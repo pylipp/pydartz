@@ -1,3 +1,8 @@
+[![pypi](https://badge.fury.io/py/pydartz.svg)](https://pypi.org/project/pydartz)
+[![Python: 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://pypi.org/project/pydartz)
+[![Downloads](https://img.shields.io/pypi/dm/pydartz.svg)](https://pypistats.org/packages/pydartz)
+![Build Status](https://github.com/pylipp/pydartz/workflows/CI/badge.svg)
+
 # pydartz
 
 >   A Python3 assistant (and library) for playing darts
