@@ -5,6 +5,13 @@ updates:
     schedule:
       interval: "monthly"
     groups:
+      dev-deps:
+        applies-to: version-updates
+        dependency-type: development
+        update-types:
+        - "major"
+        - "minor"
+        - "patch"
       deps:
         applies-to: version-updates
         dependency-type: production
