@@ -39,8 +39,8 @@ audio = [
   "simpleaudio==1.0.4",
 ]
 develop = [
-  "black==26.1.0",
-  "coverage==7.13.4",
+  "black==26.3.1",
+  "coverage==7.13.5",
   "flake8-pyproject==1.2.4",
   "isort==8.0.1",
   'pre-commit==4.5.1',
