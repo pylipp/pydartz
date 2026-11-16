@@ -1,5 +1,5 @@
 [![pypi](https://badge.fury.io/py/pydartz.svg)](https://pypi.org/project/pydartz)
-[![Python: 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://pypi.org/project/pydartz)
+[![Python: 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://pypi.org/project/pydartz)
 [![Downloads](https://img.shields.io/pypi/dm/pydartz.svg)](https://pypistats.org/packages/pydartz)
 ![Build Status](https://github.com/pylipp/pydartz/workflows/CI/badge.svg)
 
@@ -24,7 +24,7 @@
 
 ## Installation
 
-`pydartz` requires Python 3.10 or higher.
+`pydartz` requires Python 3.11 or higher.
 
 ### From PyPI package
 
@@ -47,6 +47,7 @@ or set the `PYDARTZ_MEDIA_PLAYER` environment variable (default: `mpv`).
 - `v2.2.0` is the last version to support Python 3.7.
 - `v2.3.3` is the last version to support Python 3.8.
 - `v2.4.0` is the last version to support Python 3.9.
+- `v2.5.0` is the last version to support Python 3.10.
 
 ## Usage
 
